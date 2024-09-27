@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <link rel="stylesheet" href="HomePage-CSS.css"/>
+    <meta charset="UTF-8">
+    <title>mk24</title>
+    <link rel="icon" type="image/x-icon" href="Bilder\mk24 HEAD.BODY\head_logo-transparent-png.png">
+    <script src="Homepage-SCRIPT.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <header>
+        <img src="Bilder\mk24 HEAD.BODY\Design ohne Titel (1).gif" alt="mk24" class="logo">
+        <nav id="navbar">
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/DasBinIch.Link.Header.html">Über mich🧍‍♂️</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/MeineHobbys.Link.Header.html">Meine Hobbys 🎾</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Projekte.Link.Header.html">Projekte 💼</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Bewerbungsunterlagen.alternative.Header.html">Bewerbungsunterlagen 📄</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Arbeitsstabdort.alternative.Header.html">Arbeitsstandort 📍</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Sprachen.Link.Header.html">Sprachen 🗣️</a>
+        </nav>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+        <button class="close-btn" id="close-btn">&#10005;</button>
+    </header>
+
+    <div class="SprachenCont">
+        <br><br>
+        <hspace=20>
+        <div class="nav-section">
+            <div class="nav-item" id="news" onclick="scrollToNews()">
+                <h1>News</h1>
+            </div>
+            <div class="nav-item" id="features" onclick="scrollToFeatures()">
+                <h1>Features</h1>
+            </div>
+            <div class="nav-item" id="about" onclick="scrollToAbout()">
+                <h1>About</h1>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <br>
+    <div class="NewsTitle">  
+        <img src="Bilder\News-Graff (2).png" alt="NEWS" draggable="false">
+    </div>
+
+    <div class="TennisContainer">
+        <img src="Bilder\Tennis-Container.png" alt="TennisContainer" draggable="false">
+    </div>
+    
+    <div class="SkiContainer">
+        <img src="Bilder\Das bin-ich-in Schweden (1).png" alt="SkiContainer" draggable="false">
+    </div>
+    
+    <br><br><br><br><br><br>
+    <div class="container">
+        Interessieren dich die News? <br> <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/DasBinIch.Link.Header.html">Hier</a> kannst du noch mehr über mich erfahren! 😉 
+    </div>
+
+
+    <br><br>
+
+    <br><br>
+
+    <br><br><br><br>
+
+    <div class="FeaturesTitle">
+        <img src="Bilder\Features-Graff.png" alt="FEATURES" draggable="false">
+    </div>
+
+    <br><br>
+
+    <div class="features">
+        <div class="feature-item">
+          <img src= "Bilder/feature.png" alt="Feature 1" draggable="false">
+
+            <br>
+
+            <div class="rating">
+
+                <span class="star" data-value="1">★</span>
+
+                    <span class="star" data-value="2">★</span>
+
+                        <span class="star" data-value="3">★</span>
+
+                    <span class="star" data-value="4">★</span>
+
+                <span class="star" data-value="5">★</span>
+
+            </div>
+
+        </div>
+        <div class="feature-item">
+          <img src="Bilder\feature2.png" alt="Feature 2" draggable="false">
+
+          <br>
+
+            <div class="rating">
+
+                <span class="star" data-value="1">★</span>
+
+                    <span class="star" data-value="2">★</span>
+
+                        <span class="star" data-value="3">★</span>
+
+                    <span class="star" data-value="4">★</span>
+
+                <span class="star" data-value="5">★</span>
+
+            </div>
+
+        </div>
+        <div class="feature-item">
+          <img src="Bilder/feature3.png" alt="Feature 3">
+
+            <br>
+
+            <div class="rating">
+
+                <span class="star" data-value="1">★</span>
+
+                    <span class="star" data-value="2">★</span>
+
+                        <span class="star" data-value="3">★</span>
+
+                    <span class="star" data-value="4">★</span>
+
+                <span class="star" data-value="5">★</span>
+
+            </div>
+
+        </div>
+      </div>
+      
+    
+    <br><br>
+
+    <br><br>
+
+    <br><br>
+
+    <br><br>
+
+    <div class="AboutTitle">
+        <img src="Bilder\About-Graff.png" alt="ABOUT">
+    </div>
+
+    <div class="CodeContainer">
+        <img src="Bilder\code_Container.png" alt="CodeContainer"> 
+    </div>
+
+    <div class="footer">
+        <p>© 2024 Matti Koenis - Alle Rechte vorbehalten</p>
+    </div>
+
+    <button id="scrollToTopBtn" onclick="scrollToTop()">
+        <div class="pfeil">
+            ⬆
+        </div>
+    </button>
+
+
+</body>
+
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myself</title>
+    <link rel="icon" type="image/x-icon" href="Bilder\mk24 HEAD.BODY\head_logo-transparent-png.png">
+    <link rel="stylesheet" href="HomePage-CSS.css"/>
+    <script src="Homepage-SCRIPT.js"></script>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #bebebe ;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #002ddf;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            width: 150px;
+            margin-left: 140px;
+        }
+
+        .container-Me {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 790px;
+            
+        }
+        .bild-text{
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            justify-content: space-between;
+        }
+        
+        @media (max-width: 768px) {
+        nav{
+            display: none;
+            flex-direction: column;
+            background-color: #002ddf;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            padding: 0;
+        }
+
+        nav.open {
+            display: flex;
+        }
+
+        nav a {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid white;
+        }
+
+        .hamburger {
+            display: block;
+            }
+        }
+
+        .zurück-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .zurück-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            padding: 2px;
+            background-color: #ffff;
+            border: 2px solid #001155;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 17, 85, 0.3);
+            font-size: 12px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .zurück-item a {
+            text-decoration: none;
+            color: #001155;
+        }
+
+        .titleText  {
+            text-decoration: underline;
+            text-align: center;
+
+
+        }
+
+        .MePic {
+            margin-left:
+        }
+
+        .MePic img {
+            height: 140px;
+            transition: transform 0.3s ease;
+            margin-top:20px ;
+        }
+    </style>
+
+    <script>
+
+        function scrollToNews() {
+            var newsSection = document.getElementById("news");
+            var offset = -140;
+            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: newsPosition,
+                behavior: "smooth"
+            });
+        }
+
+        function scrollToFeatures() {
+            var featureSection = document.getElementById("features");
+            var offset = -1200;
+            var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: featurePosition,
+                behavior: "smooth"
+            });
+        }
+
+        function scrollToAbout() {
+            var newsSection = document.getElementById("about");
+            var offset = -2820;
+            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: newsPosition,
+                behavior: "smooth"
+            });
+        }
+
+        window.onscroll = function() {
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                scrollToTopBtn.classList.add("show");
+            } else {
+                scrollToTopBtn.classList.remove("show");
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        function toggleMenu() {
+            var navbar = document.getElementById('navbar');
+            navbar.classList.toggle('open');
+        }
+
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const menu = document.getElementById('menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+            menu.classList.toggle('open');
+            closeBtn.classList.toggle('open');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            menu.classList.remove('open');
+            closeBtn.classList.remove('open');
+        });
+
+
+            const stars = document.querySelectorAll('.star');
+            let selectedRating = 0;
+
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const parent = this.parentNode;
+
+        // Entferne alle ausgewählten Sterne
+        parent.querySelectorAll('.star').forEach(s => {
+            s.classList.remove('selected');
+        });
+
+        // Setze die neuen ausgewählten Sterne
+        for (let i = 0; i < value; i++) {
+            parent.children[i].classList.add('selected');
+        }
+
+        // Hier kannst du den Wert speichern oder weiterverarbeiten
+        console.log('Feature bewertet mit:', value, 'Stern(en)');
+        });
+
+        star.addEventListener('mouseover', function() {
+            const value = this.getAttribute('data-value');
+
+        // Setze den Hover-Effekt von links nach rechts
+        for (let i = 0; i < value; i++) {
+            parent.children[i].style.color = 'gold';
+        }
+
+        });
+
+        star.addEventListener('mouseout', function() {
+            const value = this.getAttribute('data-value');
+            const parent = this.parentNode;
+
+        // Entferne den Hover-Effekt bei Mouseout
+        parent.querySelectorAll('.star').forEach(s => {
+            if (!s.classList.contains('selected')) {
+                s.style.color = '#ccc';
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+    <header>
+        <img src="Bilder\mk24 HEAD.BODY\Design ohne Titel (1).gif" alt="mk24" class="logo">
+        <nav id="navbar">
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Homepage-without-Container.html">Home   🏠︎  </a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/MeineHobbys.Link.Header.html">Meine Hobbys 🎾</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Projekte.Link.Header.html">Projekte 💼</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Bewerbungsunterlagen.alternative.Header.html">Bewerbungsunterlagen 📄</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Arbeitsstabdort.alternative.Header.html">Arbeitsstandort 📍</a>
+            <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Sprachen.Link.Header.html">Sprachen 🗣️</a>
+        </nav>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+        <button class="close-btn" id="close-btn">&#10005;</button>
+    </header>
+
+    
+</div>
+    <div class="container-Me">
+
+        
+
+        
+            <div class="titleText">
+                <h1> Das bin ich! </h1>
+            </div>
+    
+            <div class="MePic">
+                <img src="Bilder\MePic.png">
+            </div>
+
+        <p>Mein Name ist <strong>Matti Koenis.</strong></p>
+
+        
+            <p>Ich bin 15 Jahre alt und arbeite bei der Swisscom.</p>
+            <p>Ich mache meine Ausbildung als
+            <a href="https://www.indeed.com/career-advice/finding-a-job/application-developer" target="_blank">Applikationsentwickler</a>.</p>
+            <p>Mein Lieblingstennisspieler ist
+            <a href="https://de.wikipedia.org/wiki/Roger_Federer" target="_blank">Roger Federer</a>.</p>
+            <p>Meine Schultage sind am <strong>Montag</strong> und am <strong>Dienstag</strong> an der <a href="https://www.bbw.ch/" target="_blank">BBW Berufsbildungsschule Winterthur</a></p>
+            <p><u>Skills</u></p>
+            <p>konzentriert, interessiert, ehrgeizig, selbstständig, Interesse an Computer und pünktlich</p>
+            <p><u>Sprachen</u><br> Deutsch 1. Muttersprache <br>Holländisch 2. Muttersprache <br> Schwedisch 3. Muttersprache <br> Englisch Schulkenntnisse (8 Jahre)</p>
+            <p>
+            <a href="https://intranet.swisscom.com/home/profile" target="_blank">Intranet Profil</a> </p>
+            <div class="zurück-container">
+                <div class="zurück-item">
+                    <a href="http://127.0.0.1:3000/c:/Users/TAAKOMAS/Visual%20Studio%20Code/Fertige%20Website%20alternative/Homepage-without-Container.html">zurück ↩</a>
+                </div>
+            </div>
+    </div>
+
+    <button id="scrollToTopBtn" onclick="scrollToTop()">
+        <div class="pfeil">
+            ⬆
+        </div>
+    </button>
+
+
+</body>
+</html>
