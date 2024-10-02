@@ -188,6 +188,13 @@ body {
     color: #001155;
 }
 
+.logo {
+            width: 20px;
+            height: 100px;
+            width: 130px;
+            margin-left: 10px;
+        }
+
 /* Hover-Effekt für den Zurück-Button */
 .zurück-item:hover {
     transform: scale(1.1);
