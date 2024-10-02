@@ -159,6 +159,10 @@ body {
     .ProjectTitle img {
         height: 80px;
     }
+
+    .YTV img {
+        width: 90% ;
+        height: 70% ;
 }
 
 /* Zurück-Button Styling */
