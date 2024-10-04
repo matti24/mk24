@@ -1,5 +1,5 @@
         body {
-            font-family: 'Trebuchet MS', Arial, sans-serif ;
+            font-family: 'Trebuchet MS', Arial, sans-serif, 'Showcard Gothic', Showcard Gothic ;
             line-height: 1.6;
             margin: 0;
             padding: 0;
@@ -9,6 +9,15 @@
         }
 
             /* Allgemeines Styling für größere Bildschirme */
+
+        font-face {
+            font-family: 'Showcard Gothic';
+            src: url('fonts/ShowcardGothic.woff2') format('woff2'),
+                 url('fonts/ShowcardGothic.woff') format('woff'),
+                 url('fonts/ShowcardGothic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
        
 
         .logo {
