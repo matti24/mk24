@@ -6,7 +6,7 @@
 
 
         body {
-            font-family: 'Trebuchet MS', Arial, sans-serif,  "Protest Strike";
+            font-family: 'Trebuchet MS', Arial, sans-serif,  "Luckiest Guy";
             line-height: 1.6;
             margin: 0;
             padding: 0;
@@ -27,11 +27,12 @@
             margin-left: 10px;
         }
 
-        .protest-strike-regular {
-            font-family: "Protest Strike", sans-serif;
-            font-weight: 400;
-            font-style: normal;
+        .luckiest-guy-regular {
+                font-family: "Luckiest Guy", cursive;
+                font-weight: 400;
+                font-style: normal;
        }
+       
        
 
         
@@ -64,7 +65,7 @@
             align-items: center;
             background-color: #002ddf;
             padding: 50px 40px;
-            font-family: "Protest Strike";
+            font-family: "Luckiest Guy";
             letter-spacing: 0.4px ;
         }
 
@@ -127,7 +128,7 @@
             justify-content: center;
             gap: 5px; 
             margin-bottom: 20px;
-            font-family: "Protest Strike";
+            font-family: "Luckiest Guy";
             font-size: 13px;
             font-style: normal;
             font-weight: 600;
@@ -280,7 +281,7 @@
             justify-content: center;
             gap: 50px; 
             margin-bottom: 20px;
-            font-family: "Protest Strike";
+            font-family: "Luckiest Guy";
             font-size: 13px;
             font-style: normal;
             font-weight: 600;
