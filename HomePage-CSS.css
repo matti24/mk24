@@ -405,39 +405,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .rating {
-            direction: rtl; /* Zeigt die Sterne von rechts nach links an */
-            display: none;
-            font-size: 20px;
-            height: 2px;
-        }
-
-        .star {
-            font-size: 2em;
-            color: #ccc;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            height: 2px;
-            display: none;
-        }
-
-        .rating:hover .star {
-            color: #ccc; /* Setzt die nicht-hovered Sterne auf grau */
-        }
-
-        .star:hover,
-        .star:hover ~ .star {
-            color: gold; /* Hover-Effekt von links nach rechts */
-        }
-
-        .star.selected {
-            color: gold; /* Ausgewählte Sterne bleiben gold */
-        }
-
-
-        .star.hover, .star.selected {
-            color: gold;
-        }
+        
 
         @media (max-width: 768px) {
             .TennisContainer img {
