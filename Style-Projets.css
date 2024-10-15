@@ -70,7 +70,7 @@ body {
 /* Linker Pfeil */
 .timeline-box.left::before {
     left: 100%;
-    margin-left: 10px;
+    margin-left: 0px;
 }
 
 /* Rechter Pfeil */
@@ -173,9 +173,9 @@ body {
         height: 80px;
     }
 
-    .YTV {
-        width: 500;
-        height: 355;
+    .YTV iframe {
+        width: 100%;
+        height: 100%;
     }
 }
 
