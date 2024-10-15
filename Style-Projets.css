@@ -103,12 +103,7 @@ body {
     text-align: center;
 }
 
-.YTV {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
-{
+
 
 .YTV iframe {
     position: absolute;
