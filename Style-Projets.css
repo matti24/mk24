@@ -55,7 +55,6 @@ body {
 
 .timeline-box.right {
     left: 50%;
-    height: 970px;
 }
 
 /* Pfeile in der Box */
@@ -90,6 +89,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 6px;
     position: relative;
+     height: 900px;
 }
 
 /* Zeittext in der Box */
