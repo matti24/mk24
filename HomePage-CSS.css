@@ -189,8 +189,8 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             align-items: left;
-            margin-left: 120px;
-            margin-top: 60px;
+            display: block;
+            margin: 0 auto 20px auto;
         }
 
         .CodeContainer img:hover {
@@ -203,8 +203,8 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             align-items: left;
-            margin-left: 900px;
-            margin-top: -380px;
+            display: block;
+            margin: 0 auto 20px auto;
         }
 
         .SkiContainer img:hover {
