@@ -181,7 +181,7 @@
             border-radius: 12px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
-            height: 220px;
+            height: 280px;
         }
 
         .CodeContainer img {
@@ -407,7 +407,7 @@
 
         .rating {
             direction: rtl; /* Zeigt die Sterne von rechts nach links an */
-            display: inline-block;
+            display: none;
             font-size: 20px;
             height: 2px;
         }
@@ -418,6 +418,7 @@
             cursor: pointer;
             transition: color 0.3s ease;
             height: 2px;
+            display: none;
         }
 
         .rating:hover .star {
