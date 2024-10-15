@@ -34,7 +34,12 @@
             margin-left: 10px;
         }
 
-        
+        .protest-strike-regular {
+            font-family: "Protest Strike", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+       }
+       
 
         
         nav {
