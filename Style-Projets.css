@@ -55,6 +55,7 @@ body {
 
 .timeline-box.right {
     left: 50%;
+    height: 970px;
 }
 
 /* Pfeile in der Box */
