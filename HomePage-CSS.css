@@ -204,7 +204,7 @@
             transition: transform 0.3s ease;
             align-items: left;
             display: block;
-            margin: -380 900 20px auto;
+            margin: -380 auto 20px 900;
         }
 
         .SkiContainer img:hover {
