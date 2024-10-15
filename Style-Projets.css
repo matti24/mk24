@@ -3,7 +3,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
 }
 
 /* Container für den Zeitstrahl */
@@ -29,6 +28,13 @@ body {
     height: 1220px ;
     transition: smooth ;
 }
+
+.luckiest-guy-regular {
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
 
 /* Container für jedes Zeitereignis */
 .timeline-box {
