@@ -70,7 +70,7 @@ body {
 /* Linker Pfeil */
 .timeline-box.left::before {
     left: 100%;
-    margin-left: 4px;
+    margin-left: 10px;
 }
 
 /* Rechter Pfeil */
@@ -86,6 +86,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 6px;
     position: relative;
+    height: auto;
 }
 
 /* Zeittext in der Box */
