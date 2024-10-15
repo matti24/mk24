@@ -189,7 +189,9 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             display: block;
-            margin: 160px 40px 80px 120px ;
+            margin-left: 120px;
+            margin-top: 60px;
+
         }
 
         .CodeContainer img:hover {
@@ -202,7 +204,9 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             display: block;
-            margin: -380px 900px 20px 40px;
+            margin-left: 900px;
+            margin-top: -380px;
+
         }
 
         .SkiContainer img:hover {
