@@ -176,12 +176,12 @@
         .container {
             max-width: 800px;
             margin: 40px auto;
-            padding: 20px;
+            padding: 30px;
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
-            height: 280px;
+            height: 320px;
         }
 
         .CodeContainer img {
