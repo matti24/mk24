@@ -255,8 +255,8 @@
         .NewsTitle img {
             height: 220px;
             transition: transform 0.3s ease;
-            margin-left: 670px;
-            margin-top: 10px;        
+            display: block;
+            margin: 0 auto 20px auto;       
         }
 
         .FeaturesTitle img {
