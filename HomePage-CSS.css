@@ -190,7 +190,7 @@
             transition: transform 0.3s ease;
             align-items: left;
             display: block;
-            margin: 60 120 20px 40 ;
+            margin: 160px 120px 80px 40 ;
         }
 
         .CodeContainer img:hover {
@@ -204,7 +204,7 @@
             transition: transform 0.3s ease;
             align-items: left;
             display: block;
-            margin: -380 40 20px 900;
+            margin: -380px 900px 20px 40px;
         }
 
         .SkiContainer img:hover {
