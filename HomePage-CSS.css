@@ -176,7 +176,7 @@
         .container {
             max-width: 800px;
             margin: 40px auto;
-            padding: 30px;
+            padding: 20px;
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -232,7 +232,7 @@
             border-radius: 4px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
-            height: 50px;
+            height: 100px;
             margin-left: 220px;
             margin-top: -322px;
             width: 515px;
