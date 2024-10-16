@@ -20,7 +20,7 @@ function scrollToFeatures() {
 }
 
 function scrollToAbout() {
-    scrollToSection("about", -2820);
+    scrollToSection("about", -2999);
 }
 
 window.onscroll = function() {
