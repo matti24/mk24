@@ -415,6 +415,18 @@
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
             }
 
+              .nav-section {
+                   justify-content: center;
+                   gap: 50px; 
+                   margin-bottom: 20px;
+                   font-family: "Luckiest Guy";
+                   font-size: 13px;
+                   font-style: normal;
+                   font-weight: 600;
+                   font-stretch: expanded;
+                   display: block; /* Zentriert die Bilder */
+               } 
+
             .AboutTitle img {
                 height: 140px; /* Bildhöhe für mobile Geräte */
                 margin-left: auto;
