@@ -259,6 +259,7 @@
               border-radius: 4px;
               width:540px; 
               height:280px;
+              align-items: center;
        }              
 
         .container:hover {
