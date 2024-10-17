@@ -67,8 +67,6 @@
             padding: 50px 40px;
             font-family: "Luckiest Guy";
             letter-spacing: 0.4px ;
-            width: 100vw; /* 100% der Breite des Viewports */
-            margin: 0 auto;
         }
 
         .logo {
@@ -77,7 +75,7 @@
         }
 
         nav {
-            display: block;
+            display: flex;
             gap: 20px;
         }
 
@@ -275,7 +273,6 @@
             margin-top: -3px;
             font-size: 9px;
             background-color: #859eff;
-            width: 100vw; /* 100% der Breite des Viewports */
         }
 
         .NewsTitle img {
