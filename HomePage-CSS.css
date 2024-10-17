@@ -134,6 +134,11 @@
             font-weight: 600;
             font-stretch: expanded;
             } 
+
+         .logo {
+            width: 100px;
+            margin-left: 30px;
+            }
         }
 
 
