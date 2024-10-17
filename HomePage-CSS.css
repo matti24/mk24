@@ -232,7 +232,7 @@
             text-align: center;
             height: 100px;
             margin-left: 230px;
-            margin-top: -82px;
+            margin-top: -200px;
             width: 515px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -242,8 +242,8 @@
             border-radius: 4px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
-            height: 600px;
-            margin-left: 1380px;
+            height: 602px;
+            margin-left: 1381px;
             margin-top: -682px;
             width: 560px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
