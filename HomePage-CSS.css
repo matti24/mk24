@@ -232,7 +232,7 @@
             text-align: center;
             height: 100px;
             margin-left: 220px;
-            margin-top: -502px;
+            margin-top: 102px;
             width: 515px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -242,7 +242,7 @@
             border-radius: 4px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
-            height: 480px;
+            height: 350px;
             margin-left: 1280px;
             margin-top: 200px;
             width: 720px;
