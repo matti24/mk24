@@ -232,7 +232,7 @@
             text-align: center;
             height: 100px;
             margin-left: 230px;
-            margin-top: -200px;
+            margin-top: -300px;
             width: 515px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -250,11 +250,16 @@
         }
 
        .webvideo {
-              margin-top: 80px;
+              margin-top: 120px;
               border-radius: 4px;
        }              
 
         .container:hover {
+            transform: scale(1.3);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .containervideo:hover {
             transform: scale(1.3);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         }
