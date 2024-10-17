@@ -284,7 +284,8 @@
             height: 220px;
             transition: transform 0.3s ease;
             display: block;
-            margin: 0 auto 20px auto;       
+            margin: 0 auto 20px auto;
+              
         }
 
         .FeaturesTitle img {
@@ -440,6 +441,7 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                max-width: 375.2px ;
             }
 
                .nav-item h1 {
@@ -447,6 +449,7 @@
                    color: #002ddf; 
                    text-transform: uppercase;
                    letter-spacing: 2px;
+                   max-width: 375.2px ;
                }
 
             .AboutTitle img {
@@ -456,6 +459,7 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 300px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+               max-width: 375.2px ;
             }
 
             .FeaturesTitle img {
@@ -465,6 +469,7 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 380px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    max-width: 375.2px ;
 
             } 
 
@@ -475,6 +480,7 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    max-width: 375.2px ;
                 
             }
 
@@ -485,6 +491,7 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    max-width: 375.2px ;
                 
             } 
 
@@ -493,6 +500,7 @@
                 align-items: center;
                 height: 500px; /* Bildhöhe für mobile Geräte */
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    max-width: 375.2px ;
 
             }
 
@@ -508,6 +516,7 @@
                 margin-left: auto;
                 margin-right: auto;
                 margin-top: auto ;
+                    max-width: 375.2px ;
             }
         
 
@@ -518,6 +527,7 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    max-width: 375.2px ;
             }
 
             .feature-item img {
@@ -527,11 +537,13 @@
                 display: block; /* Zentriert die Bilder */
                 margin-top: 20px; /* Abstand nach oben */
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    max-width: 375.2px ;
 
             }
 
             .SprachenCont {
                 text-align: center;
+                    max-width: 375.2px ;
             }
 
             h1 {
