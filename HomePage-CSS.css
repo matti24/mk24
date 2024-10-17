@@ -510,6 +510,8 @@
               .webvideo {
                      margin-top: 0px;
                      border-radius: 4px;
+                     max-width: 350px;
+                     max-height: 181px;
               }              
 
             .feature-item img {
