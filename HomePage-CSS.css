@@ -136,8 +136,11 @@
             } 
 
          .logo {
-            width: 100px;
-            margin-left: 30px;
+            width: 20px;
+            height: 100px;
+            width: 130px;
+            margin-left: 10px;
+            align-items: left;
             }
         }
 
