@@ -60,13 +60,15 @@
         }
 
         header {
-            display: block;
+            display: flex;
             justify-content: center;
             align-items: center;
             background-color: #002ddf;
             padding: 50px 40px;
             font-family: "Luckiest Guy";
             letter-spacing: 0.4px ;
+            width: 100vw; /* 100% der Breite des Viewports */
+            margin: 0 auto;
         }
 
         .logo {
