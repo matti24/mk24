@@ -506,7 +506,7 @@
                    margin-left: auto;
                    margin-top: 20px;
                    width: 400px;
-                   display: block;
+                   display: none;
                }
 
               .webvideo {
@@ -514,6 +514,7 @@
                      border-radius: 4px;
                      max-width: 350px;
                      max-height: 181px;
+                     display: none;
               }              
 
             .feature-item img {
