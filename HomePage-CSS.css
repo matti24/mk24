@@ -260,6 +260,8 @@
               width:540px; 
               height:280px;
               align-items: center;
+              display: block;
+              margin: 0 auto;
        }              
 
         .container:hover {
