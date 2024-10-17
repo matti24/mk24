@@ -36,7 +36,7 @@
        
 
         
-       header {
+      header {
          display: flex;
          justify-content: center; /* Zentriert den Inhalt horizontal */
          align-items: center; /* Zentriert den Inhalt vertikal */
@@ -64,12 +64,11 @@
 
          padding: 10px 20px;
          text-align: center;
-         transition:
-         background-color 0.3s ease, color 0.3s ease;
+         transition: background-color 0.3s ease, color 0.3s ease;
        }
 
        nav a:hover {
-        background-color: #11aaff;
+         background-color: #11aaff;
          color: #001155;
          border-radius: 8px;
        }
@@ -126,7 +125,7 @@
         }
 
         .hamburger {
-            display: block;
+            display: flex;
             }
 
         .nav-section {
