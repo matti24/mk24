@@ -125,14 +125,14 @@
         }
 
         .hamburger {
-            display: flex;
+            display: block;
             }
 
         .nav-section {
             display: flex;
             justify-content: center;
             gap: 5px; 
-            margin-bottom: 20px;
+            margin-bottom: -20px;
             font-family: "Luckiest Guy";
             font-size: 13px;
             font-style: normal;
