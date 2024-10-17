@@ -244,13 +244,13 @@
             text-align: center;
             height: 602px;
             margin-left: 1381px;
-            margin-top: -682px;
+            margin-top: -602px;
             width: 560px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
        .webvideo {
-              margin-top: 80px;
+              margin-top: 0px;
               border-radius: 4px;
        }              
 
