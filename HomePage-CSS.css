@@ -107,10 +107,11 @@
             flex-direction: column;
             background-color: #002ddf;
             position: absolute;
-            top: 80px;
+            top: 100%;
             left: 0;
             padding: 0;
             height: 30px ;
+            z-index: 1000; /* Stellt sicher, dass das Dropdown über anderen Inhalten liegt */
         }
 
         nav.open {
