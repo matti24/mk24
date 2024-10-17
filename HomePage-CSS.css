@@ -237,6 +237,19 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+       .containervideo {
+            background: #dbdbdb;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 480px;
+            margin-left: 620px;
+            margin-top: -202px;
+            width: 720px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+              
+
         .container:hover {
             transform: scale(1.3);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
