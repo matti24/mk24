@@ -257,6 +257,8 @@
        .webvideo {
               margin-top: 0px;
               border-radius: 4px;
+              width:540px; 
+              height:280;
        }              
 
         .container:hover {
