@@ -204,7 +204,7 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
             display: block;
-            margin: -380px 120px 0px 900px;
+            margin: -380px 160px 0px 900px;
 
         }
 
@@ -244,7 +244,7 @@
             text-align: center;
             height: 600px;
             margin-left: 1341px;
-            margin-top: -602px;
+            margin-top: -600px;
             width: 560px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
