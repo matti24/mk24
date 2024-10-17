@@ -238,17 +238,21 @@
         }
 
        .containervideo {
-            background: #dbdbdb;
+            background: #fff;
             border-radius: 4px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
             height: 480px;
-            margin-left: 620px;
-            margin-top: -202px;
+            margin-left: 920px;
+            margin-top: -102px;
             width: 720px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-              
+
+       .webvideo {
+              margin-top: 80px;
+               border-radius: 4px;
+       }              
 
         .container:hover {
             transform: scale(1.3);
