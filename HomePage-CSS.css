@@ -246,6 +246,7 @@
             margin-top: -340px;
             width: 515px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: absolute; /* Absolut positioniert relativ zum nächsten Container */
         }
 
        .containervideo {
@@ -261,7 +262,6 @@
         }
 
        .webvideo {
-              margin-top: 0px;
               border-radius: 4px;
               width:540px; 
               height:280px;
