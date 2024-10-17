@@ -249,23 +249,23 @@
         }
 
        .containervideo {
-         background: #fff;
-         border-radius: 4px;
-         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-         text-align: center;
-         height: 600px;
-         width: 560px;
-         position: absolute; /* Absolut positioniert relativ zum nächsten Container */
-         left: 1320px; /* Feste Position von links, ersetzt margin-left */
-         top: 100px; /* Feste Position von oben, um das negative margin-top zu ersetzen */
-         transition: transform 0.3s ease, box-shadow 0.3s ease;
-       }
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  height: 600px;
+  width: 560px;
+  position: fixed; /* Fixed Positionierung, bleibt immer am gleichen Ort im Viewport */
+  left: 70%; /* Stelle dies auf den gewünschten Prozentsatz ein, um die horizontale Position zu steuern */
+  top: 20%; /* Vertikale Position in Prozent relativ zum Viewport */
+  transform: translate(-50%, -50%); /* Feine Zentrierung */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
 .webvideo {
   border-radius: 4px;
   width: 540px;
   height: 280px;
-  align-items: center;
   display: block;
   margin: 0 auto;
 }
