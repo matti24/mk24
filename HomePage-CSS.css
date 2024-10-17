@@ -259,7 +259,6 @@
   left: 70%; /* Stelle dies auf den gewünschten Prozentsatz ein, um die horizontale Position zu steuern */
   top: 20%; /* Vertikale Position in Prozent relativ zum Viewport */
   transform: translate(-50%, -50%); /* Feine Zentrierung */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .webvideo {
