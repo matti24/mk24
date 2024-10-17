@@ -16,7 +16,7 @@ function scrollToNews() {
 }
 
 function scrollToFeatures() {
-    scrollToSection("features", -1200);
+    scrollToSection("features", -1150);
 }
 
 function scrollToAbout() {
