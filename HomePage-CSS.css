@@ -446,12 +446,20 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-       .nltitle {
+       .nl1 {
            font-family: "Bangers", system-ui;
            color:#c61414;
            text-decoration:underline; 
            font-size: 3em;
        }
+
+       .nl2 {
+           font-family: "Bangers", system-ui;
+           color:#3746cc;
+           text-decoration:underline; 
+           font-size: 3em;
+       }
+
         .bangers-regular {
                 font-family: "Bangers", system-ui;
                 font-weight: 400;
