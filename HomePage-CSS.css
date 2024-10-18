@@ -441,7 +441,16 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        
+       .nltitle {
+           font-family: "Bangers", system-ui;
+           color:#c61414;
+           
+       }
+        .bangers-regular {
+                font-family: "Bangers", system-ui;
+                font-weight: 400;
+                font-style: normal;
+       }
 
         @media (max-width: 768px) {
             .TennisContainer img {
