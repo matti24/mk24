@@ -99,7 +99,11 @@
             font-size: 30px;
             color: #11aaff;
             cursor: pointer;
-        }       
+        }
+
+       a {
+           text-decoration: none;
+       }
 
         @media (max-width: 768px) {
         nav{
