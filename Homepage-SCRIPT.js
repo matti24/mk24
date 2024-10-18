@@ -1,58 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-   function scrollToSection(sectionId, offset) {
-    var section = document.getElementById(sectionId);
-    var sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - offset;
+   function scrollToNews() {
+            var newsSection = document.getElementById("news");
+            var offset = -140;
+            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-    // Definiere die Dauer basierend auf der Fensterbreite
-    var duration = window.innerWidth <= 768 ? 2000 : 2000; // Beide Formate mit 2 Sekunden
+            window.scrollTo({
+                top: newsPosition,
+                behavior: "smooth"
+            });
+        }
 
-    window.scrollTo({
-        top: sectionPosition,
-        behavior: "smooth"
-    });
-}
+        function scrollToFeatures() {
+            var featureSection = document.getElementById("features");
+            var offset = -1200;
+            var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-function scrollToNews() {
-    scrollToSection("news", -140);
-}
+            window.scrollTo({
+                top: featurePosition,
+                behavior: "smooth"
+            });
+        }
 
-function scrollToFeatures() {
-    scrollToSection("features", -1150);
-}
+        function scrollToAbout() {
+            var newsSection = document.getElementById("about");
+            var offset = -2820;
+            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-function scrollToAbout() {
-    scrollToSection("about", -2999);
-}
+            window.scrollTo({
+                top: newsPosition,
+                behavior: "smooth"
+            });
+        }
 
-window.onscroll = function() {
-    var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-    if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-        scrollToTopBtn.classList.add("show");
-    } else {
-        scrollToTopBtn.classList.remove("show");
-    }
-};
+        window.onscroll = function() {
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                scrollToTopBtn.classList.add("show");
+            } else {
+                scrollToTopBtn.classList.remove("show");
+            }
+        };
 
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
 
-function toggleMenu() {
-    var navbar = document.getElementById('navbar');
-    navbar.classList.toggle('open');
-}
-
-const hamburgerBtn = document.getElementById('hamburger-btn');
-const closeBtn = document.getElementById('close-btn');
-const menu = document.getElementById('menu');
-
-hamburgerBtn.addEventListener('click', () => {
-    menu.classList.toggle('open');
-    closeBtn.classList.toggle('open');
-});
 
     // Dein Counter-Code
     let count = 0;
