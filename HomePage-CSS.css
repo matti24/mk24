@@ -269,6 +269,11 @@
               display: block;
               margin: 0 auto;
        } 
+
+       .videodate{
+              font-size: 1.45em;
+       }
+              
         .container:hover {
             transform: scale(1.3);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
