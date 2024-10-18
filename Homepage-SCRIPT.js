@@ -102,7 +102,6 @@ stars.forEach(star => {
     });
 });
 
-<script>
 let count = 0;
 let counterElement = document.getElementById("count");
 let hasStarted = false;
@@ -125,4 +124,4 @@ let observer = new IntersectionObserver(function(entries) {
 });
 
 observer.observe(counterElement);
-</script>
+
