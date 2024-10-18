@@ -101,3 +101,17 @@ stars.forEach(star => {
         });
     });
 });
+
+let count = 0;
+let counterElement = document.getElementById("count");
+
+function updateCounter() {
+    if (count < 4237) {  // Der Zähler stoppt bei 100 (oder einem anderen Wert, den du möchtest)
+        count++;
+        counterElement.innerText = count;
+        setTimeout(updateCounter, 50);  // Hier kannst du die Geschwindigkeit einstellen (50 ms)
+    }
+}
+
+// Startet den Zähler beim Laden der Webseite
+window.onload = updateCounter;
