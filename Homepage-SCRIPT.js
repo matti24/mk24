@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (count < 4237) {
             count++;
             counterElement.innerText = count;
-            setTimeout(updateCounter, 50);
+            setTimeout(updateCounter, 5);
         }
     }
 
