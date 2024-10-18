@@ -53,7 +53,7 @@ hamburgerBtn.addEventListener('click', () => {
     closeBtn.classList.toggle('open');
 });
 
-
+document.addEventListener('DOMContentLoaded', function() {
 let count = 0;
 let counterElement = document.getElementById("count");
 let hasStarted = false;
