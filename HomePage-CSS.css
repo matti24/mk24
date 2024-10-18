@@ -15,10 +15,10 @@
             font-size: 1rem; /* Passt sich an den Grundwert der Schriftgröße an */
         }
 
-            /* Allgemeines Styling für größere Bildschirme */
-
-        
-       
+       .counter {
+           font-size: 48px;
+           color: #333;
+       }
 
         .logo {
             width: 20px;
