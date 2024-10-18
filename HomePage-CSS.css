@@ -18,6 +18,8 @@
        .counter {
            font-size: 48px;
            color: #333;
+           text-align: center;
+           margin: 100px 0;
        }
 
         .logo {
