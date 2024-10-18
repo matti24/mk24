@@ -49,11 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.getElementById('close-btn');
     const menu = document.getElementById('menu');
 
-    hamburgerBtn.addEventListener('click', () => {
-        menu.classList.toggle('open');
-        closeBtn.classList.toggle('open');
-    });
-
     // Dein Counter-Code
     let count = 0;
     let counterElement = document.getElementById("count");
