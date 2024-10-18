@@ -1,4 +1,4 @@
- {
+
     // Dein bestehender Scroll-Code
     function scrollToSection(sectionId, offset) {
         var section = document.getElementById(sectionId);
