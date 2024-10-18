@@ -25,6 +25,15 @@
            
        }
 
+       .counttxt {
+           font-family: "Luckiest Guy", cursive;
+           font-weight: 400;
+           font-size: 48px;
+           color: #333;
+           text-align: center;
+           margin: -200px -50;
+       }
+
 
         .logo {
             width: 20px;
