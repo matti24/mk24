@@ -102,28 +102,27 @@ stars.forEach(star => {
     });
 });
 
+<script>
 let count = 0;
 let counterElement = document.getElementById("count");
-let hasStarted = false;  // Um sicherzustellen, dass der Counter nur einmal startet
+let hasStarted = false;
 
-// Funktion zum Hochzählen
 function updateCounter() {
-    if (count < 4237) {  // Zählt bis 100
+    if (count < 4237) {
         count++;
         counterElement.innerText = count;
-        setTimeout(updateCounter, 50);  // Geschwindigkeit des Countens (50 ms)
+        setTimeout(updateCounter, 50);
     }
 }
 
-// Intersection Observer für den Counter
 let observer = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting && !hasStarted) {
-            hasStarted = true;  // Verhindert, dass der Counter mehrfach startet
+            hasStarted = true;
             updateCounter();
         }
     });
 });
 
-// Startet den Observer für das Counter-Element
 observer.observe(counterElement);
+</script>
