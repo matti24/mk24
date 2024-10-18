@@ -469,6 +469,7 @@
 
        .nederland {
               text-decoration: underline;
+               text-decoration-thickness: 3px; /* Dicke der Unterstreichung */
        }
 
         .bangers-regular {
