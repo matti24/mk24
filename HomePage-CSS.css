@@ -444,7 +444,8 @@
        .nltitle {
            font-family: "Bangers", system-ui;
            color:#c61414;
-           text-decoration:underline;           
+           text-decoration:underline; 
+           font-size: 3em;
        }
         .bangers-regular {
                 font-family: "Bangers", system-ui;
