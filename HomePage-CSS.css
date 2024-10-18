@@ -453,20 +453,22 @@
        .nl1 {
            font-family: "Bangers", system-ui;
            color:#c61414;
-           text-decoration:underline; 
            font-size: 3em;
        }
 
        .nl2 {
            font-family: "Bangers", system-ui;
            color:#3746cc;
-           text-decoration:underline; 
            font-size: 3em;
        }
 
        .nlpin {
               text-decoration: none;
               font-size:3em;
+       }
+
+       .nederland {
+              text-decoration: underline;
        }
 
         .bangers-regular {
