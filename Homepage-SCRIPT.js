@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateCounter() {
         if (count < 4237) {
-            count++;
-            counterElement.innerText = count;
+            count += 10;  // Zähle um 5 pro Schritt statt um 1
+            counterElement.innerText = count > 4237 ? 4237 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
             setTimeout(updateCounter, 5);
         }
     }
