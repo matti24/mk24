@@ -1,53 +1,58 @@
+document.addEventListener('DOMContentLoaded', function() {
+   function scrollToSection(sectionId, offset) {
+    var section = document.getElementById(sectionId);
+    var sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - offset;
 
-    // Dein bestehender Scroll-Code
-    function scrollToSection(sectionId, offset) {
-        var section = document.getElementById(sectionId);
-        var sectionPosition = section.getBoundingClientRect().top + window.pageYOffset - offset;
+    // Definiere die Dauer basierend auf der Fensterbreite
+    var duration = window.innerWidth <= 768 ? 2000 : 2000; // Beide Formate mit 2 Sekunden
 
-        var duration = window.innerWidth <= 768 ? 2000 : 2000; // Beide Formate mit 2 Sekunden
+    window.scrollTo({
+        top: sectionPosition,
+        behavior: "smooth"
+    });
+}
 
-        window.scrollTo({
-            top: sectionPosition,
-            behavior: "smooth"
-        });
+function scrollToNews() {
+    scrollToSection("news", -140);
+}
+
+function scrollToFeatures() {
+    scrollToSection("features", -1150);
+}
+
+function scrollToAbout() {
+    scrollToSection("about", -2999);
+}
+
+window.onscroll = function() {
+    var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+        scrollToTopBtn.classList.add("show");
+    } else {
+        scrollToTopBtn.classList.remove("show");
     }
+};
 
-    function scrollToNews() {
-        scrollToSection("news", -140);
-    }
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
 
-    function scrollToFeatures() {
-        scrollToSection("features", -1150);
-    }
+function toggleMenu() {
+    var navbar = document.getElementById('navbar');
+    navbar.classList.toggle('open');
+}
 
-    function scrollToAbout() {
-        scrollToSection("about", -2999);
-    }
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const closeBtn = document.getElementById('close-btn');
+const menu = document.getElementById('menu');
 
-    window.onscroll = function() {
-        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-        if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-            scrollToTopBtn.classList.add("show");
-        } else {
-            scrollToTopBtn.classList.remove("show");
-        }
-    };
-
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    function toggleMenu() {
-        var navbar = document.getElementById('navbar');
-        navbar.classList.toggle('open');
-    }
-
-    const hamburgerBtn = document.getElementById('hamburger-btn');
-    const closeBtn = document.getElementById('close-btn');
-    const menu = document.getElementById('menu');
+hamburgerBtn.addEventListener('click', () => {
+    menu.classList.toggle('open');
+    closeBtn.classList.toggle('open');
+});
 
     // Dein Counter-Code
     let count = 0;
