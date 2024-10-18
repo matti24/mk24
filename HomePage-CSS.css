@@ -467,13 +467,6 @@
               font-size:3em;
        }
 
-       .nederland {
-              text-decoration: underline;
-              text-decoration-thickness: 8px; /* Dicke der Unterstreichung */
-              color:blue;
-              font-family: "Bangers", system-ui;
-       }
-
         .bangers-regular {
                 font-family: "Bangers", system-ui;
                 font-weight: 400;
