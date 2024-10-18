@@ -55,7 +55,7 @@ hamburgerBtn.addEventListener('click', () => {
 
 
 
-
+document.addEventListener('DOMContentLoaded', function() {
 
 let count = 0;
 let counterElement = document.getElementById("count");
