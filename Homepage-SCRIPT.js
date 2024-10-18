@@ -58,49 +58,7 @@ closeBtn.addEventListener('click', () => {
     closeBtn.classList.remove('open');
 });
 
-const stars = document.querySelectorAll('.star');
 
-stars.forEach(star => {
-    star.addEventListener('click', function() {
-        const value = this.getAttribute('data-value');
-        const parent = this.parentNode;
-
-        // Entferne alle ausgewählten Sterne
-        parent.querySelectorAll('.star').forEach(s => {
-            s.classList.remove('selected');
-            s.style.color = '#ccc'; // Setze die Farbe zurück
-        });
-
-        // Setze die neuen ausgewählten Sterne
-        for (let i = 0; i < value; i++) {
-            parent.children[i].classList.add('selected');
-            parent.children[i].style.color = 'gold'; // Färbe die ausgewählten Sterne gold
-        }
-
-        console.log('Feature bewertet mit:', value, 'Stern(en)');
-    });
-
-    star.addEventListener('mouseover', function() {
-        const value = this.getAttribute('data-value');
-        const parent = this.parentNode;
-
-        // Setze den Hover-Effekt von links nach rechts
-        for (let i = 0; i < value; i++) {
-            parent.children[i].style.color = 'gold';
-        }
-    });
-
-    star.addEventListener('mouseout', function() {
-        const parent = this.parentNode;
-
-        // Entferne den Hover-Effekt bei Mouseout
-        parent.querySelectorAll('.star').forEach(s => {
-            if (!s.classList.contains('selected')) {
-                s.style.color = '#ccc'; // Setze die Farbe zurück, wenn der Stern nicht ausgewählt ist
-            }
-        });
-    });
-});
 
 let count = 0;
 let counterElement = document.getElementById("count");
