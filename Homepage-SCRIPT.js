@@ -104,14 +104,26 @@ stars.forEach(star => {
 
 let count = 0;
 let counterElement = document.getElementById("count");
+let hasStarted = false;  // Um sicherzustellen, dass der Counter nur einmal startet
 
+// Funktion zum Hochzählen
 function updateCounter() {
-    if (count < 4237) {  // Der Zähler stoppt bei 100 (oder einem anderen Wert, den du möchtest)
+    if (count < 4237) {  // Zählt bis 100
         count++;
         counterElement.innerText = count;
-        setTimeout(updateCounter, 50);  // Hier kannst du die Geschwindigkeit einstellen (50 ms)
+        setTimeout(updateCounter, 50);  // Geschwindigkeit des Countens (50 ms)
     }
 }
 
-// Startet den Zähler beim Laden der Webseite
-window.onload = updateCounter;
+// Intersection Observer für den Counter
+let observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !hasStarted) {
+            hasStarted = true;  // Verhindert, dass der Counter mehrfach startet
+            updateCounter();
+        }
+    });
+});
+
+// Startet den Observer für das Counter-Element
+observer.observe(counterElement);
