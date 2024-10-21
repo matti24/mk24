@@ -1,53 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-   function scrollToNews() {
-            var newsSection = document.getElementById("news");
-            var offset = -140;
-            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+    // Event Listener für News
+    document.getElementById("scrollToNewsButton").addEventListener('click', scrollToNews);
 
-            window.scrollTo({
-                top: newsPosition,
-                behavior: "smooth"
-            });
+    // Event Listener für Features
+    document.getElementById("scrollToFeaturesButton").addEventListener('click', scrollToFeatures);
+
+    // Event Listener für About
+    document.getElementById("scrollToAboutButton").addEventListener('click', scrollToAbout);
+
+    // Scroll to top button anzeigen
+    window.onscroll = function() {
+        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+            scrollToTopBtn.classList.add("show");
+        } else {
+            scrollToTopBtn.classList.remove("show");
         }
+    };
 
-        function scrollToFeatures() {
-            var featureSection = document.getElementById("features");
-            var offset = -1200;
-            var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
-
-            window.scrollTo({
-                top: featurePosition,
-                behavior: "smooth"
-            });
-        }
-
-        function scrollToAbout() {
-            var newsSection = document.getElementById("about");
-            var offset = -2820;
-            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
-
-            window.scrollTo({
-                top: newsPosition,
-                behavior: "smooth"
-            });
-        }
-
-        window.onscroll = function() {
-            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-            if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-                scrollToTopBtn.classList.add("show");
-            } else {
-                scrollToTopBtn.classList.remove("show");
-            }
-        };
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
-
+    // Event Listener für den "Scroll to Top"-Button
+    document.getElementById("scrollToTopBtn").addEventListener('click', scrollToTop);
 
     // Dein Counter-Code
     let count = 0;
@@ -56,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateCounter() {
         if (count < 4237) {
-            count += 10;  // Zähle um 5 pro Schritt statt um 1
+            count += 10;  // Zähle um 10 pro Schritt statt um 1
             counterElement.innerText = count > 4237 ? 4237 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
             setTimeout(updateCounter, 5);
         }
