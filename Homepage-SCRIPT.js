@@ -1,11 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Event Listener für News
+    // Scroll zu "News" Abschnitt
+    function scrollToNews() {
+        var newsSection = document.getElementById("news");
+        var offset = -140;  // Passe den Offset hier an
+        var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset + offset;
+
+        window.scrollTo({
+            top: newsPosition,
+            behavior: "smooth"
+        });
+    }
+
+    // Scroll zu "Features" Abschnitt
+    function scrollToFeatures() {
+        var featureSection = document.getElementById("features");
+        var offset = -140;  // Angepasster Offset
+        var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset + offset;
+
+        window.scrollTo({
+            top: featurePosition,
+            behavior: "smooth"
+        });
+    }
+
+    // Scroll zu "About" Abschnitt
+    function scrollToAbout() {
+        var aboutSection = document.getElementById("about");
+        var offset = -140;  // Angepasster Offset
+        var aboutPosition = aboutSection.getBoundingClientRect().top + window.pageYOffset + offset;
+
+        window.scrollTo({
+            top: aboutPosition,
+            behavior: "smooth"
+        });
+    }
+
+    // Event Listener für die Scroll-Buttons
     document.getElementById("scrollToNewsButton").addEventListener('click', scrollToNews);
-
-    // Event Listener für Features
     document.getElementById("scrollToFeaturesButton").addEventListener('click', scrollToFeatures);
-
-    // Event Listener für About
     document.getElementById("scrollToAboutButton").addEventListener('click', scrollToAbout);
 
     // Scroll to top button anzeigen
@@ -19,7 +51,12 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Event Listener für den "Scroll to Top"-Button
-    document.getElementById("scrollToTopBtn").addEventListener('click', scrollToTop);
+    document.getElementById("scrollToTopBtn").addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
 
     // Dein Counter-Code
     let count = 0;
