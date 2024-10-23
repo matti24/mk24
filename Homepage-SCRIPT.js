@@ -48,20 +48,26 @@
             });
         }
 
-     function toggleMenu() {
-            var navbar = document.getElementById('navbar');
-            navbar.classList.toggle('open');
-        }
+     document.addEventListener('DOMContentLoaded', function() {
+         function toggleMenu() {
+        var navbar = document.getElementById('navbar');
+        navbar.classList.toggle('open');
+    }
 
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const closeBtn = document.getElementById('close-btn');
-            const menu = document.getElementById('menu');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const closeBtn = document.getElementById('close-btn');
+    const menu = document.getElementById('menu');
 
+    // Überprüfe, ob die Elemente vorhanden sind, bevor Event Listener hinzugefügt werden
+    if (hamburgerBtn && closeBtn && menu) {
         hamburgerBtn.addEventListener('click', () => {
             menu.classList.toggle('open');
             closeBtn.classList.toggle('open');
         });
-
+    } else {
+        console.error('Eines der Elemente (hamburgerBtn, closeBtn, menu) wurde nicht gefunden.');
+    }
+});
 
 
     // Dein Counter-Code
