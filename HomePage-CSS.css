@@ -19,7 +19,6 @@
            font-size: 48px;
            color: #333;
            text-align: center;
-           margin: 200px ;
            margin-top: 75px;
            font-family: "Luckiest Guy", cursive;
            font-weight: 400;
@@ -33,6 +32,7 @@
            color: #333;
            text-align: center;
            margin-top: -300px;
+           margin-left: 100px ;
        }
 
 
