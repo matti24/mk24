@@ -39,43 +39,83 @@
 
 
        @media (max-width: 1920px) {
-             header {
-         display: flex;
-         justify-content: center; /* Zentriert den Inhalt horizontal */
-         align-items: center; /* Zentriert den Inhalt vertikal */
-         background-color: #002ddf;
-         padding: 50px 40px;
-         font-family: "Luckiest Guy";
-         letter-spacing: 0.4px;
-         width: 100%; /* Header nimmt die volle Breite ein */
-         box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
-       }
+             .CodeContainer img {
+            height: 270px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: block;
+            margin-left: 20px;
+            margin-top: 60px;
 
-       nav {
-         display: flex;
-         gap: 20px;
-         justify-content: center; /* Links werden zentriert */
-         width: 100%; /* Navigation nimmt die volle Breite des Containers ein */
-       }
+        }
 
-       nav a {
-         color: #fff;
-         font-size: 1.2em;
-         margin: 0 15px;
-         text-decoration: none;
-         font-weight: bold;
+         .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 260px;
+        }
 
-         padding: 10px 20px;
-         text-align: center;
-         transition: background-color 0.3s ease, color 0.3s ease;
-       }
+        .SkiContainer img {
+            height: 400px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: block;
+            margin: -380px 160px 0px 595px;
 
-       nav a:hover {
-         background-color: #11aaff;
-         color: #001155;
-         border-radius: 8px;
+        }
+
+        .containervideo {
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 400px;
+            margin-left: 880px;
+            margin-top: -600px;
+            width: 560px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+          .webvideo {
+              margin-top: 0px;
+              border-radius: 4px;
+              width:540px; 
+              height:160px;
+              align-items: center;
+              display: block;
+              margin: 0 auto;
        } 
 
+         .NewsTitle img {
+            height: 150px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+              
+        }
+
+        .FeaturesTitle img {
+            height: 150px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+         .AboutTitle img {
+            height: 150px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+         
+         
        }
 
 
