@@ -79,5 +79,5 @@
     });
 
     observer.observe(counterElement);
-});
+
 
