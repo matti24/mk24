@@ -12,7 +12,7 @@
 
     function scrollToFeatures() {
         var featureSection = document.getElementById("features");
-        var offset = -140;
+        var offset = -1150;
         var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
         window.scrollTo({
@@ -23,7 +23,7 @@
 
     function scrollToAbout() {
         var aboutSection = document.getElementById("about");
-        var offset = -140;
+        var offset = -2999;
         var aboutPosition = aboutSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
         window.scrollTo({
