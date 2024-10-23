@@ -1,57 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Scroll zu "News" Abschnitt
-    function scrollToNews() {
-        var newsSection = document.getElementById("news");
-        var offset = -140;  // Passe den Offset hier an
-        var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset + offset;
+   function scrollToNews() {
+            var newsSection = document.getElementById("news");
+            var offset = -140;
+            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-        window.scrollTo({
-            top: newsPosition,
-            behavior: "smooth"
-        });
-    }
-
-    // Scroll zu "Features" Abschnitt
-    function scrollToFeatures() {
-        var featureSection = document.getElementById("features");
-        var offset = -140;  // Angepasster Offset
-        var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset + offset;
-
-        window.scrollTo({
-            top: featurePosition,
-            behavior: "smooth"
-        });
-    }
-
-    // Scroll zu "About" Abschnitt
-    function scrollToAbout() {
-        var aboutSection = document.getElementById("about");
-        var offset = -140;  // Angepasster Offset
-        var aboutPosition = aboutSection.getBoundingClientRect().top + window.pageYOffset + offset;
-
-        window.scrollTo({
-            top: aboutPosition,
-            behavior: "smooth"
-        });
-    }
-
-    // Scroll to top button anzeigen
-    window.onscroll = function() {
-        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-        if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-            scrollToTopBtn.classList.add("show");
-        } else {
-            scrollToTopBtn.classList.remove("show");
+            window.scrollTo({
+                top: newsPosition,
+                behavior: "smooth"
+            });
         }
-    };
 
-    // Event Listener für den "Scroll to Top"-Button
-    document.getElementById("scrollToTopBtn").addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
+        function scrollToFeatures() {
+            var featureSection = document.getElementById("features");
+            var offset = -1200;
+            var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: featurePosition,
+                behavior: "smooth"
+            });
+        }
+
+        function scrollToAbout() {
+            var newsSection = document.getElementById("about");
+            var offset = -2820;
+            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: newsPosition,
+                behavior: "smooth"
+            });
+        }
+
+        window.onscroll = function() {
+            var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                scrollToTopBtn.classList.add("show");
+            } else {
+                scrollToTopBtn.classList.remove("show");
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
 
     // Dein Counter-Code
     let count = 0;
@@ -60,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateCounter() {
         if (count < 4237) {
-            count += 10;  // Zähle um 10 pro Schritt statt um 1
+            count += 10;  // Zähle um 5 pro Schritt statt um 1
             counterElement.innerText = count > 4237 ? 4237 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
             setTimeout(updateCounter, 5);
         }
@@ -77,3 +73,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     observer.observe(counterElement);
 });
+
