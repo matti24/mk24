@@ -714,11 +714,14 @@
         @media (max-width: 1920px) {
 
              .TennisContainer img {
-                height: 290px; /* Bildhöhe für mobile Geräte */
-                margin-left: auto;
-                margin-right: auto;
+                height: 300px; /* Bildhöhe für mobile Geräte */
+                border-radius: 4px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+                transition: transform 0.3s ease;
+                align-items: left;
+                margin-left: 140px;      
                 display: block; /* Zentriert die Bilder */
-                margin-top: 20px; /* Abstand nach oben */
+                margin-top: 40px;
                 width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
                
             }
@@ -732,52 +735,39 @@
                }
 
             .AboutTitle img {
-                height: 140px; /* Bildhöhe für mobile Geräte */
-                margin-left: auto;
-                margin-right: auto;
-                display: block; /* Zentriert die Bilder */
-                margin-top: 20px; /* Abstand nach oben */
-                width: 300px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                height: 200px; /* Bildhöhe für mobile Geräte */
+                transition: transform 0.3s ease;
+                display: block;
+                margin: 0 auto 20px auto;
               
             }
 
             .FeaturesTitle img {
-                height: 150px; /* Bildhöhe für mobile Geräte */
-                margin-left: auto;
-                margin-right: auto;
-                display: block; /* Zentriert die Bilder */
-                margin-top: 20px; /* Abstand nach oben */
-                width: 380px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                height: 220px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
                     
 
             } 
 
             .NewsTitle img {
-                height: 150px; /* Bildhöhe für mobile Geräte */
-                margin-left: auto;
-                margin-right: auto;
-                display: block; /* Zentriert die Bilder */
-                margin-top: 20px; /* Abstand nach oben */
-                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+               height: 220px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+              
                    
                 
             }
 
             .SkiContainer img {
                 height: 500px; /* Bildhöhe für mobile Geräte */
-                margin-left: auto;
-                margin-right: auto;
-                display: block; /* Zentriert die Bilder */
-                margin-top: 20px; /* Abstand nach oben */
-                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
-                 
+                margin: -380px 160px 0px 795px;
+                display: block;
+                
 
-           .Anrede {
-            text-align: left;
-            margin: 20px 0;
-            color:#859eff;
-            text-decoration: underline;
-        }
+           
 
         h1 {
             font-size: 1em;
