@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+
     function scrollToNews() {
         var newsSection = document.getElementById("news");
         var offset = -140;
