@@ -713,6 +713,16 @@
 
         @media (max-width: 1920px) {
 
+             .TennisContainer img {
+                height: 290px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+               
+            }
+
                .nav-item h1 {
                    font-size: 2em;
                    color: #002ddf; 
@@ -752,6 +762,15 @@
                    
                 
             }
+
+            .SkiContainer img {
+                height: 500px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                 
 
            .Anrede {
             text-align: left;
