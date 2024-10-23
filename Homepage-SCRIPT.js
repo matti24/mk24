@@ -67,9 +67,9 @@
 
     if (counterElement) {
         function updateCounter() {
-            if (count < 4237) {
+            if (count < 2447) {
                 count += 7;  // Zähle um 10 pro Schritt statt um 1
-                counterElement.innerText = count > 4237 ? 4237 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
+                counterElement.innerText = count > 2447 ? 2447 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
                 setTimeout(updateCounter, 5);
             }
         }
