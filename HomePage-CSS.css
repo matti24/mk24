@@ -752,7 +752,7 @@
             } 
 
             .NewsTitle img {
-               height: 220px;
+               height: 180px;
             transition: transform 0.3s ease;
             display: block;
             margin: 0 auto 20px auto;
@@ -789,13 +789,10 @@
         }
 
         .container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            height: 320px;
+           width: auto; /* Container-Breite passt sich dem Bildschirm an */
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: auto ;
         }
 
         .CodeContainer img {
@@ -899,27 +896,9 @@
             background-color: #859eff;
         }
 
-        .NewsTitle img {
-            height: 220px;
-            transition: transform 0.3s ease;
-            display: block;
-            margin: 0 auto 20px auto;
-              
-        }
+        
 
-        .FeaturesTitle img {
-            height: 220px;
-            transition: transform 0.3s ease;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
-
-        .AboutTitle img {
-            height: 220px;
-            transition: transform 0.3s ease;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
+        
 
         .nav-section {
             display: flex;
@@ -927,7 +906,7 @@
             gap: 50px; 
             margin-bottom: 20px;
             font-family: "Luckiest Guy";
-            font-size: 13px;
+            font-size: 7px;
             font-style: normal;
             font-weight: 600;
             font-stretch: expanded;
@@ -957,19 +936,7 @@
             margin-bottom: 20px;
         }
 
-        .TennisContainer img {
-            height: 370px;
-            border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-            align-items: left;
-            margin-left: 140px;
-            margin-top: 40px;
-        }
-
-        .TennisContainer img:hover {
-            transform: scale(1.15);
-        }
+        
 
         #scrollToTopBtn {
             position: fixed;
@@ -1005,23 +972,7 @@
         }
 
             /* Schließbutton Styling */
-        .close-btn {
-            display: none;
-            font-size: 30px;
-            color: white;
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1001; /* Über dem Menü */
-        }
-
-            /* Wenn das Menü geöffnet ist, den Schließbutton anzeigen */
-        nav.open + .close-btn {
-            display: block;
-        }
+       
 
         .features {
             display: flex;
