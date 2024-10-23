@@ -1,36 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
-   function scrollToNews() {
-            var newsSection = document.getElementById("news");
-            var offset = -140;
-            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+    function scrollToNews() {
+        var newsSection = document.getElementById("news");
+        var offset = -140;
+        var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-            window.scrollTo({
-                top: newsPosition,
-                behavior: "smooth"
-            });
-        }
+        window.scrollTo({
+            top: newsPosition,
+            behavior: "smooth"
+        });
+    }
 
-        function scrollToFeatures() {
-            var featureSection = document.getElementById("features");
-            var offset = -1200;
-            var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
+    function scrollToFeatures() {
+        var featureSection = document.getElementById("features");
+        var offset = -140;
+        var featurePosition = featureSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-            window.scrollTo({
-                top: featurePosition,
-                behavior: "smooth"
-            });
-        }
+        window.scrollTo({
+            top: featurePosition,
+            behavior: "smooth"
+        });
+    }
 
-        function scrollToAbout() {
-            var newsSection = document.getElementById("about");
-            var offset = -2820;
-            var newsPosition = newsSection.getBoundingClientRect().top + window.pageYOffset - offset;
+    function scrollToAbout() {
+        var aboutSection = document.getElementById("about");
+        var offset = -140;
+        var aboutPosition = aboutSection.getBoundingClientRect().top + window.pageYOffset - offset;
 
-            window.scrollTo({
-                top: newsPosition,
-                behavior: "smooth"
-            });
-        }
+        window.scrollTo({
+            top: aboutPosition,
+            behavior: "smooth"
+        });
+    }
+
+    // Event Listener hinzufügen
+    document.getElementById("news").addEventListener('click', scrollToNews);
+    document.getElementById("features").addEventListener('click', scrollToFeatures);
+    document.getElementById("about").addEventListener('click', scrollToAbout);
+});
+
 
         window.onscroll = function() {
             var scrollToTopBtn = document.getElementById("scrollToTopBtn");
