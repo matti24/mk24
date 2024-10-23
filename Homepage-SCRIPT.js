@@ -32,13 +32,6 @@
         });
     }
 
-    // Event Listener hinzufügen
-    document.getElementById("news").addEventListener('click', scrollToNews);
-    document.getElementById("features").addEventListener('click', scrollToFeatures);
-    document.getElementById("about").addEventListener('click', scrollToAbout);
-
-
-
         window.onscroll = function() {
             var scrollToTopBtn = document.getElementById("scrollToTopBtn");
             if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
