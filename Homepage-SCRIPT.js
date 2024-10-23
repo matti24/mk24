@@ -62,11 +62,6 @@
             closeBtn.classList.toggle('open');
         });
 
-        closeBtn.addEventListener('click', () => {
-            menu.classList.remove('open');
-            closeBtn.classList.remove('open');
-        });
-
 
 
     // Dein Counter-Code
