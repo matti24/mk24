@@ -70,7 +70,3 @@
             }
         });
     });
-
-    observer.observe(counterElement);
-
-
