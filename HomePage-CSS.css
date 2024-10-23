@@ -1,183 +1,751 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+       * {
+          box-sizing: border-box;
+          margin: 0%;
+          padding: 0%;
+        }
 
-body {
-  font-family: 'Trebuchet MS', Arial, sans-serif, "Luckiest Guy";
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  background-color: #e8e8e8;
-  color: #333;
-  font-size: 1rem;
-}
 
-.counter, .counttxt {
-  font-size: 48px;
-  color: #333;
-  text-align: center;
-  font-family: "Luckiest Guy", cursive;
-  font-weight: 400;
-}
+        body {
+            font-family: 'Trebuchet MS', Arial, sans-serif,  "Luckiest Guy";
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #e8e8e8 ;
+            color: #333;
+            font-size: 1rem; /* Passt sich an den Grundwert der Schriftgröße an */
+        }
 
-.counter {
-  margin-left: auto;
-  margin-right: auto;
-}
+       .counter {
+           font-size: 48px;
+           color: #333;
+           text-align: center;
+           font-family: "Luckiest Guy", cursive;
+           font-weight: 400;
+           margin-left: 500px ;
+           
+       }
 
-.counttxt {
-  margin-top: -350px;
-  margin-left: auto;
-  margin-right: auto;
-}
+       .counttxt {
+           font-family: "Luckiest Guy", cursive;
+           font-weight: 400;
+           font-size: 48px;
+           color: #333;
+           text-align: center;
+           margin-top: -350px;
+           margin-left: 500px ;
+       }
 
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #002ddf;
-  padding: 50px 40px;
-  font-family: "Luckiest Guy", cursive;
-  letter-spacing: 0.4px;
-  width: 100%;
-}
 
-nav {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  width: 100%;
-}
 
-nav a {
-  color: #fff;
-  font-size: 1.2em;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 10px 20px;
-  text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
 
-nav a:hover {
-  background-color: #11aaff;
-  color: #001155;
-  border-radius: 8px;
-}
+       @media (max-width: 1920px) {
+             header {
+         display: flex;
+         justify-content: center; /* Zentriert den Inhalt horizontal */
+         align-items: center; /* Zentriert den Inhalt vertikal */
+         background-color: #002ddf;
+         padding: 50px 40px;
+         font-family: "Luckiest Guy";
+         letter-spacing: 0.4px;
+         width: 100%; /* Header nimmt die volle Breite ein */
+         box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
+       }
 
-.logo {
-  width: 130px;
-  height: 100px;
-  margin-left: 10px;
-}
+       nav {
+         display: flex;
+         gap: 20px;
+         justify-content: center; /* Links werden zentriert */
+         width: 100%; /* Navigation nimmt die volle Breite des Containers ein */
+       }
 
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 30px;
-  color: #11aaff;
-  cursor: pointer;
-}
+       nav a {
+         color: #fff;
+         font-size: 1.2em;
+         margin: 0 15px;
+         text-decoration: none;
+         font-weight: bold;
 
-@media (max-width: 768px) {
-  nav {
-    display: none;
-    flex-direction: column;
-    background-color: #002ddf;
-    position: absolute;
-    top: 60%;
-    left: 0;
-    padding: 0;
-    z-index: 1000;
-  }
+         padding: 10px 20px;
+         text-align: center;
+         transition: background-color 0.3s ease, color 0.3s ease;
+       }
 
-  nav.open {
-    display: flex;
-  }
+       nav a:hover {
+         background-color: #11aaff;
+         color: #001155;
+         border-radius: 8px;
+       } 
 
-  nav a {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid white;
-    background-color: #0529b8;
-  }
+       }
 
-  .hamburger {
-    display: block;
-  }
 
-  .nav-section {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    font-family: "Luckiest Guy", cursive;
-    font-size: 13px;
-    font-weight: 600;
-  }
 
-  .logo {
-    width: 100px;
-    margin-right: 90px;
-  }
-}
+        .logo {
+            width: 20px;
+            height: 100px;
+            width: 130px;
+            margin-left: 10px;
+        }
 
-.container {
-  max-width: 800px;
-  margin: 40px auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  height: 320px;
-}
+        .luckiest-guy-regular {
+                font-family: "Luckiest Guy", cursive;
+                font-weight: 400;
+                font-style: normal;
+       }
 
-.CodeContainer img,
-.SkiContainer img,
-.TennisContainer img {
-  height: 370px;
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
-}
+       .noticia-text-regular {
+                font-family: "Noticia Text", serif;
+                font-weight: 400;
+                font-style: normal;
+       }
 
-.CodeContainer img:hover,
-.SkiContainer img:hover,
-.TennisContainer img:hover {
-  transform: scale(1.3);
-}
+       .noticia-text-bold {
+                font-family: "Noticia Text", serif;
+                font-weight: 700;
+                font-style: normal;
+       }
 
-#scrollToTopBtn {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  background-color: #9f9f9f;
-  color: white;
-  padding: 15px;
-  border-radius: 50%;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  opacity: 0;
-  display: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  width: 55px;
-}
+       .noticia-text-regular-italic {
+                font-family: "Noticia Text", serif;
+                font-weight: 700;
+                font-style: italic;
+       }
 
-#scrollToTopBtn.show {
-  display: block;
-  opacity: 0.7;
-  transform: scale(1);
-}
+       .noticia-text-bold-italic {
+                font-family: "Noticia Text", serif;
+                font-weight: 700;
+                font-style: italic;
+       }
 
-#scrollToTopBtn:hover {
-  opacity: 1;
-  transform: scale(1.2);
-}
+       
+        
+      header {
+         display: flex;
+         justify-content: center; /* Zentriert den Inhalt horizontal */
+         align-items: center; /* Zentriert den Inhalt vertikal */
+         background-color: #002ddf;
+         padding: 50px 40px;
+         font-family: "Luckiest Guy";
+         letter-spacing: 0.4px;
+         width: 100%; /* Header nimmt die volle Breite ein */
+         box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
+       }
 
-html {
-  scroll-behavior: smooth;
-}
+       nav {
+         display: flex;
+         gap: 20px;
+         justify-content: center; /* Links werden zentriert */
+         width: 100%; /* Navigation nimmt die volle Breite des Containers ein */
+       }
+
+       nav a {
+         color: #fff;
+         font-size: 1.2em;
+         margin: 0 15px;
+         text-decoration: none;
+         font-weight: bold;
+
+         padding: 10px 20px;
+         text-align: center;
+         transition: background-color 0.3s ease, color 0.3s ease;
+       }
+
+       nav a:hover {
+         background-color: #11aaff;
+         color: #001155;
+         border-radius: 8px;
+       }
+
+
+        .logo {
+            width: 100px;
+            margin-left: 30px;
+        }
+
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: #11aaff;
+            cursor: pointer;
+        }
+
+       a {
+           text-decoration: none;
+       }
+
+        @media (max-width: 768px) {
+        nav{
+            display: none;
+            flex-direction: column;
+            background-color: #002ddf;
+            position: absolute;
+            top: 60%;
+            left: 0;
+            padding: 0;
+            height: 30px ;
+            z-index: 1000; /* Stellt sicher, dass das Dropdown über anderen Inhalten liegt */
+        }
+
+        nav.open {
+            display: flex ;
+        }
+
+        nav a {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid white;
+            background-color: #0529b8 ;
+        }
+
+        .hamburger {
+            display: block;
+            }
+
+        .nav-section {
+            display: flex;
+            justify-content: center;
+            gap: 5px; 
+            margin-bottom: 20px;
+            font-family: "Luckiest Guy";
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 600;
+            font-stretch: expanded;
+            } 
+
+         .logo {
+            width: 100px;
+            margin-right: 90px;
+            }
+        }
+
+
+        @media (max-width:768px) {
+
+              
+            
+    
+            
+
+        }
+
+
+        .Anrede {
+            text-align: left;
+            margin: 20px 0;
+            color:#859eff;
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 1em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+
+        .footer {
+            margin-top: 450px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #000;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 320px;
+        }
+
+        .CodeContainer img {
+            height: 370px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: block;
+            margin-left: 120px;
+            margin-top: 60px;
+
+        }
+
+        .CodeContainer img:hover {
+            transform: scale(1.3);
+        }
+
+        .SkiContainer img {
+            height: 600px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: block;
+            margin: -380px 160px 0px 795px;
+
+        }
+
+        .SkiContainer img:hover {
+            transform: scale(1.15);
+        }
+
+        .AnredeInhalt {
+            color: #859eff;
+        }
+
+        .linenews {
+            display: inline-block;
+            text-align: center;
+            text-decoration: underline;
+            color: #001155;
+            cursor: pointer;
+            margin-right: 30px;
+        }
+
+        .container {
+            background: #dbdbdb;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 100px;
+            margin-left: 150px;
+            margin-top: -340px;
+            width: 515px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+       .containervideo {
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 600px;
+            margin-left: 1280px;
+            margin-top: -600px;
+            width: 560px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+       .webvideo {
+              margin-top: 0px;
+              border-radius: 4px;
+              width:540px; 
+              height:280px;
+              align-items: center;
+              display: block;
+              margin: 0 auto;
+       } 
+
+       .videodate{
+              font-size: 0.875em;
+       }
+              
+        .container:hover {
+            transform: scale(1.3);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .containervideo:hover {
+            transform: scale(1.15);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .SprachenCont {
+            text-align: center;
+            margin-top: -3px;
+            font-size: 9px;
+            background-color: #859eff;
+        }
+
+        .NewsTitle img {
+            height: 220px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+              
+        }
+
+        .FeaturesTitle img {
+            height: 220px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        .AboutTitle img {
+            height: 220px;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        .nav-section {
+            display: flex;
+            justify-content: center;
+            gap: 50px; 
+            margin-bottom: 20px;
+            font-family: "Luckiest Guy";
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 600;
+            font-stretch: expanded;
+        }   
+
+        .nav-item {
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-item h1 {
+            font-size: 2.5em;
+            color: #002ddf; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-item:hover h1 {
+            transform: scale(1.1); 
+            color: #001155;
+        }
+
+        hr {
+            border: 2px solid #192965; 
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .TennisContainer img {
+            height: 370px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            align-items: left;
+            margin-left: 140px;
+            margin-top: 40px;
+        }
+
+        .TennisContainer img:hover {
+            transform: scale(1.15);
+        }
+
+        #scrollToTopBtn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background-color: #9f9f9f;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0;
+            display: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            width: 55px;
+            transform: scale(0.9); /* Startgröße etwas kleiner */
+        }
+
+        #scrollToTopBtn.show {
+            display: block;
+            opacity: 0.7;
+            transform: scale(1);
+        }
+
+        #scrollToTopBtn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .pfeil {
+            height: 25px;
+        }
+
+            /* Schließbutton Styling */
+        .close-btn {
+            display: none;
+            font-size: 30px;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1001; /* Über dem Menü */
+        }
+
+            /* Wenn das Menü geöffnet ist, den Schließbutton anzeigen */
+        nav.open + .close-btn {
+            display: block;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .feature-item {
+            transform: translateX(var(--offset));
+            --offset: 100px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:nth-child(2) {
+            --offset: 1000px; /* Verschiebt das 2. Bild nach rechts */
+            margin-top: 40px;
+        }
+
+        
+
+        .features img {
+            max-width: 100%;
+            height: 450px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+       .nl1 {
+           font-family: "Bangers", system-ui;
+           color:#c61414;
+           font-size: 3em;
+       }
+
+       .nl2 {
+           font-family: "Bangers", system-ui;
+           color:#3746cc;
+           font-size: 3em;
+       }
+
+       .nlpin {
+              text-decoration: none;
+              font-size:3em;
+       }
+
+       .nlinfo {
+                font-family: "Protest Strike", serif;
+       }
+
+        .bangers-regular {
+                font-family: "Bangers", system-ui;
+                font-weight: 400;
+                font-style: normal;
+       }
+
+        @media (max-width: 768px) {
+            .TennisContainer img {
+                height: 290px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+               
+            }
+
+               .nav-item h1 {
+                   font-size: 2em;
+                   color: #002ddf; 
+                   text-transform: uppercase;
+                   letter-spacing: 2px;
+                  
+               }
+
+            .AboutTitle img {
+                height: 140px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 300px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+              
+            }
+
+            .FeaturesTitle img {
+                height: 150px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 380px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    
+
+            } 
+
+            .NewsTitle img {
+                height: 150px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                   
+                
+            }
+
+            .SkiContainer img {
+                height: 500px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    
+                
+            } 
+
+              .containervideo {
+                   background: #fff;
+                   border-radius: 4px;
+                   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+                   text-align: center;
+                   height: 600px;
+                   margin-left: auto;
+                   margin-top: 20px;
+                   width: 400px;
+                   display: none;
+               }
+
+              .webvideo {
+                     margin-top: 0px;
+                     border-radius: 4px;
+                     max-width: 350px;
+                     max-height: 181px;
+                     display: none;
+              }              
+
+            .feature-item img {
+                transition: transform 0.3s ease;
+                align-items: center;
+                height: 500px; /* Bildhöhe für mobile Geräte */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                   
+
+            }
+
+            .feature-item:nth-child(2) {
+                --offset: 000px; /* Verschiebt das 2. Bild nach rechts */
+                margin-top: 40px;
+            }
+
+
+        
+            .container {
+                width: auto; /* Container-Breite passt sich dem Bildschirm an */
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: auto ;
+                   
+            }
+        
+
+            .CodeContainer img {
+                height: 290px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                   
+            }
+
+            .feature-item img {
+                height: 290px; /* Bildhöhe für mobile Geräte */
+                margin-left: auto;
+                margin-right: auto;
+                display: block; /* Zentriert die Bilder */
+                margin-top: 20px; /* Abstand nach oben */
+                width: 400px; /* Passt die Breite an, damit sie innerhalb des Containers bleibt */
+                    
+
+            }
+
+            .SprachenCont {
+                text-align: center;
+                    
+            }
+
+            h1 {
+                text-align: right;
+                font-size: 30px;
+               
+            }
+            .feature-item {
+                transform: translateX(var(--offset));
+                --offset: 0px;
+                transition: transform 0.3s ease;
+            }
+            
+        
+            #scrollToTopBtn {
+                position: fixed;
+                bottom: 80px;
+                right: 80px;
+                background-color: #9f9f9f;
+                color: white;
+                padding: 15px;
+                border-radius: 50%;
+                border: none;
+                font-size: 18px;
+                cursor: pointer;
+                opacity: 0;
+                display: none;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                width: 55px;
+                transform: scale(0.9); /* Startgröße etwas kleiner */
+            }
+    
+            #scrollToTopBtn.show {
+                display: block;
+                opacity: 0.7;
+                transform: scale(1);
+            }
+    
+            #scrollToTopBtn:hover {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+           .counter {
+                  font-size: 28px;
+                  color: #333;
+                  text-align: center;
+                  font-family: "Luckiest Guy", cursive;
+                  font-weight: 250;
+                  margin-left: auto;
+           
+              }
+
+          .counttxt {
+                  font-family: "Luckiest Guy", cursive;
+                  font-weight: 250;
+                  font-size: 28px;
+                  color: #333;
+                  text-align: center;
+                  margin-top: 100px;
+                  margin-left: auto;
+              }
+        }
+
+
+        @media (min-width: 768px) {
+                nav {
+                width: 100% ;
+                }
+        }
