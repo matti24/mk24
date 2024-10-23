@@ -36,7 +36,7 @@
     document.getElementById("news").addEventListener('click', scrollToNews);
     document.getElementById("features").addEventListener('click', scrollToFeatures);
     document.getElementById("about").addEventListener('click', scrollToAbout);
-);
+
 
 
         window.onscroll = function() {
