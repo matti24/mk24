@@ -48,6 +48,26 @@
             });
         }
 
+     function toggleMenu() {
+            var navbar = document.getElementById('navbar');
+            navbar.classList.toggle('open');
+        }
+
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const menu = document.getElementById('menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+            menu.classList.toggle('open');
+            closeBtn.classList.toggle('open');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            menu.classList.remove('open');
+            closeBtn.classList.remove('open');
+        });
+
+
 
     // Dein Counter-Code
     let count = 0;
