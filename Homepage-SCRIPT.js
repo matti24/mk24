@@ -35,11 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event Listener für die Scroll-Buttons
-    document.getElementById("scrollToNewsButton").addEventListener('click', scrollToNews);
-    document.getElementById("scrollToFeaturesButton").addEventListener('click', scrollToFeatures);
-    document.getElementById("scrollToAboutButton").addEventListener('click', scrollToAbout);
-
     // Scroll to top button anzeigen
     window.onscroll = function() {
         var scrollToTopBtn = document.getElementById("scrollToTopBtn");
