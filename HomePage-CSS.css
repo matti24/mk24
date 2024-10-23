@@ -689,6 +689,23 @@
                 opacity: 1;
                 transform: scale(1.2);
             }
+
+           .counter {
+                  font-size: 28px;
+                  color: #333;
+                  text-align: center;
+                  font-family: "Luckiest Guy", cursive;
+                  font-weight: 250;
+           
+              }
+
+          .counttxt {
+                  font-family: "Luckiest Guy", cursive;
+                  font-weight: 250;
+                  font-size: 28px;
+                  color: #333;
+                  text-align: center;
+              }
         }
 
         @media (min-width: 768px) {
