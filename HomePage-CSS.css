@@ -42,10 +42,10 @@
             text-align: center;
             height: 290px;
             margin-left: 700px;
-            margin-top: -350px;
             margin-right:-100px;
             width: 700px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
         }
 
        .countcontainer:hover {
