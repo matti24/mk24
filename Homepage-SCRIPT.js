@@ -56,7 +56,10 @@
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const menu = document.getElementById('menu');
 
-     
+
+     document.getElementById("easterEggImage").addEventListener("click", function() {
+        alert("Du hast das Easter Egg gefunden! 🥚🎉");
+    }); 
 
 
 
@@ -90,7 +93,5 @@
     }
 });
 
-    document.getElementById("easterEggImage").addEventListener("click", function() {
-        alert("Du hast das Easter Egg gefunden! 🥚🎉");
-    });
+   
 
