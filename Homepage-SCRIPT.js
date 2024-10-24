@@ -55,7 +55,9 @@
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const menu = document.getElementById('menu');
 
-
+   function showEasterEgg() {
+        alert("Du hast das Easter Egg gefunden! 🥚🎉");
+    }
 
 
    document.addEventListener('DOMContentLoaded', function() {
