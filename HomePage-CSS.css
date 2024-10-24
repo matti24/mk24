@@ -48,7 +48,7 @@
         }
 
        .countcontainer:hover {
-            transform: scale(1.3);
+            transform: scale(1.15);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         }
 
