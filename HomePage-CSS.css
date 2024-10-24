@@ -44,7 +44,7 @@
             width: 700px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: block;
-            align-items:center;
+            margin-left:1050px;
         }
 
        .countcontainer:hover {
