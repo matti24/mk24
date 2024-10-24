@@ -56,7 +56,7 @@
             const menu = document.getElementById('menu');
 
    function showEasterEgg() {
-        alert("Du hast das Easter Egg gefunden! 🥚🎉");
+        alert("Du hast ein Easter Egg gefunden 🥚🎉");
     }
 
 
