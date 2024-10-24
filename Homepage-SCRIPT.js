@@ -90,3 +90,7 @@
     }
 });
 
+    document.getElementById("easterEggImage").addEventListener("click", function() {
+        alert("Du hast das Easter Egg gefunden! 🥚🎉");
+    });
+
