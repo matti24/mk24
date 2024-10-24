@@ -635,6 +635,13 @@
                 margin-top: auto ;
                    
             }
+
+            .countcontainer {
+              width: auto;
+              margin-left:auto;
+              margin-right: auto;
+              margin-top: auto ;
+          }
         
 
             .CodeContainer img {
