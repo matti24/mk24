@@ -55,28 +55,30 @@
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const menu = document.getElementById('menu');
 
-   function startConfetti() {
-    const confettiContainer = document.getElementById("confettiContainer");
-    for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
-        confetti.style.left = `${Math.random() * 100}vw`;
-        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        confetti.style.animationDelay = `${Math.random() * 2}s`;
-        confettiContainer.appendChild(confetti);
+      function startConfetti() {
+       const confettiContainer = document.getElementById("confettiContainer");
+       for (let i = 0; i < 50; i++) {
+           const confetti = document.createElement("div");
+           confetti.classList.add("confetti");
+           confetti.style.left = `${Math.random() * 100}vw`;
+           confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+           confetti.style.animationDelay = `${Math.random() * 2}s`;
+           confettiContainer.appendChild(confetti);
 
-        setTimeout(() => confetti.remove(), 3000);
-    }
-}
+           setTimeout(() => confetti.remove(), 3000);
+          }
+      }
+
+         function startPixelCharacterAnimation() {
+          const character = document.getElementById("pixelCharacter");
+          character.style.display = "block"; // Figur wird sichtbar
+          character.classList.add("walk");   // Startet die Animation
+      }
+
+      // Easter Egg durch Klick auf ein Bild
+      document.getElementById("easterEggImage").onclick = startPixelCharacterAnimation;
 
 
-   function startPixelCharacterAnimation() {
-    const character = document.getElementById("pixelCharacter");
-    character.style.display = "block"; // Zeigt die Figur an
-    character.classList.add("walk");   // Startet die Animation
-}
-
-document.getElementById("easterEggImage").onclick = startPixelCharacterAnimation;
 
 
 
