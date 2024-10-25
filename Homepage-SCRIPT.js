@@ -70,6 +70,15 @@
 }
 
 
+   function startPixelCharacterAnimation() {
+    const character = document.getElementById("pixelCharacter");
+    character.style.display = "block"; // Zeigt die Figur an
+    character.classList.add("walk");   // Startet die Animation
+}
+
+document.getElementById("easterEggImage").onclick = startPixelCharacterAnimation;
+
+
 
    document.addEventListener('DOMContentLoaded', function() {
     let count = 0;
