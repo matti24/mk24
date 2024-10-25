@@ -85,7 +85,7 @@
         position: fixed;
         bottom: 10px;       /* Position am unteren Bildschirmrand */
         left: -100px;       /* Startposition außerhalb des Bildschirms */
-        width: 200px;        /* Größe der Figur */
+        width: 250px;        /* Größe der Figur */
         z-index: 1000;      /* Damit die Figur über anderen Inhalten liegt */
         animation: walkAcross 5s linear forwards;  /* Animationseigenschaften */
     }
