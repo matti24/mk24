@@ -69,14 +69,21 @@
           }
       }
 
-         function startPixelCharacterAnimation() {
-          const character = document.getElementById("pixelCharacter");
-          character.style.display = "block"; // Figur wird sichtbar
-          character.classList.add("walk");   // Startet die Animation
-      }
+        document.addEventListener("DOMContentLoaded", function() {
+    // Funktion, die die Animation der Pixel-Figur startet
+    function startPixelCharacterAnimation() {
+        const character = document.getElementById("pixelCharacter");
+        character.style.display = "block"; // Figur wird sichtbar
+        character.classList.add("walk");   // Startet die Animation
+    }
 
-      // Easter Egg durch Klick auf ein Bild
-      document.getElementById("easterEggImage").onclick = startPixelCharacterAnimation;
+    // Klick-Event für das Easter Egg-Bild, das die Animation startet
+    const easterEggImage = document.getElementById("easterEggImage");
+    if (easterEggImage) {
+        easterEggImage.onclick = startPixelCharacterAnimation;
+    }
+});
+
 
 
 
