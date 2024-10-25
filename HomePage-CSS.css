@@ -92,7 +92,7 @@
 
       @keyframes walkAcross {
         from { left: -100px; }
-        to { left: 100vw; }
+        to { left: 105vw; }
       }
 
 
