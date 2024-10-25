@@ -60,10 +60,18 @@
     }
 
 
+   function showDancingEmoji() {
+    const emoji = document.getElementById("dancingEmoji");
+    emoji.style.display = "block";
+    setTimeout(() => emoji.style.display = "none", 3000); // Das Emoji verschwindet nach 3 Sekunden
+}
+
+
    document.addEventListener('DOMContentLoaded', function() {
     let count = 0;
     let counterElement = document.getElementById("count");
     let hasStarted = false;
+
 
     if (counterElement) {
         function updateCounter() {
