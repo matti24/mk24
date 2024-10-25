@@ -81,6 +81,22 @@
 }
 
 
+      #pixelCharacter {
+    position: fixed;
+    bottom: 10px;       /* Position am unteren Bildschirmrand */
+    left: -100px;       /* Startposition außerhalb des Bildschirms */
+    width: 50px;        /* Größe der Figur */
+    z-index: 1000;      /* Damit die Figur über anderen Inhalten liegt */
+    animation: walkAcross 5s linear forwards;  /* Animationseigenschaften */
+}
+
+@keyframes walkAcross {
+    from { left: -100px; }
+    to { left: 100vw; }
+}
+
+
+
 
         .logo {
             width: 20px;
