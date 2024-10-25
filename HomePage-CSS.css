@@ -56,6 +56,19 @@
             cursor: pointer;
         }
 
+        #dancingEmoji {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 50px;
+          animation: dance 1s infinite;
+      }
+
+      @keyframes dance {
+          0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+          50% { transform: translate(-50%, -50%) rotate(20deg); }
+      }
 
 
         .logo {
