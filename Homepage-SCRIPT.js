@@ -70,52 +70,19 @@
       }
 
        document.addEventListener("DOMContentLoaded", function() {
-    // Funktion, die die Animation der Pixel-Figur startet
-    function startPixelCharacterAnimation() {
+       // Funktion, die die Animation der Pixel-Figur startet
+       function startPixelCharacterAnimation() {
         const character = document.getElementById("pixelCharacter");
         character.style.display = "block"; // Figur wird sichtbar
         character.classList.add("walk");   // Startet die Animation
-        moveCharacter(); // Startet die Bewegung
-    }
+       }
 
-    function moveCharacter(moveCount = 5) {
-        const character = document.getElementById("pixelCharacter");
-        let position = 0; // Startposition
-        const moveDistance = 100; // Distanz, die die Figur bewegt
-
-        function animate() {
-            if (position < moveCount * moveDistance) {
-                position += moveDistance; // Position um die Distanz erhöhen
-                character.style.transform = `translateX(${position}px)`; // Figur bewegen
-                requestAnimationFrame(animate); // Nächsten Frame anfordern
-            } else {
-                // Figur zurücksetzen und wiederholen
-                position = 0; // Zurücksetzen der Position
-                character.style.transform = `translateX(${position}px)`; // Figur zurücksetzen
-
-                // Hier können wir die Animation erneut starten, wenn gewünscht
-                if (moveCount > 1) {
-                    moveCharacter(moveCount - 1); // Rekursiv die Animation wiederholen
-                } else {
-                    character.classList.remove("walk"); // Animation stoppen
-                }
-            }
-        }
-
-        animate(); // Animation starten
-    }
-
-    // Klick-Event für das Easter Egg-Bild, das die Animation startet
-    const easterEggImage = document.getElementById("easterEggImage");
-    if (easterEggImage) {
-        easterEggImage.onclick = startPixelCharacterAnimation;
-    }
-});
-
-
-
-
-
+          // Klick-Event für das Easter Egg-Bild, das die Animation startet
+       const easterEggImage = document.getElementById("easterEggImage");
+       if (easterEggImage) {
+           easterEggImage.onclick = startPixelCharacterAnimation;
+       }
+      });
 
 
    document.addEventListener('DOMContentLoaded', function() {
