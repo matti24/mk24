@@ -55,16 +55,20 @@
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const menu = document.getElementById('menu');
 
-   function showEasterEgg() {
-        alert("Du hast ein Easter Egg gefunden! 🥚🎉");
+   function startConfetti() {
+    const confettiContainer = document.getElementById("confettiContainer");
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confetti.style.animationDelay = `${Math.random() * 2}s`;
+        confettiContainer.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
     }
-
-
-   function showDancingEmoji() {
-    const emoji = document.getElementById("dancingEmoji");
-    emoji.style.display = "block";
-    setTimeout(() => emoji.style.display = "none", 3000); // Das Emoji verschwindet nach 3 Sekunden
 }
+
 
 
    document.addEventListener('DOMContentLoaded', function() {
