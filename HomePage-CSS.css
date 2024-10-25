@@ -84,14 +84,14 @@
       #pixelCharacter {
         position: fixed;
         bottom: 10px;       /* Position am unteren Bildschirmrand */
-        left: -100px;       /* Startposition außerhalb des Bildschirms */
+        left: -120px;       /* Startposition außerhalb des Bildschirms */
         width: 250px;        /* Größe der Figur */
         z-index: 1000;      /* Damit die Figur über anderen Inhalten liegt */
         animation: walkAcross 5s linear forwards;  /* Animationseigenschaften */
     }
 
       @keyframes walkAcross {
-        from { left: -100px; }
+        from { left: -120px; }
         to { left: 105vw; }
       }
 
