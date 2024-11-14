@@ -24,6 +24,7 @@ header {
     /* Hintergrund-Verlauf */
     background: linear-gradient(to bottom, rgba(0, 45, 223, 1) 0%,   /* 100% Deckkraft am oberen Rand */
         rgba(0, 45, 223, 1) 30%,  /* Bleibt bis 30% des Headers deckend */
+        rgba(0, 45, 223, 1) 40%,
         rgba(0, 45, 223, 0.8) 50%, /* Fängt bei 50% an, durchsichtig zu werden */
         rgba(0, 45, 223, 0.5) 80%, /* Bei 80% fast transparent */
         transparent 100% /* Völlig transparent am unteren Rand */
