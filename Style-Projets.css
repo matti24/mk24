@@ -270,7 +270,7 @@ header {
 .logo {
             width: 100px;
             filter: brightness(0.9); /* Passt die Helligkeit des Logos an */
-            margin: 0 0 100px 30px;
+            margin: 0 0 150px 30px;
        }
 
 /* Hover-Effekt für den Zurück-Button */
