@@ -273,7 +273,6 @@ header {
 
 .logo {
             width: 100px;
-            filter: brightness(0.9); /* Passt die Helligkeit des Logos an */
             margin: 0 0 170px 30px;
        }
 
