@@ -30,7 +30,7 @@ header {
         transparent 100% /* Völlig transparent am unteren Rand */
     );
     /* Höhe des Headers */
-    height: 500px; /* Passt die Höhe des Headers an */
+    height: 400px; /* Passt die Höhe des Headers an */
     
     position: relative; /* Um sicherzustellen, dass der Header an seiner Stelle bleibt */
     z-index: 1;
