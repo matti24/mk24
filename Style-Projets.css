@@ -8,9 +8,9 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    
 }
 
+/* Header Styling */
 header {
     display: flex;
     justify-content: center; /* Zentriert den Inhalt horizontal */
@@ -20,59 +20,93 @@ header {
     letter-spacing: 0.4px;
     width: 100%; /* Header nimmt die volle Breite ein */
     box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
-    
-    /* Hintergrund-Verlauf */
-    background: linear-gradient(to bottom, rgba(0, 45, 223, 1) 0%,   /* 100% Deckkraft am oberen Rand */
-        rgba(0, 45, 223, 1) 30%,  /* Bleibt bis 30% des Headers deckend */
-        rgba(0, 45, 223, 1) 40%,
-        rgba(0, 45, 223, 1) 50%, /* Fängt bei 50% an, durchsichtig zu werden */
-        transparent 100% /* Völlig transparent am unteren Rand */
-    );
-    /* Höhe des Headers */
-    height: 400px; /* Passt die Höhe des Headers an */
-    
+    background: linear-gradient(to bottom, rgba(0, 45, 223, 1) 0%, rgba(0, 45, 223, 1) 30%, rgba(0, 45, 223, 1) 40%, rgba(0, 45, 223, 1) 50%, transparent 100%);
+    height: 400px; /* Höhe des Headers */
     position: relative; /* Um sicherzustellen, dass der Header an seiner Stelle bleibt */
     z-index: 1;
 }
 
- nav {
-         display: flex;
-         gap: 20px;
-         justify-content: center; /* Links werden zentriert */
-         width: 100%; /* Navigation nimmt die volle Breite des Containers ein */
-         margin-top: -225px;
-       }
+nav {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    margin-top: -225px;
+}
 
-       nav a {
-         color: #fff;
-         font-size: 1.2em;
-         margin-top: -15px;
-         text-decoration: none;
-         font-weight: bold;
+nav a {
+    color: #fff;
+    font-size: 1.2em;
+    margin-top: -15px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-         padding: 10px 20px;
-         text-align: center;
-         transition: background-color 0.3s ease, color 0.3s ease;
-       }
+nav a:hover {
+    background-color: #11aaff;
+    color: #001155;
+    border-radius: 8px;
+}
 
-       nav a:hover {
-         background-color: #11aaff;
-         color: #001155;
-         border-radius: 8px;
-       }
+/* Hamburger-Menu Button */
+.hamburger {
+    display: block;
+    cursor: pointer;
+    z-index: 1100; /* Sicherstellen, dass der Hamburger Button immer sichtbar bleibt */
+}
 
+/* Mobile Navigation */
+nav {
+    display: none; /* Standardmäßig ausgeblendet */
+    flex-direction: column;
+    background-color: #002ddf;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+    z-index: 1000;
+}
 
-/* Container für den Zeitstrahl */
+nav.open {
+    display: flex;
+}
+
+nav a {
+    padding: 15px;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: #0529b8;
+    border-bottom: 1px solid white;
+}
+
+nav a:hover {
+    background-color: #11aaff;
+    color: #001155;
+}
+
+/* Projekt-Logo */
+.ProjectTitle img {
+    height: 120px;
+    transition: transform 0.3s ease;
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+/* Timeline Styling */
 .timeline {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px 0;
-    transition: smooth ; 
-    border-radius: 5px ;
+    border-radius: 5px;
 }
 
-/* Zeitstrahl (mittlere Linie) */
 .timeline::after {
     content: '';
     position: absolute;
@@ -82,34 +116,14 @@ header {
     bottom: 0;
     left: 50%;
     margin-left: -3px;
-    height: 1200px ;
-    transition: smooth ;
 }
 
-.YTV {
-     width:500px;
-     height:355px;
-}
-
-
-
-
-
-.luckiest-guy-regular {
-  font-family: "Luckiest Guy", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-
-/* Container für jedes Zeitereignis */
 .timeline-box {
     padding: 40px 20px;
     position: relative;
     width: 50%;
 }
 
-/* Position der Boxen abwechselnd links und rechts */
 .timeline-box.left {
     right: 5%;
 }
@@ -118,29 +132,11 @@ header {
     left: 50%;
 }
 
-/* Pfeile in der Box */
-.timeline-box::before {
-    content: " ";
-    position: absolute;
-    top: 15px;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: white;
-    border: 4px solid #ccc;
-    z-index: 1;
-}
-
-/* Linker Pfeil */
-.timeline-box.left::before {
-    left: 100%;
-    margin-left: -16px;
-}
-
-/* Rechter Pfeil */
-.timeline-box.right::before {
-    right: 100%;
-    margin-right: -16px;
+/* Zeit-Text in der Box */
+.timeline-box time {
+    font-weight: bold;
+    color: #777;
+    margin-bottom: 5px;
 }
 
 /* Inhalt der Boxen */
@@ -149,30 +145,48 @@ header {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 6px;
-    position: relative;
-    height: auto;
 }
 
-/* Zeittext in der Box */
-.timeline-box time {
-    font-weight: bold;
-    color: #777;
-    margin-bottom: 5px;
-    display: block;
-}
-
-/* Boxen links und rechts */
-.timeline-box.left .content,
-.timeline-box.right .content {
-    text-align: center;
-}
-
-
-
-
-
-/* Responsive Design für mobile Geräte */
+/* Responsives Design für mobile Geräte */
 @media screen and (max-width: 768px) {
+    header {
+        height: auto;
+        padding: 20px;
+    }
+
+    .logo {
+        width: 100px;
+        margin: 0 auto 20px auto;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: #002ddf;
+        padding: 30px 0;
+        height: 100vh;
+        z-index: 1000;
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav a {
+        padding: 20px;
+        font-size: 1.5em;
+        text-align: center;
+        background-color: #0529b8;
+    }
+
     .timeline-box {
         width: 100%;
         padding-left: 20px;
@@ -186,13 +200,12 @@ header {
 
     .timeline::after {
         left: 5%;
-        display: none ;
+        display: none;
     }
 
     .timeline-box::before {
         left: 5%;
-        display: none ;
-
+        display: none;
     }
 }
 
@@ -208,130 +221,8 @@ header {
     .timeline-box.left::before {
         display: none;
     }
-    
-    /* Rechter Pfeil */
+
     .timeline-box.right::before {
         display: none;
     }
-
-   
 }
-
-/* Anpassungen für Projekt-Logo */
-.ProjectTitle img {
-    height: 120px;
-    transition: transform 0.3s ease;
-    display: block;
-    margin: 0 auto 20px auto;
-}
-
-@media screen and (max-width: 768px) {
-    .header {
-        margin-bottom: -150px; 
-    }
-    
-    .ProjectTitle img {
-        height: 80px;
-    }
-
-    .YTV {
-        height: 50%;
-        width: 100%;
-    }
-
-    body {
-    background-image: url('SC2022100500056 (1).jpg'); /* Füge den Pfad zu deinem Bild ein */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    
-    }
-
-     nav{
-            display: none;
-            flex-direction: column;
-            background-color: #002ddf;
-            position: absolute;
-            top: 60%;
-            left: 0;
-            padding: 0;
-            height: 30px ;
-            z-index: 1000; /* Stellt sicher, dass das Dropdown über anderen Inhalten liegt */
-        }
-
-        nav.open {
-            display: flex ;
-        }
-
-        nav a {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid white;
-            background-color: #0529b8 ;
-        }
-
-        .hamburger {
-            display: block;
-            }
-
-        .nav-section {
-            display: flex;
-            justify-content: center;
-            gap: 5px; 
-            margin-bottom: 20px;
-            font-family: "Luckiest Guy";
-            font-size: 13px;
-            font-style: normal;
-            font-weight: 600;
-            font-stretch: expanded;
-            } 
-
-         .logo {
-            width: 100px;
-            margin-right: 90px;
-            }
-        
-}
-
-/* Zurück-Button Styling */
-.zurück-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.zurück-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    padding: 10px;
-    background-color: #fff;
-    border: 2px solid #001155;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 17, 85, 0.3);
-    transition: transform 0.3s ease;
-    font-size: 12px;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-.zurück-item a {
-    text-decoration: none;
-    color: #001155;
-}
-
-.logo {
-            width: 100px;
-            margin: 0 0 200px 30px;
-       }
-
-/* Hover-Effekt für den Zurück-Button */
-.zurück-item:hover {
-    transform: scale(1.1);
-}
-
