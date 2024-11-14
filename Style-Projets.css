@@ -241,7 +241,7 @@ header {
 
     body {
     background-image: url('SC2022100500056 (1).jpg'); /* Füge den Pfad zu deinem Bild ein */
-    background-attachment: fixed;
+    background-attachment: flex;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
