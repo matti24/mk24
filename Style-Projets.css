@@ -26,7 +26,8 @@ header {
         rgba(0, 45, 223, 1) 30%,  /* Bleibt bis 30% des Headers deckend */
         rgba(0, 45, 223, 0.8) 50%, /* Fängt bei 50% an, durchsichtig zu werden */
         rgba(0, 45, 223, 0.3) 80%, /* Bei 80% fast transparent */
-        transparent 100%           /* Völlig transparent am unteren Rand */
+        transparent 100% /* Völlig transparent am unteren Rand */
+    );
     /* Höhe des Headers */
     height: 500px; /* Passt die Höhe des Headers an */
     
