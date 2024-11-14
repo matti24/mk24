@@ -21,7 +21,7 @@ header {
          letter-spacing: 0.4px;
          width: 100%; /* Header nimmt die volle Breite ein */
          box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
-         background: linear-gradient(to bottom, #0000FF, rgba(0, 0, 255, 0.3));
+         background: linear-gradient(to bottom, #0000FF, rgba(0, 0, 255, 0.1));
        }
 
 
