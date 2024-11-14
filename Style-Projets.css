@@ -12,18 +12,25 @@ body {
 }
 
 header {
-         display: flex;
-         justify-content: center; /* Zentriert den Inhalt horizontal */
-         align-items: center; /* Zentriert den Inhalt vertikal */
-         background-color: #002ddf;
-         padding: 50px 40px;
-         font-family: "Luckiest Guy";
-         letter-spacing: 0.4px;
-         width: 100%; /* Header nimmt die volle Breite ein */
-         box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
-        background: linear-gradient(to bottom, #0000FF, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0.3), transparent);
-        height: 400px; /* Passt die Höhe des Headers an */
-       }
+    display: flex;
+    justify-content: center; /* Zentriert den Inhalt horizontal */
+    align-items: center; /* Zentriert den Inhalt vertikal */
+    padding: 50px 40px;
+    font-family: "Luckiest Guy";
+    letter-spacing: 0.4px;
+    width: 100%; /* Header nimmt die volle Breite ein */
+    box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
+    
+    /* Hintergrund-Verlauf */
+    background: linear-gradient(to bottom, #002ddf, rgba(0, 45, 223, 0.8), rgba(0, 45, 223, 0.3), transparent);
+    
+    /* Höhe des Headers */
+    height: 200px; /* Passt die Höhe des Headers an */
+    
+    position: relative; /* Um sicherzustellen, dass der Header an seiner Stelle bleibt */
+    z-index: 1;
+}
+
 
 
 /* Container für den Zeitstrahl */
