@@ -267,7 +267,7 @@ header {
     color: #001155;
 }
 
-.logo {
+.logo img {
             width: 100px;
             margin-left: 30px;
             filter: brightness(0.9); /* Passt die Helligkeit des Logos an */
