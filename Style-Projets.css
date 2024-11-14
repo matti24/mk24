@@ -36,7 +36,7 @@ header {
          gap: 20px;
          justify-content: center; /* Links werden zentriert */
          width: 100%; /* Navigation nimmt die volle Breite des Containers ein */
-         margin-top: -15px;
+         margin-top: -150px;
        }
 
        nav a {
