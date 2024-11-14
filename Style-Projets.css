@@ -214,14 +214,7 @@ header {
         display: none;
     }
 
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #002ddf;
-        padding: 30px 20px;
-        width: 375px;
-    }
+   
 }
 
 /* Anpassungen für Projekt-Logo */
@@ -240,6 +233,18 @@ header {
     .YTV {
         height: 50%;
         width: 100%;
+    }
+
+    body {
+    background-image: url('SC2022100500056 (1).jpg'); /* Füge den Pfad zu deinem Bild ein */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    
     }
 }
 
