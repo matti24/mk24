@@ -10,6 +10,18 @@ body {
     font-family: Arial, sans-serif;
 }
 
+header {
+         display: flex;
+         justify-content: center; /* Zentriert den Inhalt horizontal */
+         align-items: center; /* Zentriert den Inhalt vertikal */
+         background-color: #002ddf;
+         padding: 50px 40px;
+         font-family: "Luckiest Guy";
+         letter-spacing: 0.4px;
+         width: 100%; /* Header nimmt die volle Breite ein */
+         box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
+       }
+
 
 /* Container für den Zeitstrahl */
 .timeline {
