@@ -162,22 +162,24 @@
         }
 
         .pdf-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            justify-content: center;
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert die PDF-Items horizontal */
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
 
         .pdf-item {
-            background-color: #ffff;
-            border: 2px solid #001155;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 17, 85, 0.3);
-            transition: transform 0.3s ease;
-            width: 50%;
-            justify-content: center;
-        }
+    background-color: #ffffff;
+    border: 2px solid #001155;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 17, 85, 0.3);
+    transition: transform 0.3s ease;
+    width: 80%; /* Setzt die Breite auf 80% des übergeordneten Containers */
+    max-width: 600px; /* Optional: Begrenze die maximale Breite */
+    text-align: center; /* Zentriert den Text im Container */
+}
 
         .pdf-item iframe {
             width: 50%;
@@ -251,30 +253,37 @@
         <button class="close-btn" id="close-btn">&#10005;</button>
     </header>
 
-              <div class="pdf-item">
-                <p>Lebenslauf</p>
-                <div style="position: relative; width: 100%; height: 0; padding-top: 141.4286%;
-                            padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-                            border-radius: 8px; will-change: transform;">
-                        <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-                            src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGP-L1zxf0&#x2F;RXO948QVOV3W9IfSZWTiqw&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-                        </iframe>
-                </div>
-                    <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGP-L1zxf0&#x2F;RXO948QVOV3W9IfSZWTiqw&#x2F;view?utm_content=DAGP-L1zxf0&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Lebenslauf</a> von Matti Koenis
+           <div class="pdf-container">
+    <!-- Lebenslauf -->
+    <div class="pdf-item">
+        <p>Lebenslauf</p>
+        <div style="position: relative; width: 100%; height: 0; padding-top: 141.4286%;
+                    padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+                    border-radius: 8px; will-change: transform;">
+            <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+                    src="https://www.canva.com/design/DAGP-L1zxf0/RXO948QVOV3W9IfSZWTiqw/view?embed" 
+                    allowfullscreen="allowfullscreen" allow="fullscreen">
+            </iframe>
         </div>
-  
-            <div class="pdf-item">
-                 <p>Motivationsschreiben</p>
-                     <div style="position: relative; width: 100%; height: 0; padding-top: 141.4286%;
-                     padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-                     border-radius: 8px; will-change: transform;">
-              <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-                        src="https://www.canva.com/design/DAGP-8juirw/5Cn3rJ-ks6H2F-xBbF8iGg/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-              </iframe>
+        <a href="https://www.canva.com/design/DAGP-L1zxf0/RXO948QVOV3W9IfSZWTiqw/view?utm_content=DAGP-L1zxf0&utm_campaign=designshare&utm_medium=embeds&utm_source=link" 
+           target="_blank" rel="noopener">Lebenslauf</a>
+    </div>
+
+    <!-- Motivationsschreiben -->
+    <div class="pdf-item">
+        <p>Motivationsschreiben</p>
+        <div style="position: relative; width: 100%; height: 0; padding-top: 141.4286%;
+                    padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+                    border-radius: 8px; will-change: transform;">
+            <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+                    src="https://www.canva.com/design/DAGP-8juirw/5Cn3rJ-ks6H2F-xBbF8iGg/view?embed" 
+                    allowfullscreen="allowfullscreen" allow="fullscreen">
+            </iframe>
         </div>
-                <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGP-8juirw&#x2F;5Cn3rJ-ks6H2F-xBbF8iGg&#x2F;view?utm_content=DAGP-8juirw&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Motivationsschreiben</a> von Matti Koenis
-</div>
-            
+        <a href="https://www.canva.com/design/DAGP-8juirw/5Cn3rJ-ks6H2F-xBbF8iGg/view?utm_content=DAGP-8juirw&utm_campaign=designshare&utm_medium=embeds&utm_source=link" 
+           target="_blank" rel="noopener">Motivationsschreiben</a>
+    </div>
+</div>     
  
            
             
