@@ -10,8 +10,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 400vw;
+    height: 250vh;
     background-color: #002ddf;
     display: flex;
     justify-content: center;
@@ -24,6 +24,7 @@
     width: 150px;
     height: 150px;
     animation: spin 2s linear infinite;
+    color: #002ddf;
 }
 
 /* Dreheffekt */
