@@ -115,3 +115,13 @@
         console.error("Element mit der ID 'count' nicht gefunden.");
     }
 });
+
+window.addEventListener("load", function() {
+    const loader = document.getElementById("loader");
+    loader.style.opacity = "0";
+    loader.style.transition = "opacity 0.5s ease";
+
+    setTimeout(() => {
+        loader.style.display = "none";
+    }, 500); // Ladebildschirm nach 0.5 Sekunden vollständig entfernen
+});
