@@ -93,9 +93,9 @@
 
     if (counterElement) {
         function updateCounter() {
-            if (count < 2683) {
+            if (count < 2693) {
                 count += 7;  // Zähle um 10 pro Schritt statt um 1
-                counterElement.innerText = count > 2683 ? 2683 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
+                counterElement.innerText = count > 2693 ? 2693 : count;  // Sicherstellen, dass er nicht über 4237 hinaus geht
                 setTimeout(updateCounter, 5);
             }
         }
