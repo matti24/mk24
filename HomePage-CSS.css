@@ -24,7 +24,7 @@
     width: 150px;
     height: 150px;
     animation: spin 2s linear infinite;
-    color: #002ddf;
+    background-color: #002ddf;
 }
 
 /* Dreheffekt */
