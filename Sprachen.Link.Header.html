@@ -80,6 +80,68 @@
          border-radius: 8px;
        }
 
+        @media screen and (max-width: 768px) {
+    .header {
+        margin-bottom: -150px; 
+    }
+             body {
+    background-image: url('SC2022100500056 (1).jpg'); /* Füge den Pfad zu deinem Bild ein */
+    background-attachment: flex;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    
+    }
+
+     nav{
+            display: none;
+            flex-direction: column;
+            background-color: #002ddf;
+            position: absolute;
+            top: 200%;
+            left: 0;
+            padding: 0;
+            height: 30px ;
+            z-index: 1000; /* Stellt sicher, dass das Dropdown über anderen Inhalten liegt */
+        }
+
+        nav.open {
+            display: flex ;
+        }
+
+        nav a {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid white;
+            background-color: #0529b8 ;
+        }
+
+        .hamburger {
+            display: block;
+            }
+
+        .nav-section {
+            display: flex;
+            justify-content: center;
+            gap: 5px; 
+            margin-bottom: 20px;
+            font-family: "Luckiest Guy";
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 600;
+            font-stretch: expanded;
+            } 
+
+         .logo {
+            width: 100px;
+            margin-right: 120px;
+            }
+        
+}
+
         .container-Sprachen {
             max-width: 800px;
             margin: 100px auto;
