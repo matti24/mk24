@@ -7,46 +7,60 @@
     <link rel="icon" type="image/x-icon" href="head_logo-transparent-png.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Grunddesign */
-        body {
-            font-family: 'Trebuchet MS', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f7f9fc;
-            color: #333;
-        }
-
-        /* Header */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background: #001155;
-            color: white;
-        }
+    display: flex;
+    justify-content: center; /* Zentriert den Inhalt horizontal */
+    align-items: center; /* Zentriert den Inhalt vertikal */
+    padding: 50px 40px;
+    font-family: "Luckiest Guy";
+    letter-spacing: 0.4px;
+    width: 100%; /* Header nimmt die volle Breite ein */
+    box-sizing: border-box; /* Stellt sicher, dass das Padding nicht die Breite beeinflusst */
+    
+    /* Hintergrund-Verlauf */
+    background: linear-gradient(to bottom, rgba(0, 45, 223, 1) 0%,   /* 100% Deckkraft am oberen Rand */
+        rgba(0, 45, 223, 1) 30%,  /* Bleibt bis 30% des Headers deckend */
+        rgba(0, 45, 223, 1) 40%,
+        rgba(0, 45, 223, 1) 50%, /* Fängt bei 50% an, durchsichtig zu werden */
+        transparent 100% /* Völlig transparent am unteren Rand */
+    );
+    /* Höhe des Headers */
+    height: 400px; /* Passt die Höhe des Headers an */
+    
+    position: relative; /* Um sicherzustellen, dass der Header an seiner Stelle bleibt */
+    z-index: 1;
+}
 
-        header .logo {
-            height: 50px;
-        }
+        nav {
+         display: flex;
+         gap: 20px;
+         justify-content: center; /* Links werden zentriert */
+         width: 100%; /* Navigation nimmt die volle Breite des Containers ein */
+         margin-top: -225px;
+       }
 
-        header nav {
-            display: flex;
-            gap: 20px;
-        }
+       nav a {
+         color: #fff;
+         font-size: 1.2em;
+         margin-top: -15px;
+         text-decoration: none;
+         font-weight: bold;
 
-        header nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
-            transition: background 0.3s ease;
-        }
+         padding: 10px 20px;
+         text-align: center;
+         transition: background-color 0.3s ease, color 0.3s ease;
+       }
 
-        header nav a:hover, header nav a.active {
-            background: #0044cc;
-            border-radius: 5px;
-        }
+       nav a:hover {
+         background-color: #11aaff;
+         color: #001155;
+         border-radius: 8px;
+       }
+
+        .logo {
+            width: 100px;
+            margin: 0 0 200px 30px;
+       }
 
         /* Hauptinhalt */
         .about-section {
@@ -130,19 +144,86 @@
         footer .back-btn:hover {
             text-decoration: underline;
         }
+
+         @media screen and (max-width: 768px) {
+    .header {
+        margin-bottom: -150px; 
+    }
+            body {
+    background-image: url('4.0.jpg'); /* Füge den Pfad zu deinem Bild ein */
+    background-attachment: flex;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    
+    }
+
+     nav{
+            display: none;
+            flex-direction: column;
+            background-color: #002ddf;
+            position: absolute;
+            top: 170%;
+            left: 0;
+            padding: 0;
+            height: 30px ;
+            z-index: 1000; /* Stellt sicher, dass das Dropdown über anderen Inhalten liegt */
+        }
+
+        nav.open {
+            display: flex ;
+        }
+
+        nav a {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid white;
+            background-color: #0529b8 ;
+        }
+
+        .hamburger {
+            display: block;
+            }
+
+        .nav-section {
+            display: flex;
+            justify-content: center;
+            gap: 5px; 
+            margin-bottom: 20px;
+            font-family: "Luckiest Guy";
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 600;
+            font-stretch: expanded;
+            } 
+
+         .logo {
+            width: 100px;
+            margin-right: 120px;
+            }
+        
+}
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html">
+    <  <header>
+       <a href="index.html">
             <img src="Design ohne Titel (1).gif" alt="mk24" class="logo">
         </a>
         <nav id="navbar">
-            <a href="index.html">Home</a>
-            <a href="DasBinIch.Link.Header.html" class="active">Über mich</a>
-            <a href="MeineHobbys.Link.Header.html">Meine Hobbys</a>
-            <a href="Projekte.Link.Header.html">Projekte</a>
+            <a href="index.html">Home  🏠︎  </a>
+            <a href="DasBinIch.Link.Header.html">Über mich🧍‍♂️</a>
+            <a href="MeineHobbys.Link.Header.html">Meine Hobbys 🎾</a>
+            <a href="Projekte.Link.Header.html">Projekte 💼</a>
+            <a href="Bewerbungsunterlagen.alternative.Header.html">Bewerbungsunterlagen 📄</a>
+            <a href="Arbeitsstabdort.alternative.Header.html">Arbeitsstandort 📍</a>
+            <a href="Sprachen.Link.Header.html">Sprachen 🗣️</a>
         </nav>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+        <button class="close-btn" id="close-btn">&#10005;</button>
     </header>
 
     <section class="about-section">
@@ -173,9 +254,16 @@
             </div>
         </div>
     </section>
+<br><br>
+            
+            <div class="zurück-container">
+                <div class="zurück-item">
+                    <a href="index.html">zurück ↩</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <footer>
-        <a href="index.html" class="back-btn">↩ Zurück zur Startseite</a>
-    </footer>
+
 </body>
 </html>
