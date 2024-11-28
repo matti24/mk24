@@ -125,3 +125,22 @@ window.addEventListener("load", function() {
         loader.style.display = "none";
     }, 500); // Ladebildschirm nach 0.5 Sekunden vollständig entfernen
 });
+
+    // script.js
+const toggleButton = document.getElementById('dark-mode-toggle');
+const body = document.body;
+
+// Prüfe, ob ein Darkmode in LocalStorage gespeichert ist
+if (localStorage.getItem('dark-mode') === 'enabled') {
+    body.classList.add('dark-mode');
+}
+
+toggleButton.addEventListener('click', () => {
+    if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('dark-mode', 'disabled');
+    } else {
+        body.classList.add('dark-mode');
+        localStorage.setItem('dark-mode', 'enabled');
+    }
+});
