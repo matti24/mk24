@@ -41,6 +41,9 @@
             background-color: #e8e8e8 ;
             color: #333;
             font-size: 1rem; /* Passt sich an den Grundwert der Schriftgröße an */
+          background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
         }
 
        .counter {
@@ -818,3 +821,26 @@
                 width: 100% ;
                 }
         }
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--text-color);
+    color: var(--background-color);
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.dark-mode {
+    --background-color: #121212;
+    --text-color: #ffffff;
+}
