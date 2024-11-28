@@ -118,6 +118,15 @@ header {
     left: 50%;
 }
 
+.timeline-box.right2 {
+    left: 50%;
+}
+
+.timeline-box.right2::before {
+    right: 100%;
+    margin-right: -16px;
+}
+
 /* Pfeile in der Box */
 .timeline-box::before {
     content: " ";
