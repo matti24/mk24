@@ -26,6 +26,24 @@
     animation: spin 2s linear infinite;
 }
 
+
+#clock-container {
+    text-align: center;
+    margin-top: 50px;
+    font-family: Arial, sans-serif;
+}
+
+#clock {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+#date {
+    font-size: 24px;
+    color: gray;
+}
+
+
 /* Dreheffekt */
 @keyframes spin {
     0% { transform: rotate(0deg); }
