@@ -126,4 +126,24 @@ window.addEventListener("load", function() {
     }, 500); // Ladebildschirm nach 0.5 Sekunden vollständig entfernen
 });
 
- 
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    const day = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+    document.getElementById('date').textContent = `${day}, ${date}. ${month} ${year}`;
+}
+
+// Aktualisiere die Uhr jede Sekunde
+setInterval(updateClock, 1000);
+updateClock();
+
