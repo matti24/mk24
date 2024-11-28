@@ -315,7 +315,7 @@ header {
 .zurück-container {
     display: flex;
     justify-content: center;
-    margin-bottom: -20px;
+    margin-bottom: 20px;
 }
 
 .zurück-item {
