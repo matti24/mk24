@@ -126,21 +126,27 @@ window.addEventListener("load", function() {
     }, 500); // Ladebildschirm nach 0.5 Sekunden vollständig entfernen
 });
 
-    // script.js
-const toggleButton = document.getElementById('dark-mode-toggle');
-const body = document.body;
+   // script.js
+function toggleDarkMode() {
+    const body = document.body;
 
-// Prüfe, ob ein Darkmode in LocalStorage gespeichert ist
-if (localStorage.getItem('dark-mode') === 'enabled') {
-    body.classList.add('dark-mode');
-}
-
-toggleButton.addEventListener('click', () => {
+    // Zustand umschalten
     if (body.classList.contains('dark-mode')) {
         body.classList.remove('dark-mode');
         localStorage.setItem('dark-mode', 'disabled');
+        document.getElementById('dark-mode-toggle').textContent = '🌙 Dark Mode';
     } else {
         body.classList.add('dark-mode');
         localStorage.setItem('dark-mode', 'enabled');
+        document.getElementById('dark-mode-toggle').textContent = '☀️ Light Mode';
     }
-});
+}
+
+// Prüfe den Darkmode-Zustand beim Laden der Seite
+window.onload = function () {
+    if (localStorage.getItem('dark-mode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('dark-mode-toggle').textContent = '☀️ Light Mode';
+    }
+};
+
