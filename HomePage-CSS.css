@@ -36,6 +36,8 @@
 #clock {
     font-size: 48px;
     font-weight: bold;
+    font:noticia-text-regular; 
+    font-family: "Noticia Text", serif;    
 }
 
 
