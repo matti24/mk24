@@ -111,7 +111,7 @@ header {
 
 /* Position der Boxen abwechselnd links und rechts */
 .timeline-box.left {
-    right: 5%;
+    right: 1.4%;
 }
 
 .timeline-box.right {
