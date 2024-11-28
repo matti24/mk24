@@ -143,6 +143,7 @@ header {
 /* Linker Pfeil */
 .timeline-box.left::before {
     left: 100%;
+    margin-right: -16px;
 }
 
 /* Rechter Pfeil */
