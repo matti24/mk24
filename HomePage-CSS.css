@@ -40,7 +40,11 @@
     font-family: "Noticia Text", serif;    
 }
 
-
+.lastup {
+    color: grey;
+    font-size: 15px;
+    text-align: center;
+}
 
 
 /* Dreheffekt */
