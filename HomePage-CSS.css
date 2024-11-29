@@ -33,32 +33,32 @@
 }
 
 #clock-wrapper {
-    background: linear-gradient(135deg, #ff8c00, #ff0066); /* Farbverlauf */
+    background: linear-gradient(135deg, #6a85b6, #bac8e0); /* Sanfter Farbverlauf in Blau-/Grautönen */
     color: #ffffff; /* Helle Schrift */
     padding: 20px 40px;
     border-radius: 20px; /* Abgerundete Ecken */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Tiefer Schatten */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Dezenter Schatten */
     font-family: "Noticia Text", serif;
     display: inline-block;
-    animation: glow 3s infinite; /* Leichter Leuchteffekt */
+    animation: subtle-glow 4s infinite; /* Leichter Leuchteffekt */
 }
 
 #clock {
-    font-size: 60px; /* Größere Schrift */
+    font-size: 60px; /* Große Schrift */
     font-weight: bold;
-    letter-spacing: 2px; /* Leichter Abstand zwischen Buchstaben */
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Schattierung für die Schrift */
+    letter-spacing: 2px; /* Abstand zwischen Buchstaben */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Subtiler Textschatten */
 }
 
-/* Animation für den Glow-Effekt */
-@keyframes glow {
+/* Sanfter Glow-Effekt */
+@keyframes subtle-glow {
     0%, 100% {
-        box-shadow: 0 0 15px rgba(255, 140, 0, 0.8), 
-                    0 0 30px rgba(255, 0, 102, 0.6);
+        box-shadow: 0 0 10px rgba(106, 133, 182, 0.5), 
+                    0 0 20px rgba(186, 200, 224, 0.4);
     }
     50% {
-        box-shadow: 0 0 25px rgba(255, 140, 0, 1), 
-                    0 0 50px rgba(255, 0, 102, 1);
+        box-shadow: 0 0 15px rgba(106, 133, 182, 0.7), 
+                    0 0 30px rgba(186, 200, 224, 0.6);
     }
 }
 
