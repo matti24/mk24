@@ -28,23 +28,38 @@
 
 
 #clock-container {
-    text-align: center; /* Zentriert den Bereich */
-    margin: 50px 0; /* Abstand oben und unten */
+    text-align: center;
+    margin: 50px 0;
 }
 
 #clock-wrapper {
-    background-color: #1a1a1a; /* Dunkler Hintergrund */
-    color: #ffffff; /* Helle Schriftfarbe */
-    padding: 20px 40px; /* Abstand innerhalb des Containers */
-    border-radius: 15px; /* Abgerundete Ecken */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatteneffekt */
-    display: inline-block; /* Passt die Breite an den Inhalt an */
-    font-family: "Noticia Text", serif; /* Stil der Schriftart */
+    background: linear-gradient(135deg, #ff8c00, #ff0066); /* Farbverlauf */
+    color: #ffffff; /* Helle Schrift */
+    padding: 20px 40px;
+    border-radius: 20px; /* Abgerundete Ecken */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Tiefer Schatten */
+    font-family: "Noticia Text", serif;
+    display: inline-block;
+    animation: glow 3s infinite; /* Leichter Leuchteffekt */
 }
 
 #clock {
-    font-size: 48px; /* Große Schrift für die Uhrzeit */
-    font-weight: bold; /* Fettschrift */
+    font-size: 60px; /* Größere Schrift */
+    font-weight: bold;
+    letter-spacing: 2px; /* Leichter Abstand zwischen Buchstaben */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Schattierung für die Schrift */
+}
+
+/* Animation für den Glow-Effekt */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 140, 0, 0.8), 
+                    0 0 30px rgba(255, 0, 102, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 140, 0, 1), 
+                    0 0 50px rgba(255, 0, 102, 1);
+    }
 }
 
 
