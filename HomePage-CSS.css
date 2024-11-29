@@ -28,17 +28,25 @@
 
 
 #clock-container {
-    text-align: center;
-    margin-bottom: 30px;
-    font-family: Arial, sans-serif;
+    text-align: center; /* Zentriert den Bereich */
+    margin: 50px 0; /* Abstand oben und unten */
+}
+
+#clock-wrapper {
+    background-color: #1a1a1a; /* Dunkler Hintergrund */
+    color: #ffffff; /* Helle Schriftfarbe */
+    padding: 20px 40px; /* Abstand innerhalb des Containers */
+    border-radius: 15px; /* Abgerundete Ecken */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatteneffekt */
+    display: inline-block; /* Passt die Breite an den Inhalt an */
+    font-family: "Noticia Text", serif; /* Stil der Schriftart */
 }
 
 #clock {
-    font-size: 48px;
-    font-weight: bold;
-    font:noticia-text-regular; 
-    font-family: "Noticia Text", serif;    
+    font-size: 48px; /* Große Schrift für die Uhrzeit */
+    font-weight: bold; /* Fettschrift */
 }
+
 
 .lastup {
     color: grey;
