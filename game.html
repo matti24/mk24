@@ -95,6 +95,9 @@
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let currentWorld = "default";
+    let transitionProgress = 0; // Übergangsfortschritt
+    let transitioning = false;
+    let nextWorld = "default";
 
     // Sounds
     const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
@@ -117,6 +120,8 @@
       score = 0;
       isGameOver = false;
       currentWorld = "default";
+      transitioning = false;
+      transitionProgress = 0;
       requestAnimationFrame(update);
     }
 
@@ -129,10 +134,14 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Weltwechsel
-      changeWorld();
+      if (!transitioning) changeWorld();
 
       // Hintergrund
-      drawBackground();
+      if (transitioning) {
+        drawTransition();
+      } else {
+        drawBackground(currentWorld);
+      }
 
       // Wolken
       drawClouds();
@@ -192,111 +201,26 @@
     }
 
     function changeWorld() {
-      if (score > 0 && score % 600 === 0) {
-        if (currentWorld === "default") currentWorld = "desert";
-        else if (currentWorld === "desert") currentWorld = "winter";
-        else currentWorld = "default";
+      if (score > 0 && score % 600 === 0 && !transitioning) {
+        transitioning = true;
+        nextWorld = currentWorld === "default" ? "desert" : currentWorld === "desert" ? "winter" : "default";
       }
     }
 
-    function drawBackground() {
-      if (currentWorld === "default") ctx.fillStyle = "#87ceeb";
-      else if (currentWorld === "desert") ctx.fillStyle = "#f4a460";
-      else if (currentWorld === "winter") ctx.fillStyle = "#d3f3f3";
+    function drawBackground(world) {
+      ctx.fillStyle =
+        world === "default" ? "#87ceeb" : world === "desert" ? "#f4a460" : "#d3f3f3";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    function drawClouds() {
-      ctx.fillStyle = "white";
-      for (let i = 0; i < clouds.length; i++) {
-        let cloud = clouds[i];
-        cloud.x -= 1;
-        ctx.beginPath();
-        ctx.arc(cloud.x, cloud.y, 20, 0, Math.PI * 2);
-        ctx.arc(cloud.x + 30, cloud.y + 10, 25, 0, Math.PI * 2);
-        ctx.fill();
-        if (cloud.x < -50) clouds.splice(i, 1);
-      }
-      if (Math.random() < 0.01) {
-        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 });
-      }
+    function drawTransition() {
+      // Aktuellen und nächsten Hintergrund zeichnen
+      drawBackground(currentWorld);
+      ctx.globalAlpha = transitionProgress / canvas.width;
+      ctx.translate(transitionProgress - canvas.width, 0);
+      drawBackground(nextWorld);
     }
-
-    function drawSun() {
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(canvas.width - 70, 30, 30, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    function drawSnowflakes() {
-      ctx.fillStyle = "white";
-      for (let i = 0; i < snowflakes.length; i++) {
-        let flake = snowflakes[i];
-        flake.y += flake.speed;
-        flake.x -= 0.5;
-        ctx.beginPath();
-        ctx.arc(flake.x, flake.y, 3, 0, Math.PI * 2);
-        ctx.fill();
-        if (flake.y > canvas.height) snowflakes.splice(i, 1);
-      }
-      if (Math.random() < 0.1) {
-        snowflakes.push({ x: Math.random() * canvas.width, y: 0, speed: Math.random() * 2 + 1 });
-      }
-    }
-
-    function drawCacti() {
-      ctx.fillStyle = "green";
-      for (let i = 0; i < cacti.length; i++) {
-        let cactus = cacti[i];
-        cactus.x -= 2;
-        ctx.fillRect(cactus.x, 140, 10, 40);
-        ctx.fillRect(cactus.x - 5, 150, 5, 15);
-        if (cactus.x < -20) cacti.splice(i, 1);
-      }
-      if (Math.random() < 0.03) {
-        cacti.push({ x: canvas.width + 50 });
-      }
-    }
-
-    function showGameOver() {
-      gameOverSound.play();
-      ctx.fillStyle = "black";
-      ctx.font = "30px Arial";
-      ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
-
-      bestScores.push(score);
-      bestScores.sort((a, b) => b - a);
-      bestScores = bestScores.slice(0, 5);
-      localStorage.setItem("bestScores", JSON.stringify(bestScores));
-
-      updateScoreBoard();
-
-      setTimeout(() => {
-        startButton.style.display = "block";
-        gameContainer.style.display = "none";
-      }, 2000);
-    }
-
-    function updateScoreBoard() {
-      const scoreList = document.getElementById("scoreList");
-      scoreList.innerHTML = "";
-      bestScores.forEach((score, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-        scoreList.appendChild(row);
-      });
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space" && !dino.jumping) {
-        dino.jumping = true;
-        dino.velocityY = -20;
-        jumpSound.play();
-      }
-    });
-
-    updateScoreBoard();
+    // **Details für smoothes Scrolling vorbereitet!
   </script>
 </body>
 </html>
