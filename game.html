@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Dino Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+
+    #gameContainer {
+      display: none;
+      margin-top: 50px;
+    }
+
+    #canvas {
+      border: 2px solid black;
+      background-color: white;
+    }
+
+    #startButton {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 15px 25px;
+      font-size: 20px;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #startButton:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Willkommen auf meiner Website!</h1>
+  <button id="startButton">Mini-Game Starten</button>
+
+  <div id="gameContainer">
+    <canvas id="canvas" width="800" height="200"></canvas>
+  </div>
+
+  <script>
+    const startButton = document.getElementById("startButton");
+    const gameContainer = document.getElementById("gameContainer");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
+    let obstacles = [];
+    let isGameOver = false;
+    let score = 0;
+
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      gameContainer.style.display = "block";
+      startGame();
+    });
+
+    function startGame() {
+      obstacles = [];
+      dino.y = 150;
+      dino.jumping = false;
+      dino.velocityY = 0;
+      score = 0;
+      isGameOver = false;
+      requestAnimationFrame(update);
+    }
+
+    function update() {
+      if (isGameOver) {
+        showGameOver();
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Dino
+      ctx.fillStyle = "green";
+      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+
+      // Dino Gravity
+      dino.velocityY += 1.5;  // Schwerkraft simulieren
+      dino.y += dino.velocityY;
+
+      if (dino.y > 150) {
+        dino.y = 150;
+        dino.jumping = false;
+      }
+
+      // Spawn obstacles
+      if (Math.random() < 0.02) {
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+      }
+
+      // Move and draw obstacles
+      ctx.fillStyle = "red";
+      obstacles = obstacles.filter(obstacle => {
+        obstacle.x -= 5; // Hindernisse bewegen
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+        // Check collision
+        if (
+          dino.x < obstacle.x + obstacle.width &&
+          dino.x + dino.width > obstacle.x &&
+          dino.y < obstacle.y + obstacle.height &&
+          dino.height + dino.y > obstacle.y
+        ) {
+          isGameOver = true;
+        }
+
+        return obstacle.x > -20;
+      });
+
+      // Update score
+      score += 1;
+      ctx.fillStyle = "black";
+      ctx.font = "20px Arial";
+      ctx.fillText("Score: " + score, 10, 20);
+
+      requestAnimationFrame(update); // Animation fortsetzen
+    }
+
+    function showGameOver() {
+      ctx.fillStyle = "black";
+      ctx.font = "30px Arial";
+      ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
+      setTimeout(() => {
+        startButton.style.display = "block";
+        gameContainer.style.display = "none";
+      }, 2000);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && !dino.jumping) {
+        dino.jumping = true;
+        dino.velocityY = -20;
+      }
+    });
+  </script>
+</body>
+</html>
