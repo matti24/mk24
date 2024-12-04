@@ -243,4 +243,24 @@ document.onkeydown = function (e) {
     }
 };
 
+// Deine bisherigen Funktionen (scrollToTop, toggleMenu usw.)
+
+// Füge den neuen Mini-Game-Code hinzu:
+function startGame() {
+    console.log("Spiel wird gestartet!"); // Debugging-Ausgabe
+    const gameContainer = document.getElementById("gameContainer");
+    const gameStartButton = document.getElementById("gameStartButton");
+    const gameCanvas = document.getElementById("gameCanvas");
+    const ctx = gameCanvas.getContext("2d");
+
+    // Zeige das Spiel an und verstecke den Start-Button
+    gameContainer.style.display = "block";
+    gameStartButton.style.display = "none";
+
+    // Test-Zeichnung im Canvas
+    ctx.fillStyle = "blue";
+    ctx.fillRect(50, 50, 100, 100); // Ein blaues Quadrat zeichnen
+
+    console.log("Canvas wurde gezeichnet.");
+}
 
