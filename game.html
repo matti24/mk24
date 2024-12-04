@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Dino Game</title>
+  <title>Mini Dino Game mit Leaderboard</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,12 +20,12 @@
 
     #canvas {
       border: 2px solid black;
-      background-color: #87ceeb; /* Himmelsblau */
+      background-color: white;
     }
 
-    #startButton {
+    #startButton, #leaderboardButton {
       display: inline-block;
-      margin-top: 50px;
+      margin-top: 20px;
       padding: 15px 25px;
       font-size: 20px;
       color: white;
@@ -35,77 +35,99 @@
       cursor: pointer;
     }
 
-    #startButton:hover {
+    #startButton:hover, #leaderboardButton:hover {
       background-color: #0056b3;
     }
 
-    #scoreBoard {
+    #leaderboard {
+      display: none;
       margin-top: 50px;
-      font-size: 20px;
     }
 
-    #scoreTable {
+    #leaderboardTable {
       width: 50%;
       margin: 0 auto;
       border-collapse: collapse;
     }
 
-    #scoreTable th, #scoreTable td {
+    #leaderboardTable td, #leaderboardTable th {
+      padding: 8px;
       border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
+    }
+
+    #leaderboardTable th {
+      background-color: #f4f4f4;
+    }
+
+    #nameInput {
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Willkommen zum verbesserten Mini-Dino-Game!</h1>
-  <button id="startButton">Spiel Starten</button>
+  <h1>Willkommen auf meiner Website!</h1>
+  <button id="startButton">Mini-Game Starten</button>
+  <button id="leaderboardButton">Leaderboard anzeigen</button>
+
+  <div id="nameInput">
+    <input type="text" id="playerName" placeholder="Gib deinen Namen ein" />
+    <button id="submitName">Besten Score speichern</button>
+  </div>
 
   <div id="gameContainer">
     <canvas id="canvas" width="800" height="200"></canvas>
   </div>
 
-  <div id="scoreBoard">
-    <h2>Beste Punktzahlen</h2>
-    <table id="scoreTable">
-      <thead>
-        <tr>
-          <th>Platz</th>
-          <th>Punktzahl</th>
-        </tr>
-      </thead>
-      <tbody id="scoreList">
-        <!-- Bestenliste wird hier eingefügt -->
-      </tbody>
+  <div id="leaderboard">
+    <h2>Leaderboard</h2>
+    <table id="leaderboardTable">
+      <tr>
+        <th>Name</th>
+        <th>Score</th>
+      </tr>
     </table>
   </div>
 
   <script>
     const startButton = document.getElementById("startButton");
+    const leaderboardButton = document.getElementById("leaderboardButton");
     const gameContainer = document.getElementById("gameContainer");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    const playerNameInput = document.getElementById("playerName");
+    const submitNameButton = document.getElementById("submitName");
+    const leaderboardDiv = document.getElementById("leaderboard");
+    const leaderboardTable = document.getElementById("leaderboardTable");
 
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
     let obstacles = [];
-    let clouds = [];
     let isGameOver = false;
     let score = 0;
-    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let playerName = "";
+    let bestScore = 0;
 
-    // Sounds
-    const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
-    const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
+    // Lade den besten Score aus localStorage
+    if (localStorage.getItem("bestScore") !== null) {
+      bestScore = localStorage.getItem("bestScore");
+    }
 
     startButton.addEventListener("click", () => {
+      playerName = playerNameInput.value;
+      if (!playerName) {
+        alert("Bitte gib deinen Namen ein!");
+        return;
+      }
       startButton.style.display = "none";
       gameContainer.style.display = "block";
       startGame();
     });
 
+    leaderboardButton.addEventListener("click", showLeaderboard);
+
+    submitNameButton.addEventListener("click", saveBestScore);
+
     function startGame() {
       obstacles = [];
-      clouds = [];
       dino.y = 150;
       dino.jumping = false;
       dino.velocityY = 0;
@@ -121,16 +143,6 @@
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Hintergrund Himmel
-      ctx.fillStyle = "#87ceeb"; // Himmelsblau
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Wolken hinzufügen
-      drawClouds();
-
-      // Sonne hinzufügen
-      drawSun();
 
       // Draw Dino
       ctx.fillStyle = "green";
@@ -153,7 +165,7 @@
       // Move and draw obstacles
       ctx.fillStyle = "red";
       obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= 6; // Hindernisse schneller bewegen
+        obstacle.x -= 5;
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
         // Check collision
@@ -178,46 +190,15 @@
       requestAnimationFrame(update);
     }
 
-    function drawClouds() {
-      ctx.fillStyle = "white";
-      for (let i = 0; i < clouds.length; i++) {
-        let cloud = clouds[i];
-        cloud.x -= 0.5; // Wolken bewegen sich nach links
-        ctx.beginPath();
-        ctx.arc(cloud.x, cloud.y, 20, Math.PI * 0.5, Math.PI * 1.5); // Teil einer Wolke
-        ctx.arc(cloud.x + 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5); // Andere Teile der Wolke
-        ctx.arc(cloud.x - 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5); 
-        ctx.fill();
-        if (cloud.x < -50) {
-          clouds.splice(i, 1); // Entferne Wolken, die aus dem Bildschirm verschwunden sind
-        }
-      }
-
-      if (Math.random() < 0.02) {
-        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 }); // Neue Wolken
-      }
-    }
-
-    function drawSun() {
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(canvas.width - 70, 30, 30, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
     function showGameOver() {
-      gameOverSound.play(); // Game Over Sound
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
 
-      // Save score and update leaderboard
-      bestScores.push(score);
-      bestScores.sort((a, b) => b - a); // Sort descending
-      bestScores = bestScores.slice(0, 5); // Keep top 5
-      localStorage.setItem("bestScores", JSON.stringify(bestScores));
-
-      updateScoreBoard();
+      if (score > bestScore) {
+        bestScore = score;
+        saveBestScore();
+      }
 
       setTimeout(() => {
         startButton.style.display = "block";
@@ -225,26 +206,37 @@
       }, 2000);
     }
 
-    function updateScoreBoard() {
-      const scoreList = document.getElementById("scoreList");
-      scoreList.innerHTML = ""; // Clear previous scores
+    function saveBestScore() {
+      localStorage.setItem("bestScore", bestScore);
+      localStorage.setItem("playerName", playerName);
+    }
 
-      bestScores.forEach((score, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-        scoreList.appendChild(row);
-      });
+    function showLeaderboard() {
+      leaderboardDiv.style.display = "block";
+      leaderboardTable.innerHTML = `
+        <tr>
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+      `;
+
+      const name = localStorage.getItem("playerName");
+      const score = localStorage.getItem("bestScore");
+
+      leaderboardTable.innerHTML += `
+        <tr>
+          <td>${name}</td>
+          <td>${score}</td>
+        </tr>
+      `;
     }
 
     document.addEventListener("keydown", (e) => {
       if (e.code === "Space" && !dino.jumping) {
         dino.jumping = true;
         dino.velocityY = -20;
-        jumpSound.play(); // Jump Sound
       }
     });
-
-    updateScoreBoard(); // Update scoreboard when page loads
   </script>
 </body>
 </html>
