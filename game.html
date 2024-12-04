@@ -38,46 +38,14 @@
     #startButton:hover {
       background-color: #0056b3;
     }
-
-    #scoreBoard {
-      margin-top: 50px;
-      font-size: 20px;
-    }
-
-    #scoreTable {
-      width: 50%;
-      margin: 0 auto;
-      border-collapse: collapse;
-    }
-
-    #scoreTable th, #scoreTable td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
-  <h1>Willkommen zum verbesserten Mini-Dino-Game!</h1>
-  <button id="startButton">Spiel Starten</button>
+  <h1>Mini Dino Game</h1>
+  <button id="startButton">Spiel starten</button>
 
   <div id="gameContainer">
     <canvas id="canvas" width="800" height="200"></canvas>
-  </div>
-
-  <div id="scoreBoard">
-    <h2>Beste Punktzahlen</h2>
-    <table id="scoreTable">
-      <thead>
-        <tr>
-          <th>Platz</th>
-          <th>Punktzahl</th>
-        </tr>
-      </thead>
-      <tbody id="scoreList">
-        <!-- Bestenliste wird hier eingefügt -->
-      </tbody>
-    </table>
   </div>
 
   <script>
@@ -89,19 +57,11 @@
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
     let obstacles = [];
     let clouds = [];
-    let snowflakes = [];
-    let cacti = [];
     let isGameOver = false;
     let score = 0;
-    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
-    let currentWorld = "default";
-    let transitionProgress = 0; // Übergangsfortschritt
-    let transitioning = false;
-    let nextWorld = "default";
-
-    // Sounds
-    const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
-    const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
+    let world = "default"; // Startwelt
+    let isTransitioning = false; // Übergangsstatus
+    let transitionX = canvas.width; // Position des Übergangshintergrunds
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -112,16 +72,14 @@
     function startGame() {
       obstacles = [];
       clouds = [];
-      snowflakes = [];
-      cacti = [];
       dino.y = 150;
       dino.jumping = false;
       dino.velocityY = 0;
       score = 0;
       isGameOver = false;
-      currentWorld = "default";
-      transitioning = false;
-      transitionProgress = 0;
+      world = "default";
+      isTransitioning = false;
+      transitionX = canvas.width;
       requestAnimationFrame(update);
     }
 
@@ -131,38 +89,25 @@
         return;
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Weltwechsel
-      if (!transitioning) changeWorld();
-
-      // Hintergrund
-      if (transitioning) {
-        drawTransition();
-      } else {
-        drawBackground(currentWorld);
+      // Hintergrund und Übergang zeichnen
+      if (isTransitioning) {
+        transitionX -= 10; // Übergangsbewegung
+        if (transitionX <= 0) {
+          isTransitioning = false;
+          transitionX = canvas.width;
+          world = getNextWorld(world);
+        }
       }
+      drawBackground(world);
+      if (isTransitioning) drawBackground(getNextWorld(world), transitionX);
 
-      // Wolken
-      drawClouds();
-
-      // Sonne
-      drawSun();
-
-      // Schnee
-      if (currentWorld === "winter") drawSnowflakes();
-
-      // Kakteen
-      if (currentWorld === "desert") drawCacti();
-
-      // Dino zeichnen
+      // Dino
       ctx.fillStyle = "green";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Dino-Schwerkraft
+      // Dino Schwerkraft
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
-
       if (dino.y > 150) {
         dino.y = 150;
         dino.jumping = false;
@@ -187,40 +132,70 @@
         ) {
           isGameOver = true;
         }
-
         return obstacle.x > -20;
       });
 
-      // Punktzahl
+      // Punktzahl erhöhen
       score += 1;
       ctx.fillStyle = "black";
       ctx.font = "20px Arial";
       ctx.fillText("Score: " + score, 10, 20);
 
+      // Weltwechsel nach Punkten
+      if (!isTransitioning && score > 0 && score % 600 === 0) {
+        isTransitioning = true;
+      }
+
       requestAnimationFrame(update);
     }
 
-    function changeWorld() {
-      if (score > 0 && score % 600 === 0 && !transitioning) {
-        transitioning = true;
-        nextWorld = currentWorld === "default" ? "desert" : currentWorld === "desert" ? "winter" : "default";
+    function drawBackground(world, offsetX = 0) {
+      let color = world === "default" ? "#87ceeb" : world === "desert" ? "#f4a460" : "#d3f3f3";
+      ctx.fillStyle = color;
+      ctx.fillRect(offsetX, 0, canvas.width, canvas.height);
+
+      // Weltenspezifische Dekorationen
+      if (world === "winter") drawSnowflakes(offsetX);
+      if (world === "desert") drawCacti(offsetX);
+    }
+
+    function drawSnowflakes(offsetX = 0) {
+      ctx.fillStyle = "white";
+      for (let i = 0; i < 10; i++) {
+        let x = Math.random() * canvas.width + offsetX;
+        let y = Math.random() * canvas.height;
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    function drawBackground(world) {
-      ctx.fillStyle =
-        world === "default" ? "#87ceeb" : world === "desert" ? "#f4a460" : "#d3f3f3";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    function drawCacti(offsetX = 0) {
+      ctx.fillStyle = "green";
+      for (let i = 0; i < 5; i++) {
+        let x = Math.random() * canvas.width + offsetX;
+        let y = 160;
+        ctx.fillRect(x, y - 20, 10, 20);
+        ctx.fillRect(x - 5, y - 10, 5, 10);
+      }
     }
 
-    function drawTransition() {
-      // Aktuellen und nächsten Hintergrund zeichnen
-      drawBackground(currentWorld);
-      ctx.globalAlpha = transitionProgress / canvas.width;
-      ctx.translate(transitionProgress - canvas.width, 0);
-      drawBackground(nextWorld);
+    function getNextWorld(current) {
+      return current === "default" ? "desert" : current === "desert" ? "winter" : "default";
     }
-    // **Details für smoothes Scrolling vorbereitet!
+
+    function showGameOver() {
+      ctx.fillStyle = "black";
+      ctx.font = "30px Arial";
+      ctx.fillText("Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && !dino.jumping) {
+        dino.jumping = true;
+        dino.velocityY = -20;
+      }
+    });
   </script>
 </body>
 </html>
