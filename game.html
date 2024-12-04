@@ -92,6 +92,7 @@
     let isGameOver = false;
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let currentWorld = "default"; // Start mit Standardwelt
 
     // Sounds
     const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
@@ -111,6 +112,7 @@
       dino.velocityY = 0;
       score = 0;
       isGameOver = false;
+      currentWorld = "default"; // Welt zurücksetzen
       requestAnimationFrame(update);
     }
 
@@ -122,9 +124,11 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Hintergrund Himmel
-      ctx.fillStyle = "#87ceeb"; // Himmelsblau
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Welt je nach Punktzahl wechseln
+      changeWorld();
+
+      // Hintergrund zeichnen
+      drawBackground();
 
       // Wolken hinzufügen
       drawClouds();
@@ -132,11 +136,11 @@
       // Sonne hinzufügen
       drawSun();
 
-      // Draw Dino
+      // Dino zeichnen
       ctx.fillStyle = "green";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Dino Gravity
+      // Dino-Schwerkraft
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
 
@@ -145,18 +149,18 @@
         dino.jumping = false;
       }
 
-      // Spawn obstacles
+      // Hindernisse erzeugen
       if (Math.random() < 0.02) {
         obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
       }
 
-      // Move and draw obstacles
-      ctx.fillStyle = "red";
+      // Hindernisse bewegen und zeichnen
+      ctx.fillStyle = currentWorld === "winter" ? "blue" : "red"; // Hindernisfarbe je nach Welt
       obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= 6; // Hindernisse schneller bewegen
+        obstacle.x -= 6;
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
-        // Check collision
+        // Kollision prüfen
         if (
           dino.x < obstacle.x + obstacle.width &&
           dino.x + dino.width > obstacle.x &&
@@ -169,7 +173,7 @@
         return obstacle.x > -20;
       });
 
-      // Update score
+      // Punktzahl aktualisieren
       score += 1;
       ctx.fillStyle = "black";
       ctx.font = "20px Arial";
@@ -178,43 +182,62 @@
       requestAnimationFrame(update);
     }
 
+    function changeWorld() {
+      if (score > 0 && score % 600 === 0) {
+        if (currentWorld === "default") currentWorld = "desert";
+        else if (currentWorld === "desert") currentWorld = "winter";
+        else currentWorld = "default";
+      }
+    }
+
+    function drawBackground() {
+      if (currentWorld === "default") {
+        ctx.fillStyle = "#87ceeb"; // Himmelsblau
+      } else if (currentWorld === "desert") {
+        ctx.fillStyle = "#f4a460"; // Sandfarben
+      } else if (currentWorld === "winter") {
+        ctx.fillStyle = "#d3f3f3"; // Schneeweiß
+      }
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
     function drawClouds() {
       ctx.fillStyle = "white";
       for (let i = 0; i < clouds.length; i++) {
         let cloud = clouds[i];
-        cloud.x -= 0.5; // Wolken bewegen sich nach links
+        cloud.x -= 0.5;
         ctx.beginPath();
-        ctx.arc(cloud.x, cloud.y, 20, Math.PI * 0.5, Math.PI * 1.5); // Teil einer Wolke
-        ctx.arc(cloud.x + 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5); // Andere Teile der Wolke
-        ctx.arc(cloud.x - 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5); 
+        ctx.arc(cloud.x, cloud.y, 20, Math.PI * 0.5, Math.PI * 1.5);
+        ctx.arc(cloud.x + 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5);
+        ctx.arc(cloud.x - 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5);
         ctx.fill();
         if (cloud.x < -50) {
-          clouds.splice(i, 1); // Entferne Wolken, die aus dem Bildschirm verschwunden sind
+          clouds.splice(i, 1);
         }
       }
 
       if (Math.random() < 0.02) {
-        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 }); // Neue Wolken
+        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 });
       }
     }
 
     function drawSun() {
-      ctx.fillStyle = "yellow";
+      ctx.fillStyle = currentWorld === "winter" ? "#ffd700" : "yellow"; // Gelb für Winter, Orange für andere
       ctx.beginPath();
       ctx.arc(canvas.width - 70, 30, 30, 0, Math.PI * 2);
       ctx.fill();
     }
 
     function showGameOver() {
-      gameOverSound.play(); // Game Over Sound
+      gameOverSound.play();
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
 
-      // Save score and update leaderboard
+      // Bestenliste aktualisieren
       bestScores.push(score);
-      bestScores.sort((a, b) => b - a); // Sort descending
-      bestScores = bestScores.slice(0, 5); // Keep top 5
+      bestScores.sort((a, b) => b - a);
+      bestScores = bestScores.slice(0, 5);
       localStorage.setItem("bestScores", JSON.stringify(bestScores));
 
       updateScoreBoard();
@@ -227,7 +250,7 @@
 
     function updateScoreBoard() {
       const scoreList = document.getElementById("scoreList");
-      scoreList.innerHTML = ""; // Clear previous scores
+      scoreList.innerHTML = "";
 
       bestScores.forEach((score, index) => {
         const row = document.createElement("tr");
@@ -240,11 +263,11 @@
       if (e.code === "Space" && !dino.jumping) {
         dino.jumping = true;
         dino.velocityY = -20;
-        jumpSound.play(); // Jump Sound
+        jumpSound.play();
       }
     });
 
-    updateScoreBoard(); // Update scoreboard when page loads
+    updateScoreBoard();
   </script>
 </body>
 </html>
