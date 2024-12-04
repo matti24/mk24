@@ -38,14 +38,46 @@
     #startButton:hover {
       background-color: #0056b3;
     }
+
+    #scoreBoard {
+      margin-top: 50px;
+      font-size: 20px;
+    }
+
+    #scoreTable {
+      width: 50%;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+
+    #scoreTable th, #scoreTable td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h1>Willkommen auf meiner Website!</h1>
-  <button id="startButton">Mini-Game Starten</button>
+  <h1>Willkommen zum verbesserten Mini-Dino-Game!</h1>
+  <button id="startButton">Spiel Starten</button>
 
   <div id="gameContainer">
     <canvas id="canvas" width="800" height="200"></canvas>
+  </div>
+
+  <div id="scoreBoard">
+    <h2>Beste Punktzahlen</h2>
+    <table id="scoreTable">
+      <thead>
+        <tr>
+          <th>Platz</th>
+          <th>Punktzahl</th>
+        </tr>
+      </thead>
+      <tbody id="scoreList">
+        <!-- Bestenliste wird hier eingefügt -->
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -58,6 +90,11 @@
     let obstacles = [];
     let isGameOver = false;
     let score = 0;
+    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+
+    // Sounds
+    const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
+    const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -88,7 +125,7 @@
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
       // Dino Gravity
-      dino.velocityY += 1.5;  // Schwerkraft simulieren
+      dino.velocityY += 1.5;
       dino.y += dino.velocityY;
 
       if (dino.y > 150) {
@@ -104,7 +141,7 @@
       // Move and draw obstacles
       ctx.fillStyle = "red";
       obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= 5; // Hindernisse bewegen
+        obstacle.x -= 6; // Hindernisse schneller bewegen
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
         // Check collision
@@ -126,25 +163,49 @@
       ctx.font = "20px Arial";
       ctx.fillText("Score: " + score, 10, 20);
 
-      requestAnimationFrame(update); // Animation fortsetzen
+      requestAnimationFrame(update);
     }
 
     function showGameOver() {
+      gameOverSound.play(); // Game Over Sound
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
+
+      // Save score and update leaderboard
+      bestScores.push(score);
+      bestScores.sort((a, b) => b - a); // Sort descending
+      bestScores = bestScores.slice(0, 5); // Keep top 5
+      localStorage.setItem("bestScores", JSON.stringify(bestScores));
+
+      updateScoreBoard();
+
       setTimeout(() => {
         startButton.style.display = "block";
         gameContainer.style.display = "none";
       }, 2000);
     }
 
+    function updateScoreBoard() {
+      const scoreList = document.getElementById("scoreList");
+      scoreList.innerHTML = ""; // Clear previous scores
+
+      bestScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
+        scoreList.appendChild(row);
+      });
+    }
+
     document.addEventListener("keydown", (e) => {
       if (e.code === "Space" && !dino.jumping) {
         dino.jumping = true;
         dino.velocityY = -20;
+        jumpSound.play(); // Jump Sound
       }
     });
+
+    updateScoreBoard(); // Update scoreboard when page loads
   </script>
 </body>
 </html>
