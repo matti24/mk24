@@ -147,3 +147,95 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+document.addEventListener("DOMContentLoaded", () => {
+    const gameContainer = document.getElementById("gameContainer");
+    const gameCanvas = document.getElementById("gameCanvas");
+    const ctx = gameCanvas.getContext("2d");
+    const gameStartButton = document.getElementById("gameStartButton");
+    const gameOverText = document.getElementById("gameOverText");
+    const scoreElement = document.getElementById("score");
+
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
+    let obstacles = [];
+    let isGameOver = false;
+    let score = 0;
+
+    gameStartButton.addEventListener("click", () => {
+        gameStartButton.style.display = "none";
+        gameOverText.style.display = "none";
+        score = 0;
+        startGame();
+    });
+
+    function startGame() {
+        gameContainer.style.display = "block";
+        obstacles = [];
+        dino.y = 150;
+        dino.velocityY = 0;
+        dino.jumping = false;
+        isGameOver = false;
+        score = 0;
+        requestAnimationFrame(updateGame);
+    }
+
+    function updateGame() {
+        if (isGameOver) {
+            gameOverText.style.display = "block";
+            scoreElement.textContent = score;
+            gameStartButton.style.display = "block";
+            return;
+        }
+
+        ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+        // Dino
+        ctx.fillStyle = "green";
+        ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+        dino.velocityY += 1.5;
+        dino.y += dino.velocityY;
+        if (dino.y > 150) {
+            dino.y = 150;
+            dino.jumping = false;
+        }
+
+        // Obstacles
+        if (Math.random() < 0.02) {
+            obstacles.push({ x: gameCanvas.width, y: 160, width: 20, height: 20 });
+        }
+
+        ctx.fillStyle = "red";
+        obstacles = obstacles.filter(obstacle => {
+            obstacle.x -= 5;
+            ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+            // Check collision
+            if (
+                dino.x < obstacle.x + obstacle.width &&
+                dino.x + dino.width > obstacle.x &&
+                dino.y < obstacle.y + obstacle.height &&
+                dino.y + dino.height > obstacle.y
+            ) {
+                isGameOver = true;
+            }
+
+            return obstacle.x > -20;
+        });
+
+        // Punkte
+        score++;
+        ctx.fillStyle = "black";
+        ctx.font = "16px Arial";
+        ctx.fillText(`Punkte: ${score}`, 10, 20);
+
+        requestAnimationFrame(updateGame);
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.code === "Space" && !dino.jumping) {
+            dino.jumping = true;
+            dino.velocityY = -20;
+        }
+    });
+});
+
+
