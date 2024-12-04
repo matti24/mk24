@@ -261,6 +261,31 @@ function startGame() {
     ctx.fillStyle = "blue";
     ctx.fillRect(50, 50, 100, 100); // Ein blaues Quadrat zeichnen
 
+   // Animation für das blaue Rechteck
+let x = 50;
+let y = 50;
+let speed = 2;
+
+function animate() {
+    ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Canvas löschen
+    ctx.fillStyle = "blue";
+    ctx.fillRect(x, y, 100, 100); // Rechteck zeichnen
+
+    // Bewegung nach rechts
+    x += speed;
+
+    // Grenzen überprüfen (stoppt am Rand)
+    if (x + 100 > gameCanvas.width || x < 0) {
+        speed = -speed; // Richtung ändern
+    }
+
+    requestAnimationFrame(animate); // Animation fortsetzen
+}
+
+// Animation starten
+animate();
+
+
     console.log("Canvas wurde gezeichnet.");
 }
 
