@@ -63,6 +63,9 @@
       margin-top: 20px;
     }
   </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
   <h1>Willkommen auf meiner Website!</h1>
@@ -89,6 +92,21 @@
   </div>
 
   <script>
+    // Firebase-Konfiguration
+    const firebaseConfig = {
+      apiKey: "dein-api-key",
+      authDomain: "dein-projekt-id.firebaseapp.com",
+      databaseURL: "https://dein-projekt-id.firebaseio.com",
+      projectId: "dein-projekt-id",
+      storageBucket: "dein-projekt-id.appspot.com",
+      messagingSenderId: "deine-sender-id",
+      appId: "deine-app-id"
+    };
+
+    // Firebase Initialisierung
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+
     const startButton = document.getElementById("startButton");
     const leaderboardButton = document.getElementById("leaderboardButton");
     const gameContainer = document.getElementById("gameContainer");
@@ -104,12 +122,6 @@
     let isGameOver = false;
     let score = 0;
     let playerName = "";
-    let bestScore = 0;
-
-    // Lade den besten Score aus localStorage
-    if (localStorage.getItem("bestScore") !== null) {
-      bestScore = localStorage.getItem("bestScore");
-    }
 
     startButton.addEventListener("click", () => {
       playerName = playerNameInput.value;
@@ -143,6 +155,7 @@
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackground();
 
       // Draw Dino
       ctx.fillStyle = "green";
@@ -195,10 +208,7 @@
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
 
-      if (score > bestScore) {
-        bestScore = score;
-        saveBestScore();
-      }
+      saveBestScore();
 
       setTimeout(() => {
         startButton.style.display = "block";
@@ -207,8 +217,11 @@
     }
 
     function saveBestScore() {
-      localStorage.setItem("bestScore", bestScore);
-      localStorage.setItem("playerName", playerName);
+      if (playerName && score > 0) {
+        const newScore = { name: playerName, score: score };
+        // Score in Firebase Realtime Database speichern
+        database.ref('scores').push(newScore);
+      }
     }
 
     function showLeaderboard() {
@@ -220,15 +233,35 @@
         </tr>
       `;
 
-      const name = localStorage.getItem("playerName");
-      const score = localStorage.getItem("bestScore");
+      // Laden aller Scores aus Firebase
+      database.ref('scores').orderByChild('score').limitToLast(10).once('value', snapshot => {
+        snapshot.forEach(childSnapshot => {
+          const data = childSnapshot.val();
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${data.name}</td><td>${data.score}</td>`;
+          leaderboardTable.appendChild(row);
+        });
+      });
+    }
 
-      leaderboardTable.innerHTML += `
-        <tr>
-          <td>${name}</td>
-          <td>${score}</td>
-        </tr>
-      `;
+    function drawBackground() {
+      // Hintergrund (blauer Himmel)
+      ctx.fillStyle = "skyblue";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Sonne
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(700, 50, 40, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Wolken
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      ctx.arc(100, 30, 50, 0, Math.PI * 2);
+      ctx.arc(150, 50, 60, 0, Math.PI * 2);
+      ctx.arc(200, 30, 50, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     document.addEventListener("keydown", (e) => {
