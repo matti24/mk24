@@ -147,103 +147,113 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Elemente abrufen
-    const gameContainer = document.getElementById("gameContainer");
-    const gameCanvas = document.getElementById("gameCanvas");
-    const ctx = gameCanvas.getContext("2d");
-    const gameStartButton = document.getElementById("gameStartButton");
-    const gameOverText = document.getElementById("gameOverText");
-    const scoreElement = document.getElementById("score");
+// Globale Variablen
+let gameContainer, gameCanvas, ctx, gameStartButton, gameOverText, scoreElement;
+let dino, obstacles, isGameOver, score;
 
-    if (!gameContainer || !gameCanvas || !gameStartButton || !gameOverText || !scoreElement) {
-        console.error("Ein oder mehrere HTML-Elemente fehlen!");
+// Initialisierung des Spiels
+function initGame() {
+    gameContainer = document.getElementById("gameContainer");
+    gameCanvas = document.getElementById("gameCanvas");
+    ctx = gameCanvas.getContext("2d");
+    gameStartButton = document.getElementById("gameStartButton");
+    gameOverText = document.getElementById("gameOverText");
+    scoreElement = document.getElementById("score");
+
+    dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
+    obstacles = [];
+    isGameOver = false;
+    score = 0;
+
+    console.log("Spiel initialisiert.");
+}
+
+// Spiel starten
+function startGame() {
+    gameStartButton.style.display = "none";
+    gameOverText.style.display = "none";
+    score = 0;
+    gameContainer.style.display = "block";
+    dino.y = 150;
+    dino.velocityY = 0;
+    dino.jumping = false;
+    obstacles = [];
+    isGameOver = false;
+
+    console.log("Spiel gestartet!");
+    requestAnimationFrame(updateGame);
+}
+
+// Spiel-Update
+function updateGame() {
+    if (isGameOver) {
+        console.log("Game Over!");
+        gameOverText.style.display = "block";
+        scoreElement.textContent = score;
+        gameStartButton.style.display = "block";
         return;
     }
 
-    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
-    let obstacles = [];
-    let isGameOver = false;
-    let score = 0;
+    ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 
-    gameStartButton.addEventListener("click", () => {
-        console.log("Spiel gestartet!");
-        gameStartButton.style.display = "none";
-        gameOverText.style.display = "none";
-        score = 0;
-        startGame();
-    });
-
-    function startGame() {
-        gameContainer.style.display = "block";
-        obstacles = [];
+    // Dino zeichnen
+    ctx.fillStyle = "green";
+    ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+    dino.velocityY += 1.5;
+    dino.y += dino.velocityY;
+    if (dino.y > 150) {
         dino.y = 150;
-        dino.velocityY = 0;
         dino.jumping = false;
-        isGameOver = false;
-        score = 0;
-        requestAnimationFrame(updateGame);
     }
 
-    function updateGame() {
-        if (isGameOver) {
-            console.log("Game Over!");
-            gameOverText.style.display = "block";
-            scoreElement.textContent = score;
-            gameStartButton.style.display = "block";
-            return;
-        }
-
-        ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-
-        // Dino
-        ctx.fillStyle = "green";
-        ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
-        dino.velocityY += 1.5;
-        dino.y += dino.velocityY;
-        if (dino.y > 150) {
-            dino.y = 150;
-            dino.jumping = false;
-        }
-
-        // Hindernisse
-        if (Math.random() < 0.02) {
-            obstacles.push({ x: gameCanvas.width, y: 160, width: 20, height: 20 });
-        }
-
-        ctx.fillStyle = "red";
-        obstacles = obstacles.filter(obstacle => {
-            obstacle.x -= 5;
-            ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-
-            // Kollision prüfen
-            if (
-                dino.x < obstacle.x + obstacle.width &&
-                dino.x + dino.width > obstacle.x &&
-                dino.y < obstacle.y + obstacle.height &&
-                dino.y + dino.height > obstacle.y
-            ) {
-                isGameOver = true;
-            }
-
-            return obstacle.x > -20;
-        });
-
-        // Punkte
-        score++;
-        ctx.fillStyle = "black";
-        ctx.font = "16px Arial";
-        ctx.fillText(`Punkte: ${score}`, 10, 20);
-
-        requestAnimationFrame(updateGame);
+    // Hindernisse generieren
+    if (Math.random() < 0.02) {
+        obstacles.push({ x: gameCanvas.width, y: 160, width: 20, height: 20 });
     }
 
-    document.addEventListener("keydown", (e) => {
-        if (e.code === "Space" && !dino.jumping) {
-            dino.jumping = true;
-            dino.velocityY = -20;
+    ctx.fillStyle = "red";
+    obstacles = obstacles.filter(obstacle => {
+        obstacle.x -= 5;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+        // Kollision prüfen
+        if (
+            dino.x < obstacle.x + obstacle.width &&
+            dino.x + dino.width > obstacle.x &&
+            dino.y < obstacle.y + obstacle.height &&
+            dino.y + dino.height > obstacle.y
+        ) {
+            isGameOver = true;
         }
+
+        return obstacle.x > -20;
     });
-});
+
+    // Punkte aktualisieren
+    score++;
+    ctx.fillStyle = "black";
+    ctx.font = "16px Arial";
+    ctx.fillText(`Punkte: ${score}`, 10, 20);
+
+    requestAnimationFrame(updateGame);
+}
+
+// Sprung-Funktion
+function jump() {
+    if (!dino.jumping) {
+        dino.jumping = true;
+        dino.velocityY = -20;
+    }
+}
+
+// Tastendrücke direkt im HTML verarbeiten
+document.onkeydown = function (e) {
+    if (e.code === "Space") {
+        jump();
+    }
+};
+
+// Initialisiere das Spiel beim Laden der Seite
+initGame();
 
 
