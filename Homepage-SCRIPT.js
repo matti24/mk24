@@ -116,118 +116,6 @@
     }
 });
 
-// Globale Variablen
-let gameContainer, gameCanvas, ctx, gameStartButton, gameOverText, scoreElement;
-let dino, obstacles, isGameOver, score;
-
-// Initialisierung des Spiels
-function initGame() {
-    gameContainer = document.getElementById("gameContainer");
-    gameCanvas = document.getElementById("gameCanvas");
-    ctx = gameCanvas.getContext("2d");
-    gameStartButton = document.getElementById("gameStartButton");
-    gameOverText = document.getElementById("gameOverText");
-    scoreElement = document.getElementById("score");
-
-    dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
-    obstacles = [];
-    isGameOver = false;
-    score = 0;
-
-    console.log("Spiel initialisiert.");
-}
-
-// Spiel starten
-function startGame() {
-    gameStartButton.style.display = "none";
-    gameOverText.style.display = "none";
-    score = 0;
-    gameContainer.style.display = "block";
-    dino.y = 150;
-    dino.velocityY = 0;
-    dino.jumping = false;
-    obstacles = [];
-    isGameOver = false;
-
-    console.log("Spiel gestartet!");
-    requestAnimationFrame(updateGame);
-}
-
-// Spiel-Update
-function updateGame() {
-    if (isGameOver) {
-        console.log("Game Over!");
-        gameOverText.style.display = "block";
-        scoreElement.textContent = score;
-        gameStartButton.style.display = "block";
-        return;
-    }
-
-    ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-
-    // Dino zeichnen
-    ctx.fillStyle = "green";
-    ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
-    dino.velocityY += 1.5;
-    dino.y += dino.velocityY;
-    if (dino.y > 150) {
-        dino.y = 150;
-        dino.jumping = false;
-    }
-
-    // Hindernisse generieren
-    if (Math.random() < 0.02) {
-        obstacles.push({ x: gameCanvas.width, y: 160, width: 20, height: 20 });
-    }
-
-    ctx.fillStyle = "red";
-    obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= 5;
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-
-        // Kollision prüfen
-        if (
-            dino.x < obstacle.x + obstacle.width &&
-            dino.x + dino.width > obstacle.x &&
-            dino.y < obstacle.y + obstacle.height &&
-            dino.y + dino.height > obstacle.y
-        ) {
-            isGameOver = true;
-        }
-
-        return obstacle.x > -20;
-    });
-
-    // Punkte aktualisieren
-    score++;
-    ctx.fillStyle = "black";
-    ctx.font = "16px Arial";
-    ctx.fillText(`Punkte: ${score}`, 10, 20);
-
-    requestAnimationFrame(updateGame);
-}
-
-// Sprung-Funktion
-function jump() {
-    if (!dino.jumping) {
-        dino.jumping = true;
-        dino.velocityY = -20;
-    }
-}
-
-// Tastendrücke direkt im HTML verarbeiten
-document.onkeydown = function (e) {
-    if (e.code === "Space") {
-        jump();
-    }
-};
-
-// Initialisiere das Spiel beim Laden der Seite
-initGame();
-
-
-
-
 window.addEventListener("load", function() {
     const loader = document.getElementById("loader");
     loader.style.opacity = "0";
@@ -258,4 +146,101 @@ function updateClock() {
 // Aktualisiere die Uhr jede Sekunde
 setInterval(updateClock, 1000);
 updateClock();
+
+
+// Mini-Game Variablen
+let gameCanvas, ctx, dino, obstacles, isGameOver, score;
+
+// Spiel initialisieren
+function initGame() {
+    gameCanvas = document.getElementById("gameCanvas");
+    ctx = gameCanvas.getContext("2d");
+    dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
+    obstacles = [];
+    isGameOver = false;
+    score = 0;
+}
+
+// Spiel starten
+function startGame() {
+    document.getElementById("gameContainer").style.display = "block";
+    document.getElementById("gameStartButton").style.display = "none";
+    document.getElementById("gameOverText").style.display = "none";
+
+    initGame();
+    requestAnimationFrame(updateGame);
+}
+
+// Spiel-Update-Logik
+function updateGame() {
+    if (isGameOver) {
+        document.getElementById("gameOverText").style.display = "block";
+        document.getElementById("score").textContent = score;
+        document.getElementById("gameStartButton").style.display = "block";
+        return;
+    }
+
+    // Spielfeld löschen
+    ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+    // Dino zeichnen
+    ctx.fillStyle = "green";
+    ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+
+    // Bewegung des Dinos
+    dino.velocityY += 1.5;
+    dino.y += dino.velocityY;
+    if (dino.y > 150) {
+        dino.y = 150;
+        dino.jumping = false;
+    }
+
+    // Hindernisse generieren
+    if (Math.random() < 0.02) {
+        obstacles.push({ x: gameCanvas.width, y: 160, width: 20, height: 20 });
+    }
+
+    // Hindernisse zeichnen und Kollision prüfen
+    ctx.fillStyle = "red";
+    obstacles = obstacles.filter(obstacle => {
+        obstacle.x -= 5;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+        // Prüfe auf Kollision
+        if (
+            dino.x < obstacle.x + obstacle.width &&
+            dino.x + dino.width > obstacle.x &&
+            dino.y < obstacle.y + obstacle.height &&
+            dino.y + dino.height > obstacle.y
+        ) {
+            isGameOver = true;
+        }
+
+        return obstacle.x > -20;
+    });
+
+    // Punkte zählen
+    score++;
+    ctx.fillStyle = "black";
+    ctx.font = "16px Arial";
+    ctx.fillText(`Punkte: ${score}`, 10, 20);
+
+    requestAnimationFrame(updateGame);
+}
+
+// Dino springen lassen
+function jump() {
+    if (!dino.jumping) {
+        dino.jumping = true;
+        dino.velocityY = -20;
+    }
+}
+
+// Tasteneingaben (Sprung)
+document.onkeydown = function (e) {
+    if (e.code === "Space") {
+        jump();
+    }
+};
+
 
