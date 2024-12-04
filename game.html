@@ -20,7 +20,7 @@
 
     #canvas {
       border: 2px solid black;
-      background-color: #87ceeb;
+      background-color: #87ceeb; /* Himmelsblau */
     }
 
     #startButton {
@@ -38,14 +38,46 @@
     #startButton:hover {
       background-color: #0056b3;
     }
+
+    #scoreBoard {
+      margin-top: 50px;
+      font-size: 20px;
+    }
+
+    #scoreTable {
+      width: 50%;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+
+    #scoreTable th, #scoreTable td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h1>Mini Dino Game</h1>
-  <button id="startButton">Spiel starten</button>
+  <h1>Willkommen zum verbesserten Mini-Dino-Game!</h1>
+  <button id="startButton">Spiel Starten</button>
 
   <div id="gameContainer">
     <canvas id="canvas" width="800" height="200"></canvas>
+  </div>
+
+  <div id="scoreBoard">
+    <h2>Beste Punktzahlen</h2>
+    <table id="scoreTable">
+      <thead>
+        <tr>
+          <th>Platz</th>
+          <th>Punktzahl</th>
+        </tr>
+      </thead>
+      <tbody id="scoreList">
+        <!-- Bestenliste wird hier eingefügt -->
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -59,9 +91,12 @@
     let clouds = [];
     let isGameOver = false;
     let score = 0;
-    let world = "default"; // Startwelt
-    let isTransitioning = false; // Übergangsstatus
-    let transitionX = canvas.width; // Position des Übergangshintergrunds
+    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let currentWorld = "default"; // Start mit Standardwelt
+
+    // Sounds
+    const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
+    const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -77,9 +112,7 @@
       dino.velocityY = 0;
       score = 0;
       isGameOver = false;
-      world = "default";
-      isTransitioning = false;
-      transitionX = canvas.width;
+      currentWorld = "default"; // Welt zurücksetzen
       requestAnimationFrame(update);
     }
 
@@ -89,36 +122,40 @@
         return;
       }
 
-      // Hintergrund und Übergang zeichnen
-      if (isTransitioning) {
-        transitionX -= 10; // Übergangsbewegung
-        if (transitionX <= 0) {
-          isTransitioning = false;
-          transitionX = canvas.width;
-          world = getNextWorld(world);
-        }
-      }
-      drawBackground(world);
-      if (isTransitioning) drawBackground(getNextWorld(world), transitionX);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Dino
+      // Welt je nach Punktzahl wechseln
+      changeWorld();
+
+      // Hintergrund zeichnen
+      drawBackground();
+
+      // Wolken hinzufügen
+      drawClouds();
+
+      // Sonne hinzufügen
+      drawSun();
+
+      // Dino zeichnen
       ctx.fillStyle = "green";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Dino Schwerkraft
+      // Dino-Schwerkraft
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
+
       if (dino.y > 150) {
         dino.y = 150;
         dino.jumping = false;
       }
 
-      // Hindernisse
+      // Hindernisse erzeugen
       if (Math.random() < 0.02) {
         obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
       }
 
-      ctx.fillStyle = "red";
+      // Hindernisse bewegen und zeichnen
+      ctx.fillStyle = currentWorld === "winter" ? "blue" : "red"; // Hindernisfarbe je nach Welt
       obstacles = obstacles.filter(obstacle => {
         obstacle.x -= 6;
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
@@ -132,70 +169,105 @@
         ) {
           isGameOver = true;
         }
+
         return obstacle.x > -20;
       });
 
-      // Punktzahl erhöhen
+      // Punktzahl aktualisieren
       score += 1;
       ctx.fillStyle = "black";
       ctx.font = "20px Arial";
       ctx.fillText("Score: " + score, 10, 20);
 
-      // Weltwechsel nach Punkten
-      if (!isTransitioning && score > 0 && score % 600 === 0) {
-        isTransitioning = true;
-      }
-
       requestAnimationFrame(update);
     }
 
-    function drawBackground(world, offsetX = 0) {
-      let color = world === "default" ? "#87ceeb" : world === "desert" ? "#f4a460" : "#d3f3f3";
-      ctx.fillStyle = color;
-      ctx.fillRect(offsetX, 0, canvas.width, canvas.height);
-
-      // Weltenspezifische Dekorationen
-      if (world === "winter") drawSnowflakes(offsetX);
-      if (world === "desert") drawCacti(offsetX);
+    function changeWorld() {
+      if (score > 0 && score % 600 === 0) {
+        if (currentWorld === "default") currentWorld = "desert";
+        else if (currentWorld === "desert") currentWorld = "winter";
+        else currentWorld = "default";
+      }
     }
 
-    function drawSnowflakes(offsetX = 0) {
+    function drawBackground() {
+      if (currentWorld === "default") {
+        ctx.fillStyle = "#87ceeb"; // Himmelsblau
+      } else if (currentWorld === "desert") {
+        ctx.fillStyle = "#f4a460"; // Sandfarben
+      } else if (currentWorld === "winter") {
+        ctx.fillStyle = "#d3f3f3"; // Schneeweiß
+      }
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawClouds() {
       ctx.fillStyle = "white";
-      for (let i = 0; i < 10; i++) {
-        let x = Math.random() * canvas.width + offsetX;
-        let y = Math.random() * canvas.height;
+      for (let i = 0; i < clouds.length; i++) {
+        let cloud = clouds[i];
+        cloud.x -= 0.5;
         ctx.beginPath();
-        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.arc(cloud.x, cloud.y, 20, Math.PI * 0.5, Math.PI * 1.5);
+        ctx.arc(cloud.x + 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5);
+        ctx.arc(cloud.x - 20, cloud.y - 10, 25, Math.PI * 0.5, Math.PI * 1.5);
         ctx.fill();
+        if (cloud.x < -50) {
+          clouds.splice(i, 1);
+        }
+      }
+
+      if (Math.random() < 0.02) {
+        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 });
       }
     }
 
-    function drawCacti(offsetX = 0) {
-      ctx.fillStyle = "green";
-      for (let i = 0; i < 5; i++) {
-        let x = Math.random() * canvas.width + offsetX;
-        let y = 160;
-        ctx.fillRect(x, y - 20, 10, 20);
-        ctx.fillRect(x - 5, y - 10, 5, 10);
-      }
-    }
-
-    function getNextWorld(current) {
-      return current === "default" ? "desert" : current === "desert" ? "winter" : "default";
+    function drawSun() {
+      ctx.fillStyle = currentWorld === "winter" ? "#ffd700" : "yellow"; // Gelb für Winter, Orange für andere
+      ctx.beginPath();
+      ctx.arc(canvas.width - 70, 30, 30, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     function showGameOver() {
+      gameOverSound.play();
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
-      ctx.fillText("Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+      ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
+
+      // Bestenliste aktualisieren
+      bestScores.push(score);
+      bestScores.sort((a, b) => b - a);
+      bestScores = bestScores.slice(0, 5);
+      localStorage.setItem("bestScores", JSON.stringify(bestScores));
+
+      updateScoreBoard();
+
+      setTimeout(() => {
+        startButton.style.display = "block";
+        gameContainer.style.display = "none";
+      }, 2000);
+    }
+
+    function updateScoreBoard() {
+      const scoreList = document.getElementById("scoreList");
+      scoreList.innerHTML = "";
+
+      bestScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
+        scoreList.appendChild(row);
+      });
     }
 
     document.addEventListener("keydown", (e) => {
       if (e.code === "Space" && !dino.jumping) {
         dino.jumping = true;
         dino.velocityY = -20;
+        jumpSound.play();
       }
     });
+
+    updateScoreBoard();
   </script>
 </body>
 </html>
