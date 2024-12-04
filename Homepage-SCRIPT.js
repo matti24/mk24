@@ -148,6 +148,7 @@ setInterval(updateClock, 1000);
 updateClock();
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Elemente abrufen
     const gameContainer = document.getElementById("gameContainer");
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");
@@ -155,12 +156,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameOverText = document.getElementById("gameOverText");
     const scoreElement = document.getElementById("score");
 
+    if (!gameContainer || !gameCanvas || !gameStartButton || !gameOverText || !scoreElement) {
+        console.error("Ein oder mehrere HTML-Elemente fehlen!");
+        return;
+    }
+
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
     let obstacles = [];
     let isGameOver = false;
     let score = 0;
 
     gameStartButton.addEventListener("click", () => {
+        console.log("Spiel gestartet!");
         gameStartButton.style.display = "none";
         gameOverText.style.display = "none";
         score = 0;
@@ -180,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateGame() {
         if (isGameOver) {
+            console.log("Game Over!");
             gameOverText.style.display = "block";
             scoreElement.textContent = score;
             gameStartButton.style.display = "block";
@@ -198,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
             dino.jumping = false;
         }
 
-        // Obstacles
+        // Hindernisse
         if (Math.random() < 0.02) {
             obstacles.push({ x: gameCanvas.width, y: 160, width: 20, height: 20 });
         }
@@ -208,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
             obstacle.x -= 5;
             ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
-            // Check collision
+            // Kollision prüfen
             if (
                 dino.x < obstacle.x + obstacle.width &&
                 dino.x + dino.width > obstacle.x &&
