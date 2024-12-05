@@ -89,18 +89,10 @@
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
     let obstacles = [];
     let clouds = [];
-    let snowflakes = [];
-    let cacti = [];
     let isGameOver = false;
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let currentWorld = "default";
-    let lastTime = 0; // Zeit des letzten Frames
-    const speed = 6; // Basisgeschwindigkeit
-
-    // Sounds
-    const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
-    const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -111,22 +103,16 @@
     function startGame() {
       obstacles = [];
       clouds = [];
-      snowflakes = [];
-      cacti = [];
       dino.y = 150;
       dino.jumping = false;
       dino.velocityY = 0;
       score = 0;
       isGameOver = false;
       currentWorld = "default";
-      lastTime = 0; // Zurücksetzen der Zeit
       requestAnimationFrame(update);
     }
 
     function update(time = 0) {
-      const deltaTime = time - lastTime; // Zeit seit dem letzten Frame
-      lastTime = time;
-
       if (isGameOver) {
         showGameOver();
         return;
@@ -137,99 +123,41 @@
       // Hintergrund zeichnen
       drawBackground();
 
-      // Weltwechsel
-      changeWorld();
-
       // Wolken
-      drawClouds(deltaTime);
+      drawClouds();
 
       // Sonne
       drawSun();
-
-      // Schnee
-      if (currentWorld === "winter") drawSnowflakes(deltaTime);
-
-      // Kakteen
-      if (currentWorld === "desert") drawCacti(deltaTime);
 
       // Dino zeichnen
       ctx.fillStyle = "green";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Dino-Schwerkraft
-      dino.velocityY += 1.5 * (deltaTime / 16); // Stabilisierung
-      dino.y += dino.velocityY;
-
-      if (dino.y > 150) {
-        dino.y = 150;
-        dino.jumping = false;
-      }
-
-      // Hindernisse
-      if (Math.random() < 0.02 * (deltaTime / 16)) {
-        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
-      }
-
-      ctx.fillStyle = "red";
-      obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= speed * (deltaTime / 16); // Stabilisierung
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-
-        // Kollision prüfen
-        if (
-          dino.x < obstacle.x + obstacle.width &&
-          dino.x + dino.width > obstacle.x &&
-          dino.y < obstacle.y + obstacle.height &&
-          dino.height + dino.y > obstacle.y
-        ) {
-          isGameOver = true;
-        }
-
-        return obstacle.x > -20;
-      });
-
-      // Punktzahl
-      score += 1 * (deltaTime / 16); // Stabilisierung
-      ctx.fillStyle = "black";
-      ctx.font = "20px Arial";
-      ctx.fillText("Score: " + Math.floor(score), 10, 20);
-
       requestAnimationFrame(update);
     }
 
     function drawBackground() {
-      if (currentWorld === "default") ctx.fillStyle = "#87ceeb"; // Himmelblau
-      else if (currentWorld === "desert") ctx.fillStyle = "#f4a460"; // Sandfarbe
-      else if (currentWorld === "winter") ctx.fillStyle = "#d3f3f3"; // Winterhimmel
+      ctx.fillStyle = "#87ceeb"; // Himmelblau
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    function changeWorld() {
-      if (score > 0 && Math.floor(score) % 600 === 0) {
-        if (currentWorld === "default") currentWorld = "desert";
-        else if (currentWorld === "desert") currentWorld = "winter";
-        else currentWorld = "default";
-      }
-    }
-
-    function drawClouds(deltaTime) {
+    function drawClouds() {
       ctx.fillStyle = "white";
-      for (let i = 0; i < clouds.length; i++) {
-        let cloud = clouds[i];
-        cloud.x -= 1 * (deltaTime / 16);
+      clouds.forEach(cloud => {
         ctx.beginPath();
         ctx.arc(cloud.x, cloud.y, 20, 0, Math.PI * 2);
-        ctx.arc(cloud.x + 30, cloud.y + 10, 25, 0, Math.PI * 2);
         ctx.fill();
-        if (cloud.x < -50) clouds.splice(i, 1);
-      }
-      if (Math.random() < 0.01 * (deltaTime / 16)) {
-        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 });
-      }
+      });
+    }
+
+    function drawSun() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(750, 50, 30, 0, Math.PI * 2); // Sonne in der oberen rechten Ecke
+      ctx.fill();
     }
 
     function showGameOver() {
-      gameOverSound.play();
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + Math.floor(score), canvas.width / 2 - 150, canvas.height / 2);
