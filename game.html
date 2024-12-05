@@ -95,15 +95,12 @@
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let currentWorld = "default";
-    let lastTime = 0;
-    const speed = 6;
+    let lastTime = 0; // Zeit des letzten Frames
+    const speed = 6; // Basisgeschwindigkeit
 
-    // Sounds (Fallback-Mechanismus)
+    // Sounds
     const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
     const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
-
-    jumpSound.onerror = () => console.warn("Jump sound konnte nicht geladen werden.");
-    gameOverSound.onerror = () => console.warn("Game over sound konnte nicht geladen werden.");
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -122,12 +119,12 @@
       score = 0;
       isGameOver = false;
       currentWorld = "default";
-      lastTime = 0;
+      lastTime = 0; // Zurücksetzen der Zeit
       requestAnimationFrame(update);
     }
 
     function update(time = 0) {
-      const deltaTime = time - lastTime;
+      const deltaTime = time - lastTime; // Zeit seit dem letzten Frame
       lastTime = time;
 
       if (isGameOver) {
@@ -137,18 +134,30 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      changeWorld();
+      // Hintergrund zeichnen
       drawBackground();
+
+      // Weltwechsel
+      changeWorld();
+
+      // Wolken
       drawClouds(deltaTime);
+
+      // Sonne
       drawSun();
 
+      // Schnee
       if (currentWorld === "winter") drawSnowflakes(deltaTime);
+
+      // Kakteen
       if (currentWorld === "desert") drawCacti(deltaTime);
 
+      // Dino zeichnen
       ctx.fillStyle = "green";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      dino.velocityY += 1.5 * (deltaTime / 16);
+      // Dino-Schwerkraft
+      dino.velocityY += 1.5 * (deltaTime / 16); // Stabilisierung
       dino.y += dino.velocityY;
 
       if (dino.y > 150) {
@@ -156,15 +165,17 @@
         dino.jumping = false;
       }
 
+      // Hindernisse
       if (Math.random() < 0.02 * (deltaTime / 16)) {
         obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
       }
 
       ctx.fillStyle = "red";
       obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= speed * (deltaTime / 16);
+        obstacle.x -= speed * (deltaTime / 16); // Stabilisierung
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
+        // Kollision prüfen
         if (
           dino.x < obstacle.x + obstacle.width &&
           dino.x + dino.width > obstacle.x &&
@@ -177,7 +188,8 @@
         return obstacle.x > -20;
       });
 
-      score += 1 * (deltaTime / 16);
+      // Punktzahl
+      score += 1 * (deltaTime / 16); // Stabilisierung
       ctx.fillStyle = "black";
       ctx.font = "20px Arial";
       ctx.fillText("Score: " + Math.floor(score), 10, 20);
@@ -185,11 +197,11 @@
       requestAnimationFrame(update);
     }
 
-    function drawSun() {
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(700, 50, 30, 0, Math.PI * 2); // Sonne zeichnen
-      ctx.fill();
+    function drawBackground() {
+      if (currentWorld === "default") ctx.fillStyle = "#87ceeb"; // Himmelblau
+      else if (currentWorld === "desert") ctx.fillStyle = "#f4a460"; // Sandfarbe
+      else if (currentWorld === "winter") ctx.fillStyle = "#d3f3f3"; // Winterhimmel
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
     function changeWorld() {
@@ -200,45 +212,28 @@
       }
     }
 
+    function drawClouds(deltaTime) {
+      ctx.fillStyle = "white";
+      for (let i = 0; i < clouds.length; i++) {
+        let cloud = clouds[i];
+        cloud.x -= 1 * (deltaTime / 16);
+        ctx.beginPath();
+        ctx.arc(cloud.x, cloud.y, 20, 0, Math.PI * 2);
+        ctx.arc(cloud.x + 30, cloud.y + 10, 25, 0, Math.PI * 2);
+        ctx.fill();
+        if (cloud.x < -50) clouds.splice(i, 1);
+      }
+      if (Math.random() < 0.01 * (deltaTime / 16)) {
+        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 });
+      }
+    }
+
     function showGameOver() {
       gameOverSound.play();
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + Math.floor(score), canvas.width / 2 - 150, canvas.height / 2);
-
-      bestScores.push(Math.floor(score));
-      bestScores.sort((a, b) => b - a);
-      bestScores = bestScores.slice(0, 5);
-      localStorage.setItem("bestScores", JSON.stringify(bestScores));
-
-      updateScoreBoard();
-
-      setTimeout(() => {
-        startButton.style.display = "block";
-        gameContainer.style.display = "none";
-      }, 2000);
     }
-
-    function updateScoreBoard() {
-      const scoreList = document.getElementById("scoreList");
-      scoreList.innerHTML = "";
-      bestScores.forEach((score, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-        scoreList.appendChild(row);
-      });
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space" && !dino.jumping) {
-        dino.jumping = true;
-        dino.velocityY = -20;
-        jumpSound.play();
-      }
-    });
-
-    updateScoreBoard();
   </script>
-
 </body>
 </html>
