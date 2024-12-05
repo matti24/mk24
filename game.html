@@ -86,12 +86,11 @@
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
-    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocity: 0, jumping: false };
     let obstacles = [];
     let clouds = [];
     let isGameOver = false;
     let score = 0;
-    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let currentWorld = "default";
 
     startButton.addEventListener("click", () => {
@@ -105,14 +104,13 @@
       clouds = [];
       dino.y = 150;
       dino.jumping = false;
-      dino.velocityY = 0;
+      dino.velocity = 0;
       score = 0;
       isGameOver = false;
-      currentWorld = "default";
       requestAnimationFrame(update);
     }
 
-    function update(time = 0) {
+    function update() {
       if (isGameOver) {
         showGameOver();
         return;
@@ -129,9 +127,14 @@
       // Sonne
       drawSun();
 
-      // Dino zeichnen
-      ctx.fillStyle = "green";
-      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+      // Dino
+      drawDino();
+
+      // Hindernisse
+      drawObstacles();
+
+      // Punktzahl anzeigen
+      drawScore();
 
       requestAnimationFrame(update);
     }
@@ -141,26 +144,86 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
+    function drawSun() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(700, 50, 30, 0, Math.PI * 2); // Sonne rechts oben
+      ctx.fill();
+    }
+
     function drawClouds() {
       ctx.fillStyle = "white";
       clouds.forEach(cloud => {
         ctx.beginPath();
         ctx.arc(cloud.x, cloud.y, 20, 0, Math.PI * 2);
         ctx.fill();
+        cloud.x -= 1; // Wolken bewegen sich nach links
+      });
+
+      // Neue Wolken hinzufügen
+      if (Math.random() < 0.01) {
+        clouds.push({ x: canvas.width, y: Math.random() * 50 });
+      }
+
+      // Alte Wolken entfernen
+      clouds = clouds.filter(cloud => cloud.x > -50);
+    }
+
+    function drawDino() {
+      ctx.fillStyle = "green";
+      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+
+      // Schwerkraft und Springen
+      if (dino.jumping) {
+        dino.velocity += 0.5; // Schwerkraft
+        dino.y += dino.velocity;
+
+        if (dino.y >= 150) {
+          dino.y = 150;
+          dino.jumping = false;
+        }
+      }
+    }
+
+    function drawObstacles() {
+      ctx.fillStyle = "red";
+      obstacles.forEach(obstacle => {
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        obstacle.x -= 5; // Hindernisse bewegen sich nach links
+      });
+
+      // Neue Hindernisse hinzufügen
+      if (Math.random() < 0.02) {
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+      }
+
+      // Alte Hindernisse entfernen
+      obstacles = obstacles.filter(obstacle => obstacle.x > -20);
+
+      // Kollision prüfen
+      obstacles.forEach(obstacle => {
+        if (
+          dino.x < obstacle.x + obstacle.width &&
+          dino.x + dino.width > obstacle.x &&
+          dino.y < obstacle.y + obstacle.height &&
+          dino.height + dino.y > obstacle.y
+        ) {
+          isGameOver = true;
+        }
       });
     }
 
-    function drawSun() {
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(750, 50, 30, 0, Math.PI * 2); // Sonne in der oberen rechten Ecke
-      ctx.fill();
+    function drawScore() {
+      score++;
+      ctx.fillStyle = "black";
+      ctx.font = "20px Arial";
+      ctx.fillText("Score: " + score, 10, 20);
     }
 
     function showGameOver() {
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
-      ctx.fillText("Game Over! Score: " + Math.floor(score), canvas.width / 2 - 150, canvas.height / 2);
+      ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
     }
   </script>
 </body>
