@@ -86,12 +86,19 @@
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
-    let dino = { x: 50, y: 150, width: 20, height: 20, velocity: 0, jumping: false };
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
     let obstacles = [];
     let clouds = [];
+    let snowflakes = [];
+    let cacti = [];
     let isGameOver = false;
     let score = 0;
+    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let currentWorld = "default";
+
+    // Sounds
+    const jumpSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
+    const gameOverSound = new Audio("https://www.soundjay.com/button/beep-10.wav");
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -102,11 +109,14 @@
     function startGame() {
       obstacles = [];
       clouds = [];
+      snowflakes = [];
+      cacti = [];
       dino.y = 150;
       dino.jumping = false;
-      dino.velocity = 0;
+      dino.velocityY = 0;
       score = 0;
       isGameOver = false;
+      currentWorld = "default";
       requestAnimationFrame(update);
     }
 
@@ -118,7 +128,10 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Hintergrund zeichnen
+      // Weltwechsel
+      changeWorld();
+
+      // Hintergrund
       drawBackground();
 
       // Wolken
@@ -127,81 +140,36 @@
       // Sonne
       drawSun();
 
-      // Dino
-      drawDino();
+      // Schnee
+      if (currentWorld === "winter") drawSnowflakes();
 
-      // Hindernisse
-      drawObstacles();
+      // Kakteen
+      if (currentWorld === "desert") drawCacti();
 
-      // Punktzahl anzeigen
-      drawScore();
-
-      requestAnimationFrame(update);
-    }
-
-    function drawBackground() {
-      ctx.fillStyle = "#87ceeb"; // Himmelblau
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function drawSun() {
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(700, 50, 30, 0, Math.PI * 2); // Sonne rechts oben
-      ctx.fill();
-    }
-
-    function drawClouds() {
-      ctx.fillStyle = "white";
-      clouds.forEach(cloud => {
-        ctx.beginPath();
-        ctx.arc(cloud.x, cloud.y, 20, 0, Math.PI * 2);
-        ctx.fill();
-        cloud.x -= 1; // Wolken bewegen sich nach links
-      });
-
-      // Neue Wolken hinzufügen
-      if (Math.random() < 0.01) {
-        clouds.push({ x: canvas.width, y: Math.random() * 50 });
-      }
-
-      // Alte Wolken entfernen
-      clouds = clouds.filter(cloud => cloud.x > -50);
-    }
-
-    function drawDino() {
+      // Dino zeichnen
       ctx.fillStyle = "green";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Schwerkraft und Springen
-      if (dino.jumping) {
-        dino.velocity += 0.5; // Schwerkraft
-        dino.y += dino.velocity;
+      // Dino-Schwerkraft
+      dino.velocityY += 1.5;
+      dino.y += dino.velocityY;
 
-        if (dino.y >= 150) {
-          dino.y = 150;
-          dino.jumping = false;
-        }
+      if (dino.y > 150) {
+        dino.y = 150;
+        dino.jumping = false;
       }
-    }
 
-    function drawObstacles() {
-      ctx.fillStyle = "red";
-      obstacles.forEach(obstacle => {
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-        obstacle.x -= 5; // Hindernisse bewegen sich nach links
-      });
-
-      // Neue Hindernisse hinzufügen
+      // Hindernisse
       if (Math.random() < 0.02) {
         obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
       }
 
-      // Alte Hindernisse entfernen
-      obstacles = obstacles.filter(obstacle => obstacle.x > -20);
+      ctx.fillStyle = "red";
+      obstacles = obstacles.filter(obstacle => {
+        obstacle.x -= 6;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
-      // Kollision prüfen
-      obstacles.forEach(obstacle => {
+        // Kollision prüfen
         if (
           dino.x < obstacle.x + obstacle.width &&
           dino.x + dino.width > obstacle.x &&
@@ -210,21 +178,125 @@
         ) {
           isGameOver = true;
         }
-      });
-    }
 
-    function drawScore() {
-      score++;
+        return obstacle.x > -20;
+      });
+
+      // Punktzahl
+      score += 1;
       ctx.fillStyle = "black";
       ctx.font = "20px Arial";
       ctx.fillText("Score: " + score, 10, 20);
+
+      requestAnimationFrame(update);
+    }
+
+    function changeWorld() {
+      if (score > 0 && score % 600 === 0) {
+        if (currentWorld === "default") currentWorld = "desert";
+        else if (currentWorld === "desert") currentWorld = "winter";
+        else currentWorld = "default";
+      }
+    }
+
+    function drawBackground() {
+      if (currentWorld === "default") ctx.fillStyle = "#87ceeb";
+      else if (currentWorld === "desert") ctx.fillStyle = "#f4a460";
+      else if (currentWorld === "winter") ctx.fillStyle = "#d3f3f3";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawClouds() {
+      ctx.fillStyle = "white";
+      for (let i = 0; i < clouds.length; i++) {
+        let cloud = clouds[i];
+        cloud.x -= 1;
+        ctx.beginPath();
+        ctx.arc(cloud.x, cloud.y, 20, 0, Math.PI * 2);
+        ctx.arc(cloud.x + 30, cloud.y + 10, 25, 0, Math.PI * 2);
+        ctx.fill();
+        if (cloud.x < -50) clouds.splice(i, 1);
+      }
+      if (Math.random() < 0.01) {
+        clouds.push({ x: canvas.width + 100, y: Math.random() * 50 + 50 });
+      }
+    }
+
+    function drawSun() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(canvas.width - 70, 30, 30, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawSnowflakes() {
+      ctx.fillStyle = "white";
+      for (let i = 0; i < snowflakes.length; i++) {
+        let flake = snowflakes[i];
+        flake.y += flake.speed;
+        flake.x -= 0.5;
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+        if (flake.y > canvas.height) snowflakes.splice(i, 1);
+      }
+      if (Math.random() < 0.1) {
+        snowflakes.push({ x: Math.random() * canvas.width, y: 0, speed: Math.random() * 2 + 1 });
+      }
+    }
+
+    function drawCacti() {
+      ctx.fillStyle = "green";
+      for (let i = 0; i < cacti.length; i++) {
+        let cactus = cacti[i];
+        cactus.x -= 2;
+        ctx.fillRect(cactus.x, 140, 10, 40);
+        ctx.fillRect(cactus.x - 5, 150, 5, 15);
+        if (cactus.x < -20) cacti.splice(i, 1);
+      }
+      if (Math.random() < 0.03) {
+        cacti.push({ x: canvas.width + 50 });
+      }
     }
 
     function showGameOver() {
+      gameOverSound.play();
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
+
+      bestScores.push(score);
+      bestScores.sort((a, b) => b - a);
+      bestScores = bestScores.slice(0, 5);
+      localStorage.setItem("bestScores", JSON.stringify(bestScores));
+
+      updateScoreBoard();
+
+      setTimeout(() => {
+        startButton.style.display = "block";
+        gameContainer.style.display = "none";
+      }, 2000);
     }
+
+    function updateScoreBoard() {
+      const scoreList = document.getElementById("scoreList");
+      scoreList.innerHTML = "";
+      bestScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
+        scoreList.appendChild(row);
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && !dino.jumping) {
+        dino.jumping = true;
+        dino.velocityY = -20;
+        jumpSound.play();
+      }
+    });
+
+    updateScoreBoard();
   </script>
 </body>
 </html>
