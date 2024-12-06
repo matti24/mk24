@@ -10,15 +10,14 @@
       margin: 0;
       padding: 0;
       text-align: center;
-      background: linear-gradient(180deg, #f0f8ff, #87cefa);
+      background: linear-gradient(180deg, #ffffff, #e3f2fd);
       overflow: hidden;
     }
 
     h1 {
       margin-top: 20px;
       color: #333;
-      font-size: 36px;
-      text-shadow: 2px 2px #fff;
+      font-size: 32px;
     }
 
     #startButton {
@@ -28,17 +27,15 @@
       font-size: 18px;
       font-weight: bold;
       color: white;
-      background: linear-gradient(45deg, #ff5722, #ff9800);
+      background: linear-gradient(45deg, #4caf50, #81c784);
       border: none;
-      border-radius: 30px;
+      border-radius: 25px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     #startButton:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #388e3c, #66bb6a);
     }
 
     #gameContainer {
@@ -47,25 +44,52 @@
 
     #canvas {
       margin-top: 20px;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 2px solid #4caf50;
+      border-radius: 8px;
+      background: #c8e6c9;
     }
 
     #scoreBoard {
       margin-top: 20px;
       font-size: 18px;
     }
+
+    #scoreTable {
+      margin: 10px auto;
+      width: 50%;
+      border-collapse: collapse;
+    }
+
+    #scoreTable th, #scoreTable td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #scoreTable th {
+      background-color: #4caf50;
+      color: white;
+    }
   </style>
 </head>
 <body>
-  <h1>🦕 Mini Dino Game</h1>
+  <h1>Mini Dino Game</h1>
   <button id="startButton">Spiel Starten</button>
   <div id="gameContainer">
     <canvas id="canvas" width="800" height="200"></canvas>
   </div>
   <div id="scoreBoard">
-    <h2>Highscore: <span id="highScore">0</span></h2>
-    <p>Aktuelle Punktzahl: <span id="currentScore">0</span></p>
+    <h2>Beste Punktzahlen</h2>
+    <table id="scoreTable">
+      <thead>
+        <tr>
+          <th>Platz</th>
+          <th>Punktzahl</th>
+        </tr>
+      </thead>
+      <tbody id="scoreList">
+        <!-- Bestenliste wird hier eingefügt -->
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -73,18 +97,14 @@
     const gameContainer = document.getElementById("gameContainer");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    const highScoreElement = document.getElementById("highScore");
-    const currentScoreElement = document.getElementById("currentScore");
+    const scoreListElement = document.getElementById("scoreList");
 
-    let dino = { x: 50, y: 150, width: 40, height: 40, velocityY: 0, jumping: false };
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
     let obstacles = [];
     let score = 0;
-    let highScore = localStorage.getItem("highScore") || 0;
+    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let isGameOver = false;
 
-    highScoreElement.textContent = highScore;
-
-    // Start Game
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       gameContainer.style.display = "block";
@@ -102,38 +122,41 @@
 
     function update() {
       if (isGameOver) {
-        gameOver();
+        showGameOver();
         return;
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Update and draw background
-      ctx.fillStyle = score % 600 < 200 ? "#87cefa" : "#ffa07a"; // Day/Night cycle
+      // Hintergrund zeichnen
+      ctx.fillStyle = "#c8e6c9";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Dino
-      ctx.fillStyle = "#32cd32";
+      // Dino zeichnen
+      ctx.fillStyle = "#4caf50";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Gravity
+      // Gravitation
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
+
       if (dino.y > 150) {
         dino.y = 150;
         dino.jumping = false;
       }
 
-      // Obstacles
+      // Hindernisse generieren
       if (Math.random() < 0.02) {
         obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
       }
-      ctx.fillStyle = "#dc143c";
+
+      // Hindernisse zeichnen
+      ctx.fillStyle = "#ff5722";
       obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= 5;
+        obstacle.x -= 6;
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
-        // Collision
+        // Kollision prüfen
         if (
           dino.x < obstacle.x + obstacle.width &&
           dino.x + dino.width > obstacle.x &&
@@ -146,28 +169,40 @@
         return obstacle.x > -20;
       });
 
-      // Score
+      // Punktzahl
       score++;
-      currentScoreElement.textContent = score;
+      ctx.fillStyle = "#333";
+      ctx.font = "20px Arial";
+      ctx.fillText("Punktzahl: " + score, 10, 20);
 
       requestAnimationFrame(update);
     }
 
-    function gameOver() {
+    function showGameOver() {
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
 
-      if (score > highScore) {
-        highScore = score;
-        localStorage.setItem("highScore", highScore);
-        highScoreElement.textContent = highScore;
-      }
+      bestScores.push(score);
+      bestScores.sort((a, b) => b - a);
+      bestScores = bestScores.slice(0, 5);
+      localStorage.setItem("bestScores", JSON.stringify(bestScores));
+
+      updateScoreBoard();
 
       setTimeout(() => {
         startButton.style.display = "block";
         gameContainer.style.display = "none";
       }, 2000);
+    }
+
+    function updateScoreBoard() {
+      scoreListElement.innerHTML = "";
+      bestScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
+        scoreListElement.appendChild(row);
+      });
     }
 
     document.addEventListener("keydown", (e) => {
@@ -176,6 +211,8 @@
         dino.velocityY = -20;
       }
     });
+
+    updateScoreBoard();
   </script>
 </body>
 </html>
