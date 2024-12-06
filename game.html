@@ -100,6 +100,7 @@
 
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false, doubleJumps: 5 };
     let obstacles = [];
+    let snowflakes = [];
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let isGameOver = false;
@@ -114,6 +115,7 @@
 
     function resetGame() {
       obstacles = [];
+      snowflakes = [];
       score = 0;
       dino.y = 150;
       dino.jumping = false;
@@ -134,11 +136,13 @@
 
       frameCount++;
       if (frameCount % 600 === 0) changeWorld();
+      if (frameCount % 600 === 0 && dino.doubleJumps < 5) dino.doubleJumps++;
 
       drawBackground();
       drawSun();
       drawDino();
       drawObstacles();
+      drawSnowflakes();
       drawScore();
       checkCollisions();
 
@@ -155,10 +159,50 @@
     }
 
     function drawBackground() {
-      if (currentWorld === "default") ctx.fillStyle = "#c8e6c9"; // Green
-      if (currentWorld === "desert") ctx.fillStyle = "#f4a460"; // Sand
-      if (currentWorld === "winter") ctx.fillStyle = "#d3f3f3"; // Snow
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (currentWorld === "default") {
+        ctx.fillStyle = "#c8e6c9"; // Green
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Berge
+        ctx.fillStyle = "#8d8d8d";
+        ctx.beginPath();
+        ctx.moveTo(50, 200);
+        ctx.lineTo(150, 100);
+        ctx.lineTo(250, 200);
+        ctx.fill();
+      }
+
+      if (currentWorld === "desert") {
+        ctx.fillStyle = "#f4a460"; // Sand
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Kakteen
+        ctx.fillStyle = "green";
+        ctx.fillRect(100, 150, 10, 40);
+        ctx.fillRect(220, 130, 10, 60);
+      }
+
+      if (currentWorld === "winter") {
+        ctx.fillStyle = "#d3f3f3"; // Snow
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function drawSnowflakes() {
+      if (currentWorld !== "winter") return;
+
+      if (Math.random() < 0.1) {
+        snowflakes.push({ x: Math.random() * canvas.width, y: 0, size: Math.random() * 3 + 2 });
+      }
+
+      ctx.fillStyle = "white";
+      snowflakes = snowflakes.filter(flake => {
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+        ctx.fill();
+        flake.y += 1;
+        return flake.y < canvas.height;
+      });
     }
 
     function drawSun() {
@@ -167,7 +211,6 @@
       ctx.arc(canvas.width - 70, 50, 30, 0, Math.PI * 2);
       ctx.fill();
 
-      // Draw sun rays
       for (let i = 0; i < 12; i++) {
         ctx.save();
         ctx.translate(canvas.width - 70, 50);
@@ -179,11 +222,6 @@
     }
 
     function drawDino() {
-      // Schatten
-      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-      ctx.fillRect(dino.x, dino.y + 20, dino.width, 5);
-
-      // Dino
       ctx.fillStyle = "#4caf50";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
     }
@@ -228,33 +266,32 @@
     }
 
     function showGameOver() {
-      ctx.fillStyle = "black";
-      ctx.font = "30px Arial";
-      ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
-
       bestScores.push(score);
       bestScores.sort((a, b) => b - a);
       bestScores = bestScores.slice(0, 5);
       localStorage.setItem("bestScores", JSON.stringify(bestScores));
       updateScoreBoard();
 
-      setTimeout(() => {
-        startButton.style.display = "block";
-        gameContainer.style.display = "none";
-      }, 2000);
+      ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "white";
+      ctx.font = "30px Arial";
+      ctx.fillText("Game Over!", canvas.width / 2 - 80, canvas.height / 2);
+      ctx.font = "20px Arial";
+      ctx.fillText("Klicken zum Neustarten", canvas.width / 2 - 120, canvas.height / 2 + 40);
+
+      canvas.addEventListener("click", resetGame, { once: true });
     }
 
     function updateScoreBoard() {
-      scoreListElement.innerHTML = "";
-      bestScores.forEach((score, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-        scoreListElement.appendChild(row);
-      });
+      scoreListElement.innerHTML = bestScores
+        .map((score, index) => `<tr><td>${index + 1}</td><td>${score}</td></tr>`)
+        .join("");
     }
 
     document.addEventListener("keydown", (e) => {
-      if (e.code === "Space") {
+      if (e.code === "Space" || e.code === "ArrowUp") {
         if (!dino.jumping) {
           dino.jumping = true;
           dino.velocityY = -20;
@@ -264,8 +301,6 @@
         }
       }
     });
-
-    updateScoreBoard();
   </script>
 </body>
 </html>
