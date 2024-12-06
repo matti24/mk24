@@ -18,7 +18,7 @@
       color: #333;
       font-size: 32px;
     }
-    #startButton {
+    #startButton, #restartButton {
       display: inline-block;
       margin: 20px;
       padding: 15px 30px;
@@ -31,7 +31,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    #startButton:hover {
+    #startButton:hover, #restartButton:hover {
       background: linear-gradient(45deg, #388e3c, #66bb6a);
     }
     #gameContainer {
@@ -64,6 +64,7 @@
 <body>
 <h1>Mini Dino Game</h1>
 <button id="startButton">Spiel Starten</button>
+<button id="restartButton" style="display: none;">Neustart</button>
 <div id="gameContainer">
 <canvas id="canvas" width="800" height="200"></canvas>
 </div>
@@ -82,6 +83,7 @@
 </div>
 <script>
     const startButton = document.getElementById("startButton");
+    const restartButton = document.getElementById("restartButton");
     const gameContainer = document.getElementById("gameContainer");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -102,6 +104,11 @@
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       gameContainer.style.display = "block";
+      resetGame();
+    });
+ 
+    restartButton.addEventListener("click", () => {
+      restartButton.style.display = "none";
       resetGame();
     });
  
@@ -246,15 +253,14 @@
       });
  
       if (Math.random() < 0.02) {
-        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+        obstacles.push({ x: canvas.width, y: 170, width: 10, height: 30 });
       }
     }
  
     function drawScore() {
-      ctx.fillStyle = "#333";
+      ctx.fillStyle = "#000";
       ctx.font = "20px Arial";
       ctx.fillText(`Punktzahl: ${score}`, 10, 20);
-      ctx.fillText(`Double Jumps: ${dino.doubleJumps}`, 10, 50);
     }
  
     function checkCollisions() {
@@ -278,6 +284,7 @@
       ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
       ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
       updateBestScores();
+      restartButton.style.display = "block";
     }
  
     function updateBestScores() {
@@ -307,7 +314,7 @@
  
     document.addEventListener("keydown", e => {
       if ((e.key === " " || e.key === "ArrowUp") && (!dino.jumping || dino.doubleJumps > 0)) {
-        dino.velocityY = -15;
+        dino.velocityY = -20; // Höherer Sprung
         dino.jumping = true;
         if (dino.doubleJumps > 0 && dino.y < 150) dino.doubleJumps--;
       }
