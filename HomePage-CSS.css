@@ -28,6 +28,7 @@
 
 
 #clock-container {
+  display:none;
     text-align: center;
     margin: 50px 0;
 }
@@ -39,11 +40,12 @@
     border-radius: 20px; /* Abgerundete Ecken */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Dezenter Schatten */
     font-family: "Noticia Text", serif;
-    display: inline-block;
+   display:none;
     animation: subtle-glow 4s infinite; /* Leichter Leuchteffekt */
 }
 
 #clock {
+  display:none;
     font-size: 60px; /* Große Schrift */
     font-weight: bold;
     letter-spacing: 2px; /* Abstand zwischen Buchstaben */
