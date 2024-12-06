@@ -1,54 +1,90 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Dino Game</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Dino Game</title>
+<style>
     body {
-      background-color: #e0f0ff;
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       text-align: center;
+      background: linear-gradient(180deg, #ffffff, #e3f2fd);
+      overflow: hidden;
     }
-    canvas {
-      border: 5px solid green;
-      background-color: #b0e0b0;
+    h1 {
+      margin-top: 20px;
+      color: #333;
+      font-size: 32px;
     }
-    button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
+    #startButton {
+      display: inline-block;
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
       color: white;
+      background: linear-gradient(45deg, #4caf50, #81c784);
       border: none;
-      border-radius: 5px;
+      border-radius: 25px;
       cursor: pointer;
-      font-size: 16px;
+      transition: all 0.2s ease;
     }
-    button:hover {
-      background-color: #45a049;
+    #startButton:hover {
+      background: linear-gradient(45deg, #388e3c, #66bb6a);
     }
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
+    #restartButton {
+      display: none;
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(45deg, #f44336, #e57373);
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    #restartButton:hover {
+      background: linear-gradient(45deg, #d32f2f, #f57c7c);
+    }
+    #gameContainer {
+      display: none;
+    }
+    #canvas {
+      margin-top: 20px;
+      border: 2px solid #4caf50;
+      border-radius: 8px;
+    }
+    #scoreBoard {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    #scoreTable {
+      margin: 10px auto;
       width: 50%;
+      border-collapse: collapse;
     }
-    th, td {
-      padding: 10px;
-      text-align: center;
+    #scoreTable th, #scoreTable td {
       border: 1px solid #ddd;
+      padding: 8px;
     }
-    th {
-      background-color: #4CAF50;
+    #scoreTable th {
+      background-color: #4caf50;
       color: white;
     }
-  </style>
+</style>
 </head>
 <body>
-
-  <h1>Mini Dino Game</h1>
-  <canvas id="gameCanvas" width="600" height="200"></canvas>
-  <br>
-  <button id="startButton">Spiel starten</button>
-  <button id="restartButton" style="display:none;">Neustart</button>
+<h1>Mini Dino Game</h1>
+<button id="startButton">Spiel Starten</button>
+<button id="restartButton">Neustart</button>
+<div id="gameContainer">
+  <canvas id="canvas" width="800" height="200"></canvas>
+</div>
+<div id="scoreBoard">
   <h2>Beste Punktzahlen</h2>
   <table id="scoreTable">
     <thead>
@@ -57,142 +93,235 @@
         <th>Punktzahl</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody id="scoreList"></tbody>
   </table>
+  <h3 id="awardMessage"></h3>
+</div>
 
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const startButton = document.getElementById('startButton');
-    const restartButton = document.getElementById('restartButton');
-    const scoreTable = document.getElementById('scoreTable').getElementsByTagName('tbody')[0];
-    let dino, obstacles, score, isGameOver, bestScores;
+<script>
+    const startButton = document.getElementById("startButton");
+    const restartButton = document.getElementById("restartButton");
+    const gameContainer = document.getElementById("gameContainer");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const scoreListElement = document.getElementById("scoreList");
+    const awardMessage = document.getElementById("awardMessage");
+
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false, doubleJumps: 5 };
+    let obstacles = [];
+    let mountains = [{ x: 300 }, { x: 600 }, { x: 900 }];
+    let cacti = [];
+    let snowflakes = [];
+    let score = 0;
+    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let isGameOver = false;
     let currentWorld = "default";
+    let frameCount = 0;
 
-    function init() {
-      dino = { x: 50, y: 150, width: 40, height: 40, speedY: 0, jumping: false };
-      obstacles = [];
-      score = 0;
-      isGameOver = false;
-      bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
-      updateScoreTable();
-    }
-
-    function startGame() {
-      init();
-      startButton.style.display = 'none';
-      restartButton.style.display = 'block';
-      requestAnimationFrame(gameLoop);
-    }
-
-    function restartGame() {
-      startButton.style.display = 'block';
-      restartButton.style.display = 'none';
-      init();
-      gameLoop();
-    }
-
-    function updateScoreTable() {
-      scoreTable.innerHTML = bestScores.map((score, index) => `
-        <tr><td>${index + 1}</td><td>${score.score}</td></tr>
-      `).join('');
-    }
-
-    startButton.addEventListener('click', startGame);
-    restartButton.addEventListener('click', restartGame);
-
-    document.addEventListener('keydown', (event) => {
-      if (event.code === 'Space' && !dino.jumping) {
-        dino.speedY = -10;
-        dino.jumping = true;
-      }
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      gameContainer.style.display = "block";
+      resetGame();
     });
 
-    function gameLoop() {
+    restartButton.addEventListener("click", () => {
+      resetGame();
+      restartButton.style.display = "none";
+      startButton.style.display = "none";
+      gameContainer.style.display = "block";
+    });
+
+    function resetGame() {
+      obstacles = [];
+      snowflakes = [];
+      mountains = [{ x: 300 }, { x: 600 }, { x: 900 }];
+      cacti = [];
+      score = 0;
+      dino.y = 150;
+      dino.jumping = false;
+      dino.velocityY = 0;
+      dino.doubleJumps = 5;
+      isGameOver = false;
+      currentWorld = "default";
+      awardMessage.textContent = '';
+      requestAnimationFrame(update);
+    }
+
+    function update() {
       if (isGameOver) {
         showGameOver();
         return;
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      frameCount++;
+      if (frameCount % 600 === 0) changeWorld();
+      if (frameCount % 600 === 0 && dino.doubleJumps < 5) dino.doubleJumps++;
 
       drawBackground();
+      drawSun();
+      drawMountains();
+      drawCacti();
+      drawSnowflakes();
+      drawObstacles();
       drawDino();
-      moveObstacles();
       drawScore();
       checkCollisions();
 
-      if (score % 600 === 0) changeWorld();
-      if (Math.random() < 0.02) createObstacle();
+      dino.velocityY += 1.5;
+      dino.y += dino.velocityY;
+      if (dino.y > 150) {
+        dino.y = 150;
+        dino.jumping = false;
+      }
 
-      requestAnimationFrame(gameLoop);
+      score++;
+      requestAnimationFrame(update);
     }
 
     function drawBackground() {
-      ctx.fillStyle = currentWorld === "default" ? "#b0e0b0" : currentWorld === "desert" ? "#f4a261" : "#a8d0e6";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
       if (currentWorld === "default") {
-        ctx.fillStyle = "yellow";
-        ctx.beginPath();
-        ctx.arc(550, 40, 20, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillStyle = "#c8e6c9";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else if (currentWorld === "desert") {
+        ctx.fillStyle = "#f4a460";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else if (currentWorld === "winter") {
+        ctx.fillStyle = "#d3f3f3";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
+    }
+
+    function drawMountains() {
+      ctx.fillStyle = "#8d8d8d";
+      mountains.forEach(mountain => {
+        ctx.beginPath();
+        ctx.moveTo(mountain.x - 100, 200);
+        ctx.quadraticCurveTo(mountain.x, 100, mountain.x + 100, 200);
+        ctx.fill();
+        mountain.x -= 1;
+      });
+
+      if (mountains[0].x < -200) mountains.push({ x: canvas.width + 200 });
+      if (mountains[0].x < -300) mountains.shift();
+    }
+
+    function drawCacti() {
+      if (currentWorld !== "desert") return;
+
+      // Add a new cactus at random intervals, but not too close to others
+      if (Math.random() < 0.02 && cacti.length < 5) {
+        let newX = canvas.width;
+        if (cacti.length > 0) {
+          const lastCactus = cacti[cacti.length - 1];
+          newX = lastCactus.x + Math.random() * 100 + 50; // Ensure spacing between cacti
+        }
+        cacti.push({ x: newX });
+      }
+
+      cacti.forEach(cactus => {
+        ctx.fillStyle = "#008000";
+        ctx.fillRect(cactus.x, 140, 10, 40);
+        ctx.beginPath();
+        ctx.moveTo(cactus.x + 5, 160);
+        ctx.lineTo(cactus.x - 5, 150);
+        ctx.lineTo(cactus.x + 5, 150);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(cactus.x + 5, 160);
+        ctx.lineTo(cactus.x + 15, 150);
+        ctx.lineTo(cactus.x + 5, 150);
+        ctx.closePath();
+        ctx.fill();
+
+        cactus.x -= 2;
+      });
+
+      if (cacti[0].x < -20) cacti.shift();
+    }
+
+    function drawSnowflakes() {
+      if (currentWorld !== "winter") return;
+
+      if (Math.random() < 0.1) {
+        snowflakes.push({ x: Math.random() * canvas.width, y: 0, size: Math.random() * 3 + 2 });
+      }
+
+      snowflakes.forEach(snowflake => {
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(snowflake.x, snowflake.y, snowflake.size, 0, Math.PI * 2);
+        ctx.fill();
+        snowflake.y += 2;
+      });
+
+      snowflakes = snowflakes.filter(snowflake => snowflake.y < canvas.height);
+    }
+
+    function drawObstacles() {
+      if (frameCount % 100 === 0) {
+        obstacles.push({ x: canvas.width, y: 140 });
+      }
+
+      obstacles.forEach(obstacle => {
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(obstacle.x, obstacle.y, 20, 20);
+        obstacle.x -= 3;
+      });
+
+      obstacles = obstacles.filter(obstacle => obstacle.x > 0);
     }
 
     function drawDino() {
-      ctx.fillStyle = "green";
+      ctx.fillStyle = "#76d7c4";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
-      dino.speedY += 0.5; 
-      dino.y += dino.speedY;
-      if (dino.y > 150) {
-        dino.y = 150;
-        dino.speedY = 0;
-        dino.jumping = false;
-      }
     }
 
-    function moveObstacles() {
-      obstacles.forEach(obstacle => {
-        obstacle.x -= 3;
-        ctx.fillStyle = "brown";
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-      });
-      obstacles = obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
-    }
-
-    function createObstacle() {
-      const height = Math.random() < 0.5 ? 20 : 40;
-      obstacles.push({ x: canvas.width, y: 160 - height, width: 30, height });
+    function drawScore() {
+      ctx.fillStyle = "#000000";
+      ctx.font = "20px Arial";
+      ctx.fillText("Punkte: " + score, 10, 30);
     }
 
     function checkCollisions() {
       obstacles.forEach(obstacle => {
-        if (dino.x + dino.width > obstacle.x && dino.x < obstacle.x + obstacle.width &&
-          dino.y + dino.height > obstacle.y) {
+        if (dino.x < obstacle.x + 20 && dino.x + dino.width > obstacle.x && dino.y < obstacle.y + 20 && dino.y + dino.height > obstacle.y) {
+          isGameOver = true;
+        }
+      });
+
+      cacti.forEach(cactus => {
+        if (dino.x < cactus.x + 10 && dino.x + dino.width > cactus.x && dino.y < cactus.y + 40 && dino.y + dino.height > cactus.y) {
           isGameOver = true;
         }
       });
     }
 
     function changeWorld() {
-      currentWorld = currentWorld === "default" ? "desert" : currentWorld === "desert" ? "winter" : "default";
+      const worlds = ["default", "desert", "winter"];
+      const nextWorld = worlds[(worlds.indexOf(currentWorld) + 1) % worlds.length];
+      currentWorld = nextWorld;
     }
 
     function showGameOver() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#000000";
       ctx.font = "30px Arial";
-      ctx.fillStyle = "#ff0000";
-      ctx.fillText("Game Over!", canvas.width / 2 - 80, canvas.height / 2);
+      ctx.fillText("Game Over!", canvas.width / 2 - 80, canvas.height / 2 - 20);
+      restartButton.style.display = "inline-block";
 
-      bestScores.push({ name: "Player", score });
-      bestScores.sort((a, b) => b.score - a.score);
-      bestScores = bestScores.slice(0, 5);
+      // Save best score
+      if (score > Math.min(...bestScores)) {
+        bestScores.push(score);
+        bestScores.sort((a, b) => b - a);
+        if (bestScores.length > 5) bestScores = bestScores.slice(0, 5);
+        localStorage.setItem("bestScores", JSON.stringify(bestScores));
+      }
 
-      localStorage.setItem("bestScores", JSON.stringify(bestScores));
-      updateScoreTable();
+      // Display the best scores
+      scoreListElement.innerHTML = bestScores.map((score, index) => `<tr><td>${index + 1}</td><td>${score}</td></tr>`).join('');
     }
-
-    init();
-  </script>
-
+</script>
 </body>
 </html>
