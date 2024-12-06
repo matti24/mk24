@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Dino Game</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Dino Game</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -17,6 +17,22 @@
       margin-top: 20px;
       color: #333;
       font-size: 32px;
+    }
+    #startButton {
+      display: inline-block;
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(45deg, #4caf50, #81c784);
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    #startButton:hover {
+      background: linear-gradient(45deg, #388e3c, #66bb6a);
     }
     #restartButton {
       display: none;
@@ -35,7 +51,7 @@
       background: linear-gradient(45deg, #d32f2f, #f57c7c);
     }
     #gameContainer {
-      display: block;
+      display: none;
     }
     #canvas {
       margin-top: 20px;
@@ -59,28 +75,31 @@
       background-color: #4caf50;
       color: white;
     }
-  </style>
+</style>
 </head>
 <body>
-  <h1>Mini Dino Game</h1>
-  <div id="gameContainer">
-    <canvas id="canvas" width="800" height="200"></canvas>
-  </div>
-  <div id="scoreBoard">
-    <h2>Beste Punktzahlen</h2>
-    <table id="scoreTable">
-      <thead>
-        <tr>
-          <th>Platz</th>
-          <th>Punktzahl</th>
-        </tr>
-      </thead>
-      <tbody id="scoreList"></tbody>
-    </table>
-    <h3 id="awardMessage"></h3>
-  </div>
+<h1>Mini Dino Game</h1>
+<button id="startButton">Spiel Starten</button>
+<button id="restartButton">Neustart</button>
+<div id="gameContainer">
+  <canvas id="canvas" width="800" height="200"></canvas>
+</div>
+<div id="scoreBoard">
+  <h2>Beste Punktzahlen</h2>
+  <table id="scoreTable">
+    <thead>
+      <tr>
+        <th>Platz</th>
+        <th>Punktzahl</th>
+      </tr>
+    </thead>
+    <tbody id="scoreList"></tbody>
+  </table>
+  <h3 id="awardMessage"></h3>
+</div>
 
-  <script>
+<script>
+    const startButton = document.getElementById("startButton");
     const restartButton = document.getElementById("restartButton");
     const gameContainer = document.getElementById("gameContainer");
     const canvas = document.getElementById("canvas");
@@ -99,13 +118,19 @@
     let currentWorld = "default";
     let frameCount = 0;
 
-    // Start game automatically
-    window.onload = () => {
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
       gameContainer.style.display = "block";
       resetGame();
-    };
+    });
 
-    // Reset game function
+    restartButton.addEventListener("click", () => {
+      resetGame();
+      restartButton.style.display = "none";
+      startButton.style.display = "none";
+      gameContainer.style.display = "block";
+    });
+
     function resetGame() {
       obstacles = [];
       snowflakes = [];
@@ -122,7 +147,6 @@
       requestAnimationFrame(update);
     }
 
-    // Game update loop
     function update() {
       if (isGameOver) {
         showGameOver();
@@ -246,49 +270,75 @@
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
         return obstacle.x > -20;
       });
+
+      if (Math.random() < 0.02) {
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+      }
     }
 
     function drawScore() {
-      ctx.fillStyle = "#000";
+      ctx.fillStyle = "#333";
       ctx.font = "20px Arial";
-      ctx.fillText("Punkte: " + score, 10, 30);
+      ctx.fillText(Punktzahl: ${score}, 10, 20);
+      ctx.fillText(Double Jumps: ${dino.doubleJumps}, 10, 50);
     }
 
     function checkCollisions() {
       obstacles.forEach(obstacle => {
-        if (dino.x < obstacle.x + obstacle.width && dino.x + dino.width > obstacle.x &&
-          dino.y < obstacle.y + obstacle.height && dino.y + dino.height > obstacle.y) {
+        if (
+          dino.x < obstacle.x + obstacle.width &&
+          dino.x + dino.width > obstacle.x &&
+          dino.y < obstacle.y + obstacle.height &&
+          dino.y + dino.height > obstacle.y
+        ) {
           isGameOver = true;
         }
       });
     }
 
     function showGameOver() {
-      const currentBestScore = localStorage.getItem("bestScore");
-      if (score > (currentBestScore || 0)) {
-        localStorage.setItem("bestScore", score);
-        awardMessage.textContent = "Herzlichen Glückwunsch, du hast den Rekord gebrochen!";
-      } else {
-        awardMessage.textContent = "Game Over!";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.font = "30px Arial";
+      ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
+      ctx.fillText(Punktzahl: ${score}, canvas.width / 2 - 100, canvas.height / 2 + 40);
+      updateBestScores();
+      restartButton.style.display = "inline-block";  // Show restart button
+    }
+
+    function updateBestScores() {
+      bestScores.push(score);
+      bestScores = bestScores.sort((a, b) => b - a).slice(0, 5);
+      localStorage.setItem("bestScores", JSON.stringify(bestScores));
+      updateScoreBoard();
+    }
+
+    function updateScoreBoard() {
+      scoreListElement.innerHTML = "";
+      bestScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = <td>${index + 1}</td><td>${score}</td>;
+        scoreListElement.appendChild(row);
+      });
+
+      if (score === bestScores[0]) {
+        awardMessage.textContent = "Herzlichen Glückwunsch! Du hast einen neuen Highscore!";
       }
     }
 
     function changeWorld() {
-      if (Math.random() < 0.33) {
-        currentWorld = "desert";
-      } else if (Math.random() < 0.33) {
-        currentWorld = "winter";
-      } else {
-        currentWorld = "default";
-      }
+      const worlds = ["default", "desert", "winter"];
+      currentWorld = worlds[Math.floor(Math.random() * worlds.length)];
     }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === " " && !dino.jumping && !isGameOver) {
-        dino.jumping = true;
+    document.addEventListener("keydown", e => {
+      if ((e.key === " " || e.key === "ArrowUp") && (!dino.jumping || dino.doubleJumps > 0)) {
         dino.velocityY = -15;
+        dino.jumping = true;
+        if (dino.doubleJumps > 0 && dino.y < 150) dino.doubleJumps--;
       }
     });
-  </script>
+</script>
 </body>
 </html>
