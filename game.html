@@ -177,8 +177,7 @@
 
         cacti.forEach(cactus => {
             ctx.fillStyle = "#008000";
-            ctx.fillRect(cactus.x, 180, 10, 20); // Adjusted height to ensure cactus touches the ground
-
+            ctx.fillRect(cactus.x, 180, 10, 20); // Kakteen-Bodenhöhe angepasst
             cactus.x -= 2;
         });
 
@@ -242,7 +241,7 @@
 
     document.addEventListener("keydown", e => {
         if ((e.key === " " || e.key === "ArrowUp") && (!dino.jumping || dino.doubleJumps > 0)) {
-            dino.velocityY = -20; // Higher jump
+            dino.velocityY = -20; // Sprunghöhe erhöht
             dino.jumping = true;
             if (dino.doubleJumps > 0 && dino.y < 150) dino.doubleJumps--;
         }
