@@ -18,7 +18,7 @@
       color: #333;
       font-size: 32px;
     }
-    #startButton, #restartButton {
+    #startButton {
       display: inline-block;
       margin: 20px;
       padding: 15px 30px;
@@ -31,11 +31,24 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    #startButton:hover, #restartButton:hover {
+    #startButton:hover {
       background: linear-gradient(45deg, #388e3c, #66bb6a);
     }
     #restartButton {
-      display: none; /* Unsichtbar, bis man verliert */
+      display: none;
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(45deg, #f44336, #e57373);
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    #restartButton:hover {
+      background: linear-gradient(45deg, #d32f2f, #f57c7c);
     }
     #gameContainer {
       display: none;
@@ -69,21 +82,22 @@
 <button id="startButton">Spiel Starten</button>
 <button id="restartButton">Neustart</button>
 <div id="gameContainer">
-<canvas id="canvas" width="800" height="200"></canvas>
+  <canvas id="canvas" width="800" height="200"></canvas>
 </div>
 <div id="scoreBoard">
-<h2>Beste Punktzahlen</h2>
-<table id="scoreTable">
-<thead>
-<tr>
-<th>Platz</th>
-<th>Punktzahl</th>
-</tr>
-</thead>
-<tbody id="scoreList"></tbody>
-</table>
-<h3 id="awardMessage"></h3>
+  <h2>Beste Punktzahlen</h2>
+  <table id="scoreTable">
+    <thead>
+      <tr>
+        <th>Platz</th>
+        <th>Punktzahl</th>
+      </tr>
+    </thead>
+    <tbody id="scoreList"></tbody>
+  </table>
+  <h3 id="awardMessage"></h3>
 </div>
+
 <script>
     const startButton = document.getElementById("startButton");
     const restartButton = document.getElementById("restartButton");
@@ -92,7 +106,7 @@
     const ctx = canvas.getContext("2d");
     const scoreListElement = document.getElementById("scoreList");
     const awardMessage = document.getElementById("awardMessage");
- 
+
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false, doubleJumps: 5 };
     let obstacles = [];
     let mountains = [{ x: 300 }, { x: 600 }, { x: 900 }];
@@ -103,7 +117,7 @@
     let isGameOver = false;
     let currentWorld = "default";
     let frameCount = 0;
- 
+
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       gameContainer.style.display = "block";
@@ -111,10 +125,12 @@
     });
 
     restartButton.addEventListener("click", () => {
-      restartButton.style.display = "none"; // Verstecke den Neustart-Button nach einem Klick
       resetGame();
+      restartButton.style.display = "none";
+      startButton.style.display = "none";
+      gameContainer.style.display = "block";
     });
- 
+
     function resetGame() {
       obstacles = [];
       snowflakes = [];
@@ -130,18 +146,18 @@
       awardMessage.textContent = '';
       requestAnimationFrame(update);
     }
- 
+
     function update() {
       if (isGameOver) {
         showGameOver();
         return;
       }
- 
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       frameCount++;
       if (frameCount % 600 === 0) changeWorld();
       if (frameCount % 600 === 0 && dino.doubleJumps < 5) dino.doubleJumps++;
- 
+
       drawBackground();
       drawSun();
       drawMountains();
@@ -151,18 +167,135 @@
       drawDino();
       drawScore();
       checkCollisions();
- 
+
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
       if (dino.y > 150) {
         dino.y = 150;
         dino.jumping = false;
       }
- 
+
       score++;
       requestAnimationFrame(update);
     }
- 
+
+    function drawBackground() {
+      if (currentWorld === "default") {
+        ctx.fillStyle = "#c8e6c9";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else if (currentWorld === "desert") {
+        ctx.fillStyle = "#f4a460";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else if (currentWorld === "winter") {
+        ctx.fillStyle = "#d3f3f3";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function drawMountains() {
+      ctx.fillStyle = "#8d8d8d";
+      mountains.forEach(mountain => {
+        ctx.beginPath();
+        ctx.moveTo(mountain.x - 100, 200);
+        ctx.quadraticCurveTo(mountain.x, 100, mountain.x + 100, 200);
+        ctx.fill();
+        mountain.x -= 1;
+      });
+
+      if (mountains[0].x < -200) mountains.push({ x: canvas.width + 200 });
+      if (mountains[0].x < -300) mountains.shift();
+    }
+
+    function drawCacti() {
+      if (currentWorld !== "desert") return;
+
+      cacti.forEach(cactus => {
+        ctx.fillStyle = "#008000";
+        ctx.fillRect(cactus.x, 140, 10, 40);
+
+        ctx.beginPath();
+        ctx.moveTo(cactus.x + 5, 160);
+        ctx.lineTo(cactus.x - 5, 150);
+        ctx.lineTo(cactus.x + 5, 150);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(cactus.x + 5, 160);
+        ctx.lineTo(cactus.x + 15, 150);
+        ctx.lineTo(cactus.x + 5, 150);
+        ctx.closePath();
+        ctx.fill();
+
+        cactus.x -= 2;
+      });
+
+      if (cacti[0].x < -20) cacti.push({ x: canvas.width + 50 });
+      if (cacti[0].x < -20) cacti.shift();
+    }
+
+    function drawSnowflakes() {
+      if (currentWorld !== "winter") return;
+
+      if (Math.random() < 0.1) {
+        snowflakes.push({ x: Math.random() * canvas.width, y: 0, size: Math.random() * 3 + 2 });
+      }
+
+      ctx.fillStyle = "white";
+      snowflakes = snowflakes.filter(flake => {
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+        ctx.fill();
+        flake.y += 1;
+        return flake.y < canvas.height;
+      });
+    }
+
+    function drawSun() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(canvas.width - 70, 50, 30, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawDino() {
+      ctx.fillStyle = "#4caf50";
+      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+    }
+
+    function drawObstacles() {
+      ctx.fillStyle = "#ff5722";
+      obstacles = obstacles.filter(obstacle => {
+        obstacle.x -= 6;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        return obstacle.x > -20;
+      });
+
+      if (Math.random() < 0.02) {
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+      }
+    }
+
+    function drawScore() {
+      ctx.fillStyle = "#333";
+      ctx.font = "20px Arial";
+      ctx.fillText(`Punktzahl: ${score}`, 10, 20);
+      ctx.fillText(`Double Jumps: ${dino.doubleJumps}`, 10, 50);
+    }
+
+    function checkCollisions() {
+      obstacles.forEach(obstacle => {
+        if (
+          dino.x < obstacle.x + obstacle.width &&
+          dino.x + dino.width > obstacle.x &&
+          dino.y < obstacle.y + obstacle.height &&
+          dino.y + dino.height > obstacle.y
+        ) {
+          isGameOver = true;
+        }
+      });
+    }
+
     function showGameOver() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -171,16 +304,16 @@
       ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
       ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
       updateBestScores();
-      restartButton.style.display = "inline-block"; // Zeige Neustart-Button
+      restartButton.style.display = "inline-block";  // Show restart button
     }
- 
+
     function updateBestScores() {
       bestScores.push(score);
       bestScores = bestScores.sort((a, b) => b - a).slice(0, 5);
       localStorage.setItem("bestScores", JSON.stringify(bestScores));
       updateScoreBoard();
     }
- 
+
     function updateScoreBoard() {
       scoreListElement.innerHTML = "";
       bestScores.forEach((score, index) => {
@@ -188,17 +321,17 @@
         row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
         scoreListElement.appendChild(row);
       });
- 
+
       if (score === bestScores[0]) {
         awardMessage.textContent = "Herzlichen Glückwunsch! Du hast einen neuen Highscore!";
       }
     }
- 
+
     function changeWorld() {
       const worlds = ["default", "desert", "winter"];
       currentWorld = worlds[Math.floor(Math.random() * worlds.length)];
     }
- 
+
     document.addEventListener("keydown", e => {
       if ((e.key === " " || e.key === "ArrowUp") && (!dino.jumping || dino.doubleJumps > 0)) {
         dino.velocityY = -15;
