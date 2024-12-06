@@ -110,7 +110,7 @@
     let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false, doubleJumps: 5 };
     let obstacles = [];
     let mountains = [{ x: 300 }, { x: 600 }, { x: 900 }];
-    let cacti = [];
+    let cacti = [{ x: 400 }, { x: 800 }];
     let snowflakes = [];
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
@@ -135,7 +135,7 @@
       obstacles = [];
       snowflakes = [];
       mountains = [{ x: 300 }, { x: 600 }, { x: 900 }];
-      cacti = [];
+      cacti = [{ x: 400 }, { x: 800 }];
       score = 0;
       dino.y = 150;
       dino.jumping = false;
@@ -209,25 +209,17 @@
     function drawCacti() {
       if (currentWorld !== "desert") return;
 
-      // Add a new cactus at random intervals, but not too close to others
-      if (Math.random() < 0.02 && cacti.length < 5) {
-        let newX = canvas.width;
-        if (cacti.length > 0) {
-          const lastCactus = cacti[cacti.length - 1];
-          newX = lastCactus.x + Math.random() * 100 + 50; // Ensure spacing between cacti
-        }
-        cacti.push({ x: newX });
-      }
-
       cacti.forEach(cactus => {
         ctx.fillStyle = "#008000";
         ctx.fillRect(cactus.x, 140, 10, 40);
+
         ctx.beginPath();
         ctx.moveTo(cactus.x + 5, 160);
         ctx.lineTo(cactus.x - 5, 150);
         ctx.lineTo(cactus.x + 5, 150);
         ctx.closePath();
         ctx.fill();
+
         ctx.beginPath();
         ctx.moveTo(cactus.x + 5, 160);
         ctx.lineTo(cactus.x + 15, 150);
@@ -238,6 +230,7 @@
         cactus.x -= 2;
       });
 
+      if (cacti[0].x < -20) cacti.push({ x: canvas.width + 50 });
       if (cacti[0].x < -20) cacti.shift();
     }
 
@@ -248,80 +241,104 @@
         snowflakes.push({ x: Math.random() * canvas.width, y: 0, size: Math.random() * 3 + 2 });
       }
 
-      snowflakes.forEach(snowflake => {
-        ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = "white";
+      snowflakes = snowflakes.filter(flake => {
         ctx.beginPath();
-        ctx.arc(snowflake.x, snowflake.y, snowflake.size, 0, Math.PI * 2);
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
         ctx.fill();
-        snowflake.y += 2;
+        flake.y += 1;
+        return flake.y < canvas.height;
       });
-
-      snowflakes = snowflakes.filter(snowflake => snowflake.y < canvas.height);
     }
 
-    function drawObstacles() {
-      if (frameCount % 100 === 0) {
-        obstacles.push({ x: canvas.width, y: 140 });
-      }
-
-      obstacles.forEach(obstacle => {
-        ctx.fillStyle = "#ff0000";
-        ctx.fillRect(obstacle.x, obstacle.y, 20, 20);
-        obstacle.x -= 3;
-      });
-
-      obstacles = obstacles.filter(obstacle => obstacle.x > 0);
+    function drawSun() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(canvas.width - 70, 50, 30, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     function drawDino() {
-      ctx.fillStyle = "#76d7c4";
+      ctx.fillStyle = "#4caf50";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
     }
 
+    function drawObstacles() {
+      ctx.fillStyle = "#ff5722";
+      obstacles = obstacles.filter(obstacle => {
+        obstacle.x -= 6;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        return obstacle.x > -20;
+      });
+
+      if (Math.random() < 0.02) {
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+      }
+    }
+
     function drawScore() {
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = "#333";
       ctx.font = "20px Arial";
-      ctx.fillText("Punkte: " + score, 10, 30);
+      ctx.fillText(Punktzahl: ${score}, 10, 20);
+      ctx.fillText(Double Jumps: ${dino.doubleJumps}, 10, 50);
     }
 
     function checkCollisions() {
       obstacles.forEach(obstacle => {
-        if (dino.x < obstacle.x + 20 && dino.x + dino.width > obstacle.x && dino.y < obstacle.y + 20 && dino.y + dino.height > obstacle.y) {
+        if (
+          dino.x < obstacle.x + obstacle.width &&
+          dino.x + dino.width > obstacle.x &&
+          dino.y < obstacle.y + obstacle.height &&
+          dino.y + dino.height > obstacle.y
+        ) {
           isGameOver = true;
         }
+      });
+    }
+
+    function showGameOver() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.font = "30px Arial";
+      ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
+      ctx.fillText(Punktzahl: ${score}, canvas.width / 2 - 100, canvas.height / 2 + 40);
+      updateBestScores();
+      restartButton.style.display = "inline-block";  // Show restart button
+    }
+
+    function updateBestScores() {
+      bestScores.push(score);
+      bestScores = bestScores.sort((a, b) => b - a).slice(0, 5);
+      localStorage.setItem("bestScores", JSON.stringify(bestScores));
+      updateScoreBoard();
+    }
+
+    function updateScoreBoard() {
+      scoreListElement.innerHTML = "";
+      bestScores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = <td>${index + 1}</td><td>${score}</td>;
+        scoreListElement.appendChild(row);
       });
 
-      cacti.forEach(cactus => {
-        if (dino.x < cactus.x + 10 && dino.x + dino.width > cactus.x && dino.y < cactus.y + 40 && dino.y + dino.height > cactus.y) {
-          isGameOver = true;
-        }
-      });
+      if (score === bestScores[0]) {
+        awardMessage.textContent = "Herzlichen Glückwunsch! Du hast einen neuen Highscore!";
+      }
     }
 
     function changeWorld() {
       const worlds = ["default", "desert", "winter"];
-      const nextWorld = worlds[(worlds.indexOf(currentWorld) + 1) % worlds.length];
-      currentWorld = nextWorld;
+      currentWorld = worlds[Math.floor(Math.random() * worlds.length)];
     }
 
-    function showGameOver() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#000000";
-      ctx.font = "30px Arial";
-      ctx.fillText("Game Over!", canvas.width / 2 - 80, canvas.height / 2 - 20);
-      restartButton.style.display = "inline-block";
-
-      // Save best score
-      if (score > Math.min(...bestScores)) {
-        bestScores.push(score);
-        bestScores.sort((a, b) => b - a);
-        if (bestScores.length > 5) bestScores = bestScores.slice(0, 5);
-        localStorage.setItem("bestScores", JSON.stringify(bestScores));
+    document.addEventListener("keydown", e => {
+      if ((e.key === " " || e.key === "ArrowUp") && (!dino.jumping || dino.doubleJumps > 0)) {
+        dino.velocityY = -15;
+        dino.jumping = true;
+        if (dino.doubleJumps > 0 && dino.y < 150) dino.doubleJumps--;
       }
-
-      // Display the best scores
-      scoreListElement.innerHTML = bestScores.map((score, index) => `<tr><td>${index + 1}</td><td>${score}</td></tr>`).join('');
-    }
+    });
 </script>
 </body>
 </html>
