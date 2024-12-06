@@ -46,7 +46,6 @@
       margin-top: 20px;
       border: 2px solid #4caf50;
       border-radius: 8px;
-      background: #c8e6c9;
     }
 
     #scoreBoard {
@@ -99,11 +98,13 @@
     const ctx = canvas.getContext("2d");
     const scoreListElement = document.getElementById("scoreList");
 
-    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false };
+    let dino = { x: 50, y: 150, width: 20, height: 20, velocityY: 0, jumping: false, doubleJumps: 5 };
     let obstacles = [];
     let score = 0;
     let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
     let isGameOver = false;
+    let currentWorld = "default"; // default, desert, winter
+    let frameCount = 0;
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -116,7 +117,10 @@
       score = 0;
       dino.y = 150;
       dino.jumping = false;
+      dino.velocityY = 0;
+      dino.doubleJumps = 5;
       isGameOver = false;
+      currentWorld = "default";
       requestAnimationFrame(update);
     }
 
@@ -128,15 +132,16 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Hintergrund zeichnen
-      ctx.fillStyle = "#c8e6c9";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      frameCount++;
+      if (frameCount % 600 === 0) changeWorld();
 
-      // Dino zeichnen
-      ctx.fillStyle = "#4caf50";
-      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+      drawBackground();
+      drawSun();
+      drawDino();
+      drawObstacles();
+      drawScore();
+      checkCollisions();
 
-      // Gravitation
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
 
@@ -145,18 +150,72 @@
         dino.jumping = false;
       }
 
-      // Hindernisse generieren
-      if (Math.random() < 0.02) {
-        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
-      }
+      score++;
+      requestAnimationFrame(update);
+    }
 
-      // Hindernisse zeichnen
+    function drawBackground() {
+      if (currentWorld === "default") ctx.fillStyle = "#c8e6c9"; // Green
+      if (currentWorld === "desert") ctx.fillStyle = "#f4a460"; // Sand
+      if (currentWorld === "winter") ctx.fillStyle = "#d3f3f3"; // Snow
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawSun() {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(canvas.width - 70, 50, 30, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw sun rays
+      for (let i = 0; i < 12; i++) {
+        ctx.save();
+        ctx.translate(canvas.width - 70, 50);
+        ctx.rotate(((frameCount / 50) + i) * (Math.PI / 6));
+        ctx.fillStyle = "rgba(255, 255, 0, 0.5)";
+        ctx.fillRect(30, -2, 20, 4);
+        ctx.restore();
+      }
+    }
+
+    function drawDino() {
+      // Schatten
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+      ctx.fillRect(dino.x, dino.y + 20, dino.width, 5);
+
+      // Dino
+      ctx.fillStyle = "#4caf50";
+      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+    }
+
+    function drawObstacles() {
       ctx.fillStyle = "#ff5722";
       obstacles = obstacles.filter(obstacle => {
         obstacle.x -= 6;
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        return obstacle.x > -20;
+      });
 
-        // Kollision prüfen
+      if (Math.random() < 0.02) {
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+      }
+    }
+
+    function drawScore() {
+      ctx.fillStyle = "#333";
+      ctx.font = "20px Arial";
+      ctx.fillText(`Punktzahl: ${score}`, 10, 20);
+      ctx.fillText(`Double Jumps: ${dino.doubleJumps}`, 10, 40);
+    }
+
+    function changeWorld() {
+      if (currentWorld === "default") currentWorld = "desert";
+      else if (currentWorld === "desert") currentWorld = "winter";
+      else currentWorld = "default";
+    }
+
+    function checkCollisions() {
+      for (let obstacle of obstacles) {
         if (
           dino.x < obstacle.x + obstacle.width &&
           dino.x + dino.width > obstacle.x &&
@@ -165,17 +224,7 @@
         ) {
           isGameOver = true;
         }
-
-        return obstacle.x > -20;
-      });
-
-      // Punktzahl
-      score++;
-      ctx.fillStyle = "#333";
-      ctx.font = "20px Arial";
-      ctx.fillText("Punktzahl: " + score, 10, 20);
-
-      requestAnimationFrame(update);
+      }
     }
 
     function showGameOver() {
@@ -187,7 +236,6 @@
       bestScores.sort((a, b) => b - a);
       bestScores = bestScores.slice(0, 5);
       localStorage.setItem("bestScores", JSON.stringify(bestScores));
-
       updateScoreBoard();
 
       setTimeout(() => {
@@ -206,9 +254,14 @@
     }
 
     document.addEventListener("keydown", (e) => {
-      if (e.code === "Space" && !dino.jumping) {
-        dino.jumping = true;
-        dino.velocityY = -20;
+      if (e.code === "Space") {
+        if (!dino.jumping) {
+          dino.jumping = true;
+          dino.velocityY = -20;
+        } else if (dino.doubleJumps > 0) {
+          dino.velocityY = -20;
+          dino.doubleJumps--;
+        }
       }
     });
 
