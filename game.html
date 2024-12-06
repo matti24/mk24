@@ -211,26 +211,26 @@
 
       cacti.forEach(cactus => {
         ctx.fillStyle = "#008000";
-        ctx.fillRect(cactus.x, 140, 10, 40);
+        ctx.fillRect(cactus.x, 160, 10, 40); // Kaktus auf dem Boden
 
         ctx.beginPath();
-        ctx.moveTo(cactus.x + 5, 160);
-        ctx.lineTo(cactus.x - 5, 150);
-        ctx.lineTo(cactus.x + 5, 150);
+        ctx.moveTo(cactus.x + 5, 180);
+        ctx.lineTo(cactus.x - 5, 170);
+        ctx.lineTo(cactus.x + 5, 170);
         ctx.closePath();
         ctx.fill();
 
         ctx.beginPath();
-        ctx.moveTo(cactus.x + 5, 160);
-        ctx.lineTo(cactus.x + 15, 150);
-        ctx.lineTo(cactus.x + 5, 150);
+        ctx.moveTo(cactus.x + 5, 180);
+        ctx.lineTo(cactus.x + 15, 170);
+        ctx.lineTo(cactus.x + 5, 170);
         ctx.closePath();
         ctx.fill();
 
         cactus.x -= 2;
       });
 
-      if (cacti[0].x < -20) cacti.push({ x: canvas.width + 50 });
+      if (cacti[0].x < -20) cacti.push({ x: canvas.width + 100 });
       if (cacti[0].x < -20) cacti.shift();
     }
 
@@ -251,18 +251,6 @@
       });
     }
 
-    function drawSun() {
-      ctx.fillStyle = "yellow";
-      ctx.beginPath();
-      ctx.arc(canvas.width - 70, 50, 30, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    function drawDino() {
-      ctx.fillStyle = "#4caf50";
-      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
-    }
-
     function drawObstacles() {
       ctx.fillStyle = "#ff5722";
       obstacles = obstacles.filter(obstacle => {
@@ -272,7 +260,10 @@
       });
 
       if (Math.random() < 0.02) {
-        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
+        const xPos = Math.random() * (canvas.width - 50);
+        const obstacleHeight = 20;
+        const obstacleWidth = 20;
+        obstacles.push({ x: canvas.width, y: 150, width: obstacleWidth, height: obstacleHeight });
       }
     }
 
@@ -304,7 +295,7 @@
       ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
       ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
       updateBestScores();
-      restartButton.style.display = "inline-block";  // Show restart button
+      restartButton.style.display = "inline-block";  // Zeige Neustart-Button
     }
 
     function updateBestScores() {
