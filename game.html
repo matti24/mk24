@@ -279,8 +279,8 @@
     function drawScore() {
       ctx.fillStyle = "#333";
       ctx.font = "20px Arial";
-      ctx.fillText(Punktzahl: ${score}, 10, 20);
-      ctx.fillText(Double Jumps: ${dino.doubleJumps}, 10, 50);
+      ctx.fillText(`Punktzahl: ${score}`, 10, 20);
+      ctx.fillText(`Double Jumps: ${dino.doubleJumps}`, 10, 50);
     }
 
     function checkCollisions() {
@@ -302,7 +302,7 @@
       ctx.fillStyle = "#fff";
       ctx.font = "30px Arial";
       ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
-      ctx.fillText(Punktzahl: ${score}, canvas.width / 2 - 100, canvas.height / 2 + 40);
+      ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
       updateBestScores();
       restartButton.style.display = "inline-block";  // Show restart button
     }
@@ -318,7 +318,7 @@
       scoreListElement.innerHTML = "";
       bestScores.forEach((score, index) => {
         const row = document.createElement("tr");
-        row.innerHTML = <td>${index + 1}</td><td>${score}</td>;
+        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
         scoreListElement.appendChild(row);
       });
 
