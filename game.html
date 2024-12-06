@@ -7,77 +7,65 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
-      background-color: #eef2f3;
+      text-align: center;
+      background: linear-gradient(180deg, #f0f8ff, #87cefa);
+      overflow: hidden;
     }
 
-    #gameContainer {
-      display: none;
-      margin-top: 50px;
-    }
-
-    #canvas {
-      border: 2px solid black;
-      background-color: #87ceeb;
+    h1 {
+      margin-top: 20px;
+      color: #333;
+      font-size: 36px;
+      text-shadow: 2px 2px #fff;
     }
 
     #startButton {
       display: inline-block;
-      margin-top: 50px;
-      padding: 15px 25px;
-      font-size: 20px;
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
       color: white;
-      background-color: #007bff;
+      background: linear-gradient(45deg, #ff5722, #ff9800);
       border: none;
-      border-radius: 5px;
+      border-radius: 30px;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     #startButton:hover {
-      background-color: #0056b3;
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    #gameContainer {
+      display: none;
+    }
+
+    #canvas {
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     #scoreBoard {
-      margin-top: 50px;
-      font-size: 20px;
-    }
-
-    #scoreTable {
-      width: 50%;
-      margin: 0 auto;
-      border-collapse: collapse;
-    }
-
-    #scoreTable th, #scoreTable td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
-  <h1>🐾 Dino Jump Adventure 🦖</h1>
-  <button id="startButton">Start Game</button>
-
+  <h1>🦕 Mini Dino Game</h1>
+  <button id="startButton">Spiel Starten</button>
   <div id="gameContainer">
-    <canvas id="canvas" width="800" height="300"></canvas>
+    <canvas id="canvas" width="800" height="200"></canvas>
   </div>
-
   <div id="scoreBoard">
-    <h2>High Scores</h2>
-    <table id="scoreTable">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody id="scoreList">
-        <!-- Scores will be dynamically added -->
-      </tbody>
-    </table>
+    <h2>Highscore: <span id="highScore">0</span></h2>
+    <p>Aktuelle Punktzahl: <span id="currentScore">0</span></p>
   </div>
 
   <script>
@@ -85,73 +73,67 @@
     const gameContainer = document.getElementById("gameContainer");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    const highScoreElement = document.getElementById("highScore");
+    const currentScoreElement = document.getElementById("currentScore");
 
-    const dinoImage = new Image();
-    dinoImage.src = "https://upload.wikimedia.org/wikipedia/commons/8/84/Tyrannosaurus_rex_illustration.png"; // Example Dino Image
-
-    const obstacleImages = [
-      "https://upload.wikimedia.org/wikipedia/commons/1/16/Circle-icons-tree.svg", // Tree
-      "https://upload.wikimedia.org/wikipedia/commons/e/e8/Stone.svg" // Rock
-    ];
-
-    let dino = { x: 50, y: 250, width: 50, height: 50, velocityY: 0, jumping: false };
+    let dino = { x: 50, y: 150, width: 40, height: 40, velocityY: 0, jumping: false };
     let obstacles = [];
-    let isGameOver = false;
     let score = 0;
-    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let highScore = localStorage.getItem("highScore") || 0;
+    let isGameOver = false;
 
+    highScoreElement.textContent = highScore;
+
+    // Start Game
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
       gameContainer.style.display = "block";
-      startGame();
+      resetGame();
     });
 
-    function startGame() {
+    function resetGame() {
       obstacles = [];
-      dino.y = 250;
-      dino.jumping = false;
-      dino.velocityY = 0;
       score = 0;
+      dino.y = 150;
+      dino.jumping = false;
       isGameOver = false;
       requestAnimationFrame(update);
     }
 
     function update() {
       if (isGameOver) {
-        showGameOver();
+        gameOver();
         return;
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Background
-      drawBackground();
+      // Update and draw background
+      ctx.fillStyle = score % 600 < 200 ? "#87cefa" : "#ffa07a"; // Day/Night cycle
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Dino
-      ctx.drawImage(dinoImage, dino.x, dino.y, dino.width, dino.height);
+      ctx.fillStyle = "#32cd32";
+      ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Dino Gravity
+      // Gravity
       dino.velocityY += 1.5;
       dino.y += dino.velocityY;
-
-      if (dino.y > 250) {
-        dino.y = 250;
+      if (dino.y > 150) {
+        dino.y = 150;
         dino.jumping = false;
       }
 
       // Obstacles
       if (Math.random() < 0.02) {
-        const randomObstacle = obstacleImages[Math.floor(Math.random() * obstacleImages.length)];
-        const obstacleImage = new Image();
-        obstacleImage.src = randomObstacle;
-        obstacles.push({ x: canvas.width, y: 260, width: 40, height: 40, image: obstacleImage });
+        obstacles.push({ x: canvas.width, y: 160, width: 20, height: 20 });
       }
-
+      ctx.fillStyle = "#dc143c";
       obstacles = obstacles.filter(obstacle => {
-        obstacle.x -= 6;
-        ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        obstacle.x -= 5;
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
-        // Collision Detection
+        // Collision
         if (
           dino.x < obstacle.x + obstacle.width &&
           dino.x + dino.width > obstacle.x &&
@@ -161,52 +143,31 @@
           isGameOver = true;
         }
 
-        return obstacle.x > -40;
+        return obstacle.x > -20;
       });
 
       // Score
-      score += 1;
-      ctx.fillStyle = "black";
-      ctx.font = "20px Arial";
-      ctx.fillText("Score: " + score, 10, 30);
+      score++;
+      currentScoreElement.textContent = score;
 
       requestAnimationFrame(update);
     }
 
-    function drawBackground() {
-      ctx.fillStyle = "#87ceeb";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#228B22"; // Ground
-      ctx.fillRect(0, 280, canvas.width, 20);
-    }
-
-    function showGameOver() {
+    function gameOver() {
       ctx.fillStyle = "black";
       ctx.font = "30px Arial";
       ctx.fillText("Game Over! Score: " + score, canvas.width / 2 - 150, canvas.height / 2);
 
-      bestScores.push(score);
-      bestScores.sort((a, b) => b - a);
-      bestScores = bestScores.slice(0, 5);
-      localStorage.setItem("bestScores", JSON.stringify(bestScores));
-
-      updateScoreBoard();
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("highScore", highScore);
+        highScoreElement.textContent = highScore;
+      }
 
       setTimeout(() => {
         startButton.style.display = "block";
         gameContainer.style.display = "none";
       }, 2000);
-    }
-
-    function updateScoreBoard() {
-      const scoreList = document.getElementById("scoreList");
-      scoreList.innerHTML = "";
-      bestScores.forEach((score, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-        scoreList.appendChild(row);
-      });
     }
 
     document.addEventListener("keydown", (e) => {
@@ -215,8 +176,6 @@
         dino.velocityY = -20;
       }
     });
-
-    updateScoreBoard();
   </script>
 </body>
 </html>
