@@ -162,21 +162,21 @@
         }
 
         function saveScore() {
-            goodscores.push(score);
-            goodscores.sort((a, b) => b - a);
-            if (goodscores.length > 5) goodscores.pop();
-            localStorage.setItem('goodscores', JSON.stringify(goodscores));
-            updategoodcores();
-        }
+    goodscores.push(score);
+    goodscores.sort((a, b) => b - a);
+    if (goodscores.length > 5) goodscores.pop();
+    localStorage.setItem('goodscores', JSON.stringify(goodscores));
+    updategoodscores();
+}
 
-        function updategoodscores() {
-            goodscores.innerHTML = "";
-            goodscores.forEach((score, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-                goodscoresTable.appendChild(row);
-            });
-        }
+function updategoodscores() {
+    goodscoresTable.innerHTML = ""; // Leere die Tabelle vor dem Hinzufügen neuer Einträge
+    goodscores.forEach((score, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
+        goodscoresTable.appendChild(row);
+    });
+}
 
         function startGame() {
             score = 0;
