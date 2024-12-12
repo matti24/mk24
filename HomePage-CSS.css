@@ -80,7 +80,7 @@
         }
 
 .gameitem img{
-    height:20%;
+    height:120px;
 }
 
 /* Dreheffekt */
@@ -351,6 +351,10 @@
             margin: auto 160px 0px 795px;
 
         }
+
+          .gameitem img{
+    height:120px;
+}
         }
 
 
