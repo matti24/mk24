@@ -71,7 +71,7 @@
     }
 
     #restartButton {
-  display: none; /* Ändern von 'none' zu 'block' */
+  display: block; /* Ändern von 'none' zu 'block' */
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
@@ -126,13 +126,14 @@
     let isGameOver = false;
     let currentWorld = "default";
     let frameCount = 0;
+    let animationId;
 
     function startGame() {
   resetGame();
   updateScoreBoard(); // Diese Funktion aufrufen, um die Bestenliste beim Laden der Seite zu aktualisieren
 }
 
-    function resetGame() {
+function resetGame() {
   obstacles = [];
   snowflakes = [];
   mountains = [{ x: 300 }, { x: 600 }, { x: 900 }];
@@ -145,40 +146,40 @@
   isGameOver = false;
   currentWorld = "default";
   awardMessage.textContent = '';
+  restartButton.style.display = 'none'; // Neustart-Button verstecken
   requestAnimationFrame(update);
 }
+function update() {
+  if (isGameOver) {
+    showGameOver();
+    return;
+  }
 
-    function update() {
-      if (isGameOver) {
-        showGameOver();
-        return;
-      }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  frameCount++;
+  if (frameCount % 600 === 0) changeWorld();
+  if (frameCount % 600 === 0 && dino.doubleJumps < 5) dino.doubleJumps++;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      frameCount++;
-      if (frameCount % 600 === 0) changeWorld();
-      if (frameCount % 600 === 0 && dino.doubleJumps < 5) dino.doubleJumps++;
+  drawBackground();
+  drawSun();
+  drawMountains();
+  drawCacti();
+  drawSnowflakes();
+  drawObstacles();
+  drawDino();
+  drawScore();
+  checkCollisions();
 
-      drawBackground();
-      drawSun();
-      drawMountains();
-      drawCacti();
-      drawSnowflakes();
-      drawObstacles();
-      drawDino();
-      drawScore();
-      checkCollisions();
+  dino.velocityY += 1.5;
+  dino.y += dino.velocityY;
+  if (dino.y > 250) {
+    dino.y = 250;
+    dino.jumping = false;
+  }
 
-      dino.velocityY += 1.5;
-      dino.y += dino.velocityY;
-      if (dino.y > 250) {
-        dino.y = 250;
-        dino.jumping = false;
-      }
-
-      score++;
-      requestAnimationFrame(update);
-    }
+  score++;
+  animationId = requestAnimationFrame(update); // Speichere die Animations-ID
+}
 
     function drawBackground() {
       if (currentWorld === "default") {
