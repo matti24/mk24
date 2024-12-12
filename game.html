@@ -46,6 +46,7 @@
       border: 1px solid #ddd;
       padding: 8px;
       text-align: center;
+      display;
     }
     #scoreTable th {
       background-color: #4caf50;
@@ -70,7 +71,7 @@
     }
 
     #restartButton {
-  display: none;
+  display: block; /* Ändern von 'none' zu 'block' */
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
@@ -108,6 +109,7 @@
   </div>
 </div>
 <script>
+    
     const restartButton = document.getElementById("restartButton");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -126,8 +128,9 @@
     let frameCount = 0;
 
     function startGame() {
-      resetGame();
-    }
+  resetGame();
+  updateScoreBoard(); // Diese Funktion aufrufen, um die Bestenliste beim Laden der Seite zu aktualisieren
+}
 
     function resetGame() {
   obstacles = [];
@@ -142,7 +145,6 @@
   isGameOver = false;
   currentWorld = "default";
   awardMessage.textContent = '';
-  restartButton.style.display = 'none';
   requestAnimationFrame(update);
 }
 
