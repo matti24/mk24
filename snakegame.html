@@ -66,14 +66,6 @@
         </thead>
         <tbody id="highscores"></tbody>
     </table>
-
-    <br><br>
-
-    <div class="zurück-container">
-        <div class="zurück-item">
-            <a href="gamemenu.html">zurück ↩</a>
-        </div>
-    </div>
     <script>
         const canvas = document.getElementById('snakeCanvas');
         const ctx = canvas.getContext('2d');
@@ -134,7 +126,11 @@
 
             let newHead = { x: snakeX, y: snakeY };
 
-           
+            if (snakeX < 0 || snakeY < 0 || snakeX >= canvas.width || snakeY >= canvas.height || collision(newHead, snake)) {
+                clearInterval(gameInterval);
+                saveScore();
+                // Das Game stoppt jetzt einfach ohne eine Benachrichtigung
+            }
 
             snake.unshift(newHead);
         }
