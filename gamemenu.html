@@ -70,12 +70,22 @@
     text-decoration: underline;
     text-align: center; /* Damit der Text innerhalb des Containers zentriert ist */
 }
+         /* Hintergrundbilder hinzufügen */
+    .game-container:nth-child(1) {
+        background-image: url('pongscreen.png'); /* Bild für das Pong-Spiel */
+    }
+    .game-container:nth-child(2) {
+        background-image: url('snakescreen.png'); /* Bild für das Snake-Spiel */
+    }
+    .game-container:nth-child(3) {
+        background-image: url('dinoscreen.png'); /* Bild für das Dino-Spiel */
+    }
 
     </style>
 </head>
 <body>
     <div class="menu">
-        <div class="game-container" onclick="window.location.href='ponggame.html'" img src="pongscreen.png">
+        <div class="game-container" onclick="window.location.href='ponggame.html'" >
             <p><h1>Ping Pong</h1></p>
         </div>
         <div class="game-container" onclick="window.location.href='snakegame.html'">
