@@ -60,7 +60,7 @@
 
     #restartButton {
   display: none;
-  margin: 20px 50% auto 50%;
+  margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
   background-color: #4caf50;
@@ -168,7 +168,7 @@
 
     function drawBackground() {
       if (currentWorld === "default") {
-        ctx.fillStyle = "#c8e6c9";
+        ctx.fillStyle = "#000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       } else if (currentWorld === "desert") {
         ctx.fillStyle = "#f4a460";
@@ -190,7 +190,7 @@
       });
 
       if (mountains[0].x < -200) mountains.push({ x: canvas.width + 200 });
-      if (mountains[0].x < -300) mountains.shift();
+      if (mountains[0].x < -200) mountains.shift();
     }
 
     function drawCacti() {
@@ -239,7 +239,7 @@
     }
 
     function drawSun() {
-      ctx.fillStyle = "yellow";
+      ctx.fillStyle = "lightgrey";
       ctx.beginPath();
       ctx.arc(canvas.width - 70, 50, 30, 0, Math.PI * 2);
       ctx.fill();
