@@ -134,11 +134,7 @@
 
             let newHead = { x: snakeX, y: snakeY };
 
-            if (snakeX < 0 || snakeY < 0 || snakeX >= canvas.width || snakeY >= canvas.height || collision(newHead, snake)) {
-                clearInterval(gameInterval);
-                saveScore();
-                alert("Game Over! Drücke 'Neustart', um erneut zu spielen.");
-            }
+           
 
             snake.unshift(newHead);
         }
