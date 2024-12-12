@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,7 +85,7 @@
                 <th>Punkte</th>
             </tr>
         </thead>
-        <tbody id="highscores"></tbody>
+        <tbody id="goodscores"></tbody>
     </table>
     <div class="zurück-container">
         <div class="zurück-item">
@@ -95,7 +96,7 @@
         const canvas = document.getElementById('snakeCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.getElementById('score');
-        const highscoresTable = document.getElementById('highscores');
+        const goodscoresTable = document.getElementById('goodscores');
 
         let box = 20;
         let snake = [{ x: 9 * box, y: 10 * box }];
@@ -103,7 +104,7 @@
         let direction = "";
         let gameInterval;
         let score = 0;
-        let highscores = JSON.parse(localStorage.getItem('highscores')) || [];
+        let goodscores = JSON.parse(localStorage.getItem('goodscores')) || [];
 
         document.addEventListener("keydown", changeDirection);
 
@@ -161,19 +162,19 @@
         }
 
         function saveScore() {
-            highscores.push(score);
-            highscores.sort((a, b) => b - a);
-            if (highscores.length > 5) highscores.pop();
-            localStorage.setItem('highscores', JSON.stringify(highscores));
-            updateHighscores();
+            goodscores.push(score);
+            goodscores.sort((a, b) => b - a);
+            if (goodscores.length > 5) goodscores.pop();
+            localStorage.setItem('goodscores', JSON.stringify(goodscores));
+            updategoodcores();
         }
 
-        function updateHighscores() {
-            highscoresTable.innerHTML = "";
-            highscores.forEach((score, index) => {
+        function updategoodscores() {
+            goodscores.innerHTML = "";
+            goodscores.forEach((score, index) => {
                 const row = document.createElement("tr");
                 row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-                highscoresTable.appendChild(row);
+                goodscoresTable.appendChild(row);
             });
         }
 
@@ -181,7 +182,7 @@
             score = 0;
             scoreDisplay.textContent = score;
             gameInterval = setInterval(draw, 100);
-            updateHighscores();
+            updategoodscores();
         }
 
         function restartGame() {
