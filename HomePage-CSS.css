@@ -72,6 +72,16 @@
   margin-bottom: 3px;
 }
 
+.X img{
+            height: 50%;
+            max-height: 600px;
+            border-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: block;
+            margin: auto 160px 0px 795px;
+
+        }
 
 /* Dreheffekt */
 @keyframes spin {
