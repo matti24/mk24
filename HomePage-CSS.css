@@ -74,7 +74,6 @@
 
 .X img{
             height: 20%;
-            max-height: 600px;
             display: block;
             margin: auto 160px 0px 795px;
 
@@ -341,6 +340,13 @@
             width: 100px;
             margin-right: 90px;
             }
+
+          .X img{
+            height: 20%;
+            display: block;
+            margin: auto 160px 0px 795px;
+
+        }
         }
 
 
