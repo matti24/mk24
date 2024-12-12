@@ -53,23 +53,23 @@
         }
 
         .zurück-container {
-      margin-top: 20px;
-      background-color: #fff;
-      border: 2px solid #001155;
-    border-radius: 8px;
-    width: 10%;
-    text-align: center;
-    align-items: center;
-    display: block;
-    margin-left: 45%;
-    padding: 6px;
+            margin-top: 20px;
+            background-color: #fff;
+            border: 2px solid #001155;
+            border-radius: 8px;
+            width: 10%;
+            text-align: center;
+            align-items: center;
+            display: block;
+            margin-left: 45%;
+            padding: 6px;
             margin-right: 45%;
-    }
-    .zurück-item a {
-        align-items: center;
-      color: #4caf50;
-      text-decoration: none;
-    }
+        }
+        .zurück-item a {
+            align-items: center;
+            color: #4caf50;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -100,7 +100,7 @@
         const canvas = document.getElementById('pongCanvas');
         const ctx = canvas.getContext('2d');
 
-        let highscores = [];
+        let highscores = JSON.parse(localStorage.getItem('highscores')) || [];
         let startTime = null;
         let gameRunning = true;
 
@@ -223,6 +223,7 @@
             highscores.push(score);
             highscores.sort((a, b) => b - a);
             if (highscores.length > 5) highscores.pop();
+            localStorage.setItem('highscores', JSON.stringify(highscores));
             updateHighscores();
         }
 
@@ -267,6 +268,7 @@
 
         resetBall();
         startTime = Date.now();
+        updateHighscores();
         gameLoop();
     </script>
 </body>
