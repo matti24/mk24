@@ -12,14 +12,30 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background: #222;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
         }
         canvas {
             background: #111;
-            border: 2px solid #00FF00;
+            border: 2px solid white;
             display: block;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #ddd;
         }
         table {
             margin-top: 20px;
@@ -27,43 +43,40 @@
             width: 50%;
         }
         th, td {
-            border: 1px solid #00FF00;
+            border: 1px solid white;
             text-align: center;
             padding: 10px;
         }
         th {
-            background-color: #00FF00;
-            color: #111;
+            background-color: white;
+            color: black;
         }
     </style>
 </head>
 <body>
     <h1>Ping Pong</h1>
-    <p>Steuere dein Paddle mit den Pfeiltasten oder W/S. Schlage den Computer und erreiche 10 Punkte, um zu gewinnen!</p>
+    <p>Halte den Ball so lange wie möglich im Spiel! Deine Zeit wird gemessen.</p>
     <canvas id="pongCanvas" width="600" height="400"></canvas>
+    <div class="controls">
+        <button id="restartButton">Neustart</button>
+    </div>
     <table>
         <thead>
             <tr>
                 <th>Platz</th>
-                <th>Punkte</th>
+                <th>Zeit (s)</th>
             </tr>
         </thead>
         <tbody id="highscores"></tbody>
     </table>
 
-    <br><br>
-    <div class="zurück-container">
-        <div class="zurück-item">
-            <a href="gamemenu.html">zurück ↩</a>
-        </div>
-    </div>
     <script>
         const canvas = document.getElementById('pongCanvas');
         const ctx = canvas.getContext('2d');
 
-        let playerScore = 0;
-        let computerScore = 0;
         let highscores = [];
+        let startTime = null;
+        let gameRunning = true;
 
         const paddleWidth = 10;
         const paddleHeight = 100;
@@ -74,7 +87,7 @@
             y: canvas.height / 2 - paddleHeight / 2,
             width: paddleWidth,
             height: paddleHeight,
-            color: "lime",
+            color: "white",
             dy: 0,
         };
 
@@ -83,7 +96,7 @@
             y: canvas.height / 2 - paddleHeight / 2,
             width: paddleWidth,
             height: paddleHeight,
-            color: "red",
+            color: "white",
         };
 
         const ball = {
@@ -122,6 +135,8 @@
         }
 
         function update() {
+            if (!gameRunning) return;
+
             // Ball movement
             ball.x += ball.dx;
             ball.y += ball.dy;
@@ -131,7 +146,7 @@
                 ball.dy *= -1;
             }
 
-            // Ball collision with paddles
+            // Ball collision with player paddle
             if (
                 ball.x - ball.radius < player.x + player.width &&
                 ball.y > player.y &&
@@ -140,6 +155,7 @@
                 ball.dx *= -1;
             }
 
+            // Ball collision with computer paddle
             if (
                 ball.x + ball.radius > computer.x &&
                 ball.y > computer.y &&
@@ -149,55 +165,31 @@
             }
 
             // Ball out of bounds
-            if (ball.x - ball.radius < 0) {
-                computerScore++;
-                resetBall();
+            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+                gameRunning = false;
+                const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+                saveScore(parseFloat(elapsedTime));
             }
 
-            if (ball.x + ball.radius > canvas.width) {
-                playerScore++;
-                resetBall();
-            }
-
-            // Computer AI with imperfection
-            let computerCenter = computer.y + computer.height / 2;
-            if (ball.y < computerCenter - 20) {
-                computer.y -= 3; // Move up
-            } else if (ball.y > computerCenter + 20) {
-                computer.y += 3; // Move down
-            }
+            // Computer AI (perfect player)
+            computer.y = ball.y - computer.height / 2;
 
             // Player movement
             player.y += player.dy;
             if (player.y < 0) player.y = 0;
             if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
-
-            // Winning condition
-            if (playerScore >= 10 || computerScore >= 10) {
-                saveScore(playerScore);
-                alert(
-                    playerScore >= 10
-                        ? "Gratulation! Du hast gewonnen!"
-                        : "Leider verloren!"
-                );
-                playerScore = 0;
-                computerScore = 0;
-            }
         }
 
         function draw() {
-            drawRect(0, 0, canvas.width, canvas.height, "#000");
-            drawText(playerScore, canvas.width / 4, 50, "lime");
-            drawText(computerScore, (3 * canvas.width) / 4, 50, "red");
+            drawRect(0, 0, canvas.width, canvas.height, "#111");
+
+            if (startTime) {
+                const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+                drawText(`Zeit: ${elapsedTime}s`, canvas.width / 2 - 50, 30, "white");
+            }
 
             drawRect(player.x, player.y, player.width, player.height, player.color);
-            drawRect(
-                computer.x,
-                computer.y,
-                computer.width,
-                computer.height,
-                computer.color
-            );
+            drawRect(computer.x, computer.y, computer.width, computer.height, computer.color);
             drawCircle(ball.x, ball.y, ball.radius, ball.color);
         }
 
@@ -233,12 +225,22 @@
                 player.dy = 0;
         });
 
+        document.getElementById("restartButton").addEventListener("click", () => {
+            player.y = canvas.height / 2 - paddleHeight / 2;
+            computer.y = canvas.height / 2 - paddleHeight / 2;
+            resetBall();
+            startTime = Date.now();
+            gameRunning = true;
+        });
+
         function gameLoop() {
             update();
             draw();
             requestAnimationFrame(gameLoop);
         }
 
+        resetBall();
+        startTime = Date.now();
         gameLoop();
     </script>
 </body>
