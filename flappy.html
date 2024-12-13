@@ -31,22 +31,22 @@
         border: 2px solid #4caf50;
         border-radius: 8px;
     }
-    #scoreBoard {
+    #niceBoard {
         margin-top: 20px;
         font-size: 16px;
     }
-    #scoreTable {
+    #niceTable {
         margin: 10px auto;
         width: 80%;
         max-width: 400px;
         border-collapse: collapse;
     }
-    #scoreTable th, #scoreTable td {
+    #niceTable th, #niceTable td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: center;
     }
-    #scoreTable th {
+    #niceTable th {
         background-color: #4caf50;
         color: white;
     }
@@ -71,29 +71,29 @@
 <div id="gameContainer">
   <canvas id="canvas" width="800" height="400"></canvas>
 </div>
-<div id="scoreBoard">
+<div id="niceBoard">
   <h2>Beste Punktzahlen</h2>
-  <table id="scoreTable">
+  <table id="niceTable">
     <thead>
       <tr>
         <th>Platz</th>
         <th>Punktzahl</th>
       </tr>
     </thead>
-    <tbody id="scoreList"></tbody>
+    <tbody id="niceList"></tbody>
   </table>
 </div>
 <button class="restart-button" id="restartButton">Neustart</button>
 <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    const scoreListElement = document.getElementById("scoreList");
+    const niceListElement = document.getElementById("niceList");
     const restartButton = document.getElementById("restartButton");
 
     let bird = { x: 50, y: 200, width: 20, height: 20, velocityY: 0 };
     let pipes = [];
     let score = 0;
-    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let bestnice = JSON.parse(localStorage.getItem("niceScores")) || [];
     let isGameOver = false;
     let frameCount = 0;
     let currentBackground = "sky";
@@ -209,23 +209,23 @@
         ctx.font = "30px Arial";
         ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
         ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
-        updateBestScores();
+        updateniceScores();
         restartButton.style.display = "block";
     }
 
-    function updateBestScores() {
-        bestScores.push(score);
-        bestScores = bestScores.sort((a, b) => b - a).slice(0, 5);
-        localStorage.setItem("bestScores", JSON.stringify(bestScores));
-        updateScoreBoard();
+    function updateniceScores() {
+        niceScores.push(score);
+        niceScores = niceScores.sort((a, b) => b - a).slice(0, 5);
+        localStorage.setItem("niceScores", JSON.stringify(niceScores));
+        updateniceBoard();
     }
 
-    function updateScoreBoard() {
-        scoreListElement.innerHTML = "";
-        bestScores.forEach((score, index) => {
+    function updateniceBoard() {
+        niceListElement.innerHTML = "";
+        bestnice.forEach((score, index) => {
             const row = document.createElement("tr");
             row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-            scoreListElement.appendChild(row);
+            niceListElement.appendChild(row);
         });
     }
 
