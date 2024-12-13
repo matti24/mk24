@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flappy Bird Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        background: #333;
+        color: #fff;
+    }
+    h1 {
+        margin-top: 20px;
+        font-size: 24px;
+    }
+    #gameContainer {
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1000px;
+    }
+    #canvas {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border: 2px solid #4caf50;
+        border-radius: 8px;
+    }
+    #scoreBoard {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+    #scoreTable {
+        margin: 10px auto;
+        width: 80%;
+        max-width: 400px;
+        border-collapse: collapse;
+    }
+    #scoreTable th, #scoreTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    #scoreTable th {
+        background-color: #4caf50;
+        color: white;
+    }
+    .restart-button {
+        display: none;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .restart-button:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+<h1>Flappy Bird Game</h1>
+<div id="gameContainer">
+  <canvas id="canvas" width="800" height="400"></canvas>
+</div>
+<div id="scoreBoard">
+  <h2>Beste Punktzahlen</h2>
+  <table id="scoreTable">
+    <thead>
+      <tr>
+        <th>Platz</th>
+        <th>Punktzahl</th>
+      </tr>
+    </thead>
+    <tbody id="scoreList"></tbody>
+  </table>
+</div>
+<button class="restart-button" id="restartButton">Neustart</button>
+<script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const scoreListElement = document.getElementById("scoreList");
+    const restartButton = document.getElementById("restartButton");
+
+    let bird = { x: 50, y: 200, width: 20, height: 20, velocityY: 0 };
+    let pipes = [];
+    let score = 0;
+    let bestScores = JSON.parse(localStorage.getItem("bestScores")) || [];
+    let isGameOver = false;
+    let frameCount = 0;
+    let currentBackground = "sky";
+
+    function startGame() {
+        resetGame();
+    }
+
+    function resetGame() {
+        pipes = [];
+        score = 0;
+        bird.y = 200;
+        bird.velocityY = 0;
+        isGameOver = false;
+        frameCount = 0;
+        currentBackground = "sky";
+        restartButton.style.display = "none";
+        requestAnimationFrame(update);
+    }
+
+    function update() {
+        if (isGameOver) {
+            showGameOver();
+            return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        frameCount++;
+        if (frameCount % 600 === 0) changeBackground();
+
+        drawBackground();
+        drawBird();
+        drawPipes();
+        drawScore();
+        checkCollisions();
+
+        // Bird gravity
+        bird.velocityY += 0.6;
+        bird.y += bird.velocityY;
+
+        // Generate pipes
+        if (frameCount % 90 === 0) {
+            let pipeHeight = Math.random() * 200 + 50;
+            pipes.push({ x: canvas.width, y: 0, width: 30, height: pipeHeight });
+            pipes.push({ x: canvas.width, y: pipeHeight + 100, width: 30, height: canvas.height - pipeHeight - 100 });
+        }
+
+        // Update pipes
+        pipes = pipes.filter(pipe => {
+            pipe.x -= 3;
+            return pipe.x + pipe.width > 0;
+        });
+
+        score++;
+        requestAnimationFrame(update);
+    }
+
+    function drawBackground() {
+        if (currentBackground === "sky") {
+            ctx.fillStyle = "#87CEEB";
+        } else if (currentBackground === "desert") {
+            ctx.fillStyle = "#EDC9Af";
+        } else if (currentBackground === "winter") {
+            ctx.fillStyle = "#ADD8E6";
+        }
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function changeBackground() {
+        const backgrounds = ["sky", "desert", "winter"];
+        currentBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    }
+
+    function drawBird() {
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+    }
+
+    function drawPipes() {
+        ctx.fillStyle = "green";
+        pipes.forEach(pipe => {
+            ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
+        });
+    }
+
+    function drawScore() {
+        ctx.fillStyle = "#fff";
+        ctx.font = "20px Arial";
+        ctx.fillText(`Punktzahl: ${score}`, 10, 20);
+    }
+
+    function checkCollisions() {
+        if (bird.y + bird.height > canvas.height || bird.y < 0) {
+            isGameOver = true;
+        }
+
+        pipes.forEach(pipe => {
+            if (
+                bird.x < pipe.x + pipe.width &&
+                bird.x + bird.width > pipe.x &&
+                bird.y < pipe.y + pipe.height &&
+                bird.y + bird.height > pipe.y
+            ) {
+                isGameOver = true;
+            }
+        });
+    }
+
+    function showGameOver() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#fff";
+        ctx.font = "30px Arial";
+        ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
+        ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
+        updateBestScores();
+        restartButton.style.display = "block";
+    }
+
+    function updateBestScores() {
+        bestScores.push(score);
+        bestScores = bestScores.sort((a, b) => b - a).slice(0, 5);
+        localStorage.setItem("bestScores", JSON.stringify(bestScores));
+        updateScoreBoard();
+    }
+
+    function updateScoreBoard() {
+        scoreListElement.innerHTML = "";
+        bestScores.forEach((score, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
+            scoreListElement.appendChild(row);
+        });
+    }
+
+    document.addEventListener("keydown", e => {
+        if (e.key === " ") {
+            bird.velocityY = -10;
+        }
+    });
+
+    restartButton.addEventListener("click", resetGame);
+
+    startGame();
+</script>
+</body>
+</html>
