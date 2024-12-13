@@ -31,38 +31,66 @@
         border: 2px solid #4caf50;
         border-radius: 8px;
     }
-    #niceBoard {
+    #scoreBoard {
         margin-top: 20px;
         font-size: 16px;
     }
-    #niceTable {
+    #scoreTable {
         margin: 10px auto;
         width: 80%;
         max-width: 400px;
         border-collapse: collapse;
     }
-    #niceTable th, #niceTable td {
+    #scoreTable th, #scoreTable td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: center;
     }
-    #niceTable th {
+    #scoreTable th {
         background-color: #4caf50;
         color: white;
     }
-    .restart-button {
-        display: none;
+    .restart-button, .level-button {
         margin-top: 20px;
         padding: 10px 20px;
-        background-color: #4caf50;
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         font-size: 16px;
     }
+    .restart-button {
+        background-color: #4caf50;
+        display: none;
+        margin-left: 47%;
+        margin-right: 47%;
+    }
     .restart-button:hover {
         background-color: #45a049;
+    }
+    .level-button {
+        margin: 5px;
+        background-color: #777;
+    }
+    .level-button.active {
+        background-color: #4caf50;
+    }
+    .level-button:hover {
+        background-color: #5cb85c;
+    }
+    .back-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    .back-button:hover {
+        background-color: #0056b3;
     }
 </style>
 </head>
@@ -71,36 +99,44 @@
 <div id="gameContainer">
   <canvas id="canvas" width="800" height="400"></canvas>
 </div>
-<div id="niceBoard">
-    <button class="restart-button" id="restartButton">Neustart</button>
+<div>
+  <button class="level-button" id="easyButton">Einfach</button>
+  <button class="level-button" id="mediumButton">Mittel</button>
+  <button class="level-button" id="hardButton">Schwer</button>
+</div>
+<div id="scoreBoard">
   <h2>Beste Punktzahlen</h2>
-  <table id="niceTable">
+  <table id="scoreTable">
     <thead>
       <tr>
         <th>Platz</th>
         <th>Punktzahl</th>
+        <th>Schwierigkeitsgrad</th>
       </tr>
     </thead>
-    <tbody id="niceList"></tbody>
+    <tbody id="scoreList"></tbody>
   </table>
 </div>
+<button class="restart-button" id="restartButton">Neustart</button>
+    <br>
+<a class="back-button" href="index.html">Zurück</a>
 <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    const niceListElement = document.getElementById("niceList");
+    const scoreListElement = document.getElementById("scoreList");
     const restartButton = document.getElementById("restartButton");
+    const easyButton = document.getElementById("easyButton");
+    const mediumButton = document.getElementById("mediumButton");
+    const hardButton = document.getElementById("hardButton");
 
     let bird = { x: 50, y: 200, width: 20, height: 20, velocityY: 0 };
     let pipes = [];
     let score = 0;
-    let niceScores = JSON.parse(localStorage.getItem("niceScores")) || [];
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
     let isGameOver = false;
     let frameCount = 0;
-    let currentBackground = "sky";
-
-    function startGame() {
-        resetGame();
-    }
+    let pipeGap = 150; // Default gap size
+    let pipeSpeed = 3; // Default speed
 
     function resetGame() {
         pipes = [];
@@ -109,7 +145,6 @@
         bird.velocityY = 0;
         isGameOver = false;
         frameCount = 0;
-        currentBackground = "sky";
         restartButton.style.display = "none";
         requestAnimationFrame(update);
     }
@@ -122,7 +157,6 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         frameCount++;
-        if (frameCount % 600 === 0) changeBackground();
 
         drawBackground();
         drawBird();
@@ -138,12 +172,12 @@
         if (frameCount % 90 === 0) {
             let pipeHeight = Math.random() * 200 + 50;
             pipes.push({ x: canvas.width, y: 0, width: 30, height: pipeHeight });
-            pipes.push({ x: canvas.width, y: pipeHeight + 150, width: 30, height: canvas.height - pipeHeight - 150 }); // Größerer Abstand
+            pipes.push({ x: canvas.width, y: pipeHeight + pipeGap, width: 30, height: canvas.height - pipeHeight - pipeGap });
         }
 
         // Update pipes
         pipes = pipes.filter(pipe => {
-            pipe.x -= 3;
+            pipe.x -= pipeSpeed;
             return pipe.x + pipe.width > 0;
         });
 
@@ -152,19 +186,8 @@
     }
 
     function drawBackground() {
-        if (currentBackground === "sky") {
-            ctx.fillStyle = "#87CEEB";
-        } else if (currentBackground === "desert") {
-            ctx.fillStyle = "#EDC9Af";
-        } else if (currentBackground === "winter") {
-            ctx.fillStyle = "#ADD8E6";
-        }
+        ctx.fillStyle = "#87CEEB";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function changeBackground() {
-        const backgrounds = ["sky", "desert", "winter"];
-        currentBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
     }
 
     function drawBird() {
@@ -209,36 +232,73 @@
         ctx.font = "30px Arial";
         ctx.fillText("GAME OVER", canvas.width / 2 - 100, canvas.height / 2 - 10);
         ctx.fillText(`Punktzahl: ${score}`, canvas.width / 2 - 100, canvas.height / 2 + 40);
-        updateniceScores();
+        updateScores();
         restartButton.style.display = "block";
     }
 
-    function updateniceScores() {
-        niceScores.push(score);
-        niceScores = niceScores.sort((a, b) => b - a).slice(0, 5);
-        localStorage.setItem("niceScores", JSON.stringify(niceScores));
-        updateniceBoard();
+    function updateScores() {
+        const level = getCurrentLevel();
+        scores.push({ score, level });
+        scores = scores.sort((a, b) => b.score - a.score).slice(0, 5);
+        localStorage.setItem("scores", JSON.stringify(scores));
+        updateScoreBoard();
     }
 
-    function updateniceBoard() {
-        niceListElement.innerHTML = "";
-        niceScores.forEach((score, index) => {
+    function updateScoreBoard() {
+        scoreListElement.innerHTML = "";
+        scores.forEach((entry, index) => {
             const row = document.createElement("tr");
-            row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
-            niceListElement.appendChild(row);
+            row.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.level}</td>`;
+            scoreListElement.appendChild(row);
         });
     }
 
+    function setLevel(level) {
+        if (level === "Einfach") {
+            pipeGap = 200;
+            pipeSpeed = 2;
+        } else if (level === "Mittel") {
+            pipeGap = 150;
+            pipeSpeed = 3;
+        } else if (level === "Schwer") {
+            pipeGap = 100;
+            pipeSpeed = 4;
+        }
+        updateLevelButtons(level);
+    }
+
+    function updateLevelButtons(activeLevel) {
+        [easyButton, mediumButton, hardButton].forEach(button => {
+            button.classList.remove("active");
+        });
+        if (activeLevel === "Einfach") easyButton.classList.add("active");
+        if (activeLevel === "Mittel") mediumButton.classList.add("active");
+        if (activeLevel === "Schwer") hardButton.classList.add("active");
+    }
+
+    function getCurrentLevel() {
+        if (pipeGap === 200) return "Einfach";
+        if (pipeGap === 150) return "Mittel";
+        if (pipeGap === 100) return "Schwer";
+        return "Unbekannt";
+    }
+
+    easyButton.addEventListener("click", () => setLevel("Einfach"));
+    mediumButton.addEventListener("click", () => setLevel("Mittel"));
+    hardButton.addEventListener("click", () => setLevel("Schwer"));
+
     document.addEventListener("keydown", e => {
-        if (e.key === " " || e.key === "w") {
+        if (e.key === " " || e.key === "w"){
             bird.velocityY = -10;
         }
     });
 
     restartButton.addEventListener("click", resetGame);
 
-    startGame();
+    // Initial setup
+    setLevel("Mittel"); // Default level
+    updateScoreBoard();
+    resetGame();
 </script>
 </body>
 </html>
- 
