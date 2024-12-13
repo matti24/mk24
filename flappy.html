@@ -72,6 +72,7 @@
   <canvas id="canvas" width="800" height="400"></canvas>
 </div>
 <div id="niceBoard">
+    <button class="restart-button" id="restartButton">Neustart</button>
   <h2>Beste Punktzahlen</h2>
   <table id="niceTable">
     <thead>
@@ -83,7 +84,6 @@
     <tbody id="niceList"></tbody>
   </table>
 </div>
-<button class="restart-button" id="restartButton">Neustart</button>
 <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -93,7 +93,7 @@
     let bird = { x: 50, y: 200, width: 20, height: 20, velocityY: 0 };
     let pipes = [];
     let score = 0;
-    let bestnice = JSON.parse(localStorage.getItem("niceScores")) || [];
+    let niceScores = JSON.parse(localStorage.getItem("niceScores")) || [];
     let isGameOver = false;
     let frameCount = 0;
     let currentBackground = "sky";
@@ -138,7 +138,7 @@
         if (frameCount % 90 === 0) {
             let pipeHeight = Math.random() * 200 + 50;
             pipes.push({ x: canvas.width, y: 0, width: 30, height: pipeHeight });
-            pipes.push({ x: canvas.width, y: pipeHeight + 100, width: 30, height: canvas.height - pipeHeight - 100 });
+            pipes.push({ x: canvas.width, y: pipeHeight + 150, width: 30, height: canvas.height - pipeHeight - 150 }); // Größerer Abstand
         }
 
         // Update pipes
@@ -222,7 +222,7 @@
 
     function updateniceBoard() {
         niceListElement.innerHTML = "";
-        bestnice.forEach((score, index) => {
+        niceScores.forEach((score, index) => {
             const row = document.createElement("tr");
             row.innerHTML = `<td>${index + 1}</td><td>${score}</td>`;
             niceListElement.appendChild(row);
@@ -241,3 +241,4 @@
 </script>
 </body>
 </html>
+ 
